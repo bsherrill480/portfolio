@@ -1,15 +1,21 @@
-const express = require('express');
-const path = require('path');
-const favicon = require('serve-favicon');
-const logger = require('morgan');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
+const express = require('express'),
+  path = require('path'),
+  // favicon = require('serve-favicon'),
+  logger = require('morgan'),
+  cookieParser = require('cookie-parser'),
+  bodyParser = require('body-parser'),
+  mongoose = require('mongoose'),
+  routes = require('./routes'),
+
+  app = express(),
+  env = app.get('env');
+
+let connectionString;
+
 // var passport = require('passport');
-// var routes = require('./routes/index');
 // var assignment = require('./routes/assignment');
 // var auth = require('./auth');
 // var expressSession = require('express-session');
-const app = express();
 
 // // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
@@ -35,10 +41,7 @@ app.use(express.static(path.join(__dirname, '..', 'build')));
 // app.use(passport.initialize());
 // app.use(passport.session());
 
-
-// app.use('/', routes);
-// app.use('/assignment', assignment);
-// require("./test/app.js")(app);
+app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -51,7 +54,7 @@ app.use(function(req, res, next) {
 
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
+if (env === envs.DEVELOPMENT) {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
@@ -71,14 +74,13 @@ app.use(function(err, req, res, next) {
   });
 });
 
-// const mongoose = require('mongoose');
-// let connectionString;
-// if(process.env.NODE_ENV === 'development') {
-//   connectionString = 'mongodb://localhost/sherrill-brian-webdev'
-// } else {
-//   connectionString = 'mongodb://admin:test1234@ds033046.mlab.com:33046/sherrill-brian-webdev';
-// }
-// mongoose.connect(connectionString);
-// mongoose.Promise = require('bluebird');
+//setup db
+if(env === envs.DEVELOPMENT) {
+  connectionString = 'mongodb://localhost/sherrill-brian-webdev'
+} else {
+  connectionString = 'mongodb://admin:test1234@ds033046.mlab.com:33046/sherrill-brian-webdev';
+}
+mongoose.connect(connectionString);
+mongoose.Promise = require('bluebird');
 
 module.exports = app;

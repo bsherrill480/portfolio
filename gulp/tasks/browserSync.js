@@ -33,7 +33,7 @@ import gulp        from 'gulp';
 // });
 
 
-gulp.task('browserSync', ['nodemon'], function() {
+gulp.task('browserSync', ['server'], function() {
 
   // const DEFAULT_FILE = 'index.html';
   // const ASSET_EXTENSION_REGEX = new RegExp(`\\b(?!\\?)\\.(${config.assetExtensions.join('|')})\\b(?!\\.)`, 'i');

@@ -1,7 +1,8 @@
 function OnConfig($stateProvider, $locationProvider, $urlRouterProvider, $compileProvider) {
   'ngInject';
-
-  if (process.env.NODE_ENV === 'production') {
+  
+  const env = process.env.NODE_ENV;
+  if (env === 'production' || env === 'staging') {
     $compileProvider.debugInfoEnabled(false);
   }
 
@@ -11,12 +12,16 @@ function OnConfig($stateProvider, $locationProvider, $urlRouterProvider, $compil
   });
 
   $stateProvider
-  .state('Home', {
-    url: '/',
-    controller: 'ExampleCtrl as home',
-    templateUrl: 'home.html',
-    title: 'Home'
-  });
+    .state('Home', {
+      url: '/',
+      controller: 'ExampleCtrl as home',
+      templateUrl: 'home.html',
+      title: 'Home'
+    })
+    .state('Login', {
+      url: '/login',
+      template: '<login></login>'
+    });
 
   $urlRouterProvider.otherwise('/');
 

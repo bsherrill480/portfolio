@@ -1,8 +1,8 @@
+// This file is short for now, but if it grows more, it should be broken out.
+
 // I could clean up the imports by adding this dir to gulpfile's sass compiler, but then I lose my
 //IDE's autocomplete
-@import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables';
-@import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/mixins/clearfix';
-@import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/mixins/grid';
+@import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 
 // website pages, not whole website
 $website-header-footer-bg-color:  rgb(63, 138, 205); // obtained from sampling wireframe
@@ -15,7 +15,6 @@ $page-header-font-color: inherit;
 $page-footer-font-color: inherit; // obtained from sampling wireframe
 $page-header-link-color: inherit;
 $page-footer-link-color: rgb(66, 141, 201);
-
 
 // widget pages, same as page pages in value, but not semantically so I'm keeping them separate
 $widget-header-footer-bg-color: rgb(247, 247, 247); // obtained from sampling wireframe

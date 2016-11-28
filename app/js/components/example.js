@@ -8,7 +8,7 @@ function ExampleCtrl() {
 
 function exampleCmpnt() {
   return {
-    templateUrl: 'components/exampleCmpnt.html',
+    templateUrl: 'components/example_cmpnt.html',
     controller: ExampleCtrl,
     bindings: {
       hero: '<'
