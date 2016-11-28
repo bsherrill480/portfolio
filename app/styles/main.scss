@@ -1,0 +1,229 @@
+// I could clean up the imports by adding this dir to gulpfile's sass compiler, but then I lose my
+//IDE's autocomplete
+@import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables';
+@import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/mixins/clearfix';
+@import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/mixins/grid';
+
+// website pages, not whole website
+$website-header-footer-bg-color:  rgb(63, 138, 205); // obtained from sampling wireframe
+$website-header-footer-font-color: #fff;
+$website-header-footer-link-color: $website-header-footer-font-color;
+
+// page pages, not all pages
+$page-header-footer-bg-color: rgb(247, 247, 247); // obtained from sampling wireframe
+$page-header-font-color: inherit;
+$page-footer-font-color: inherit; // obtained from sampling wireframe
+$page-header-link-color: inherit;
+$page-footer-link-color: rgb(66, 141, 201);
+
+
+// widget pages, same as page pages in value, but not semantically so I'm keeping them separate
+$widget-header-footer-bg-color: rgb(247, 247, 247); // obtained from sampling wireframe
+$widget-header-font-color: inherit;
+$widget-footer-font-color: inherit; // obtained from sampling wireframe
+$widget-item-element-options-bg-color: #fff;
+$widget-header-link-color: inherit;
+$widget-footer-link-color: rgb(66, 141, 201);
+
+// for landscape-responsive class
+$bootstrap-col-total: 12;
+$landscape-responsive-nav-size: 4;
+$landscape-responsive-content-size: $bootstrap-col-total - $landscape-responsive-nav-size;
+$my-navbar-height: $navbar-height;
+$header-padding: 1em;
+// general
+
+// using of BEM, see http://getbem.com/introduction/ if unfamiliar
+
+// to style the color and background of the header and footer
+@mixin header-footer-display($bg-color, $font-color, $link-color) {
+  background-color: $bg-color;
+  color: $font-color;
+
+  a {
+    color: $link-color;
+  }
+}
+
+// place holder class to contain common stylings between header and footer
+%header-footer-nav {
+  align-items: center;
+  display: flex;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: $font-size-h4;
+  font-weight: bold;
+  height: $my-navbar-height;
+}
+
+// place holder class to contain common stylings between header and footer content
+%header-footer-nav__content {
+  flex: 1; // fill container
+}
+
+.header-padding {
+  padding-bottom: $my-navbar-height;
+  padding-top: $header-padding;
+}
+
+// Header nav
+.header-nav {
+  @extend %header-footer-nav;
+
+  .header-nav__content {
+    @extend %header-footer-nav__content;
+
+    .back-button {
+      margin-right: 1em;
+    }
+  }
+
+  // state modifier for website pages
+  &.header-nav--website-header {
+    @include header-footer-display($website-header-footer-bg-color,
+      $website-header-footer-font-color, $website-header-footer-link-color);
+  }
+
+  // state modifier for page pages
+  &.header-nav--page-header {
+    @include header-footer-display($page-header-footer-bg-color,
+      $page-header-font-color, $page-header-link-color);
+  }
+
+
+  // state modifier for widget widgets
+  &.header-nav--widget-header {
+    @include header-footer-display($widget-header-footer-bg-color,
+      $widget-header-font-color, $widget-header-link-color);
+  }
+}
+
+// Footer nav
+.footer-nav {
+  @extend %header-footer-nav;
+
+  .footer-nav__content {
+    @extend %header-footer-nav__content;
+
+    .back-button {
+      margin-right: 1em;
+    }
+  }
+
+  // state modifier for website pages
+  &.footer-nav--website-footer {
+    @include header-footer-display($website-header-footer-bg-color,
+      $website-header-footer-font-color, $website-header-footer-link-color);
+  }
+
+  // state modifier for page pages
+  &.footer-nav--page-footer {
+    @include header-footer-display($page-header-footer-bg-color,
+      $page-footer-font-color, $page-footer-link-color);
+  }
+
+  // state modifier for widget pages
+  &.footer-nav--widget-footer {
+    @include header-footer-display($widget-header-footer-bg-color,
+      $widget-footer-font-color, $widget-footer-link-color);
+  }
+}
+
+.between-header-footer {
+  bottom: $my-navbar-height;
+  position: absolute;
+  top: $my-navbar-height;
+  width: 100%;
+
+  >.container-fluid {
+    height: 100%;
+  }
+}
+
+// Display landscape-or-portrait__landscape if the screen is at least landscape width,
+// else display landscape-or-portrait__portrait
+// Should I change "or" to "xor"?
+.landscape-or-portrait {
+  .landscape-or-portrait__portrait {
+    @media (min-width: $screen-sm-min) {
+      display: none;
+    }
+  }
+
+  .landscape-or-portrait__landscape {
+    @media (max-width: $screen-xs-max) {
+      display: none;
+    }
+  }
+}
+
+// Display nav and content if the screen is at least landscape width,
+// else just display content
+// .landscape-responsive has bootstrap's row behavior, and it's elements are columns.
+// Dev note: Using this instead of just the bootstrap classes because:
+//    - 1 change to CSS will change all occurances
+//    - allows for easier understand BEM
+.landscape-responsive {
+  @include make-row;
+
+  height: 100%;
+
+  .landscape-responsive__nav {
+    @include make-sm-column($landscape-responsive-nav-size, $grid-gutter-width);
+
+    height: 100%;
+
+    @media (max-width: $screen-xs-max) {
+      display: none;
+    }
+  }
+
+  .landscape-responsive__content {
+    @include make-sm-column($landscape-responsive-content-size, $grid-gutter-width);
+
+    height: 100%;
+  }
+
+  // state modifier, add border to right of nav
+  &.landscape-responsive--border-separated {
+    .landscape-responsive__nav {
+      border-right: 1px solid $page-header-border-color;
+    }
+  }
+
+  &.landscape-responsive--header-padding {
+    .landscape-responsive__nav,
+    .landscape-responsive__content {
+      padding-top: $header-padding;
+    }
+  }
+
+  &.landscape-responsive--scrollable {
+    .landscape-responsive__nav,
+    .landscape-responsive__content {
+      overflow-y: auto;
+    }
+  }
+}
+
+.widget-item {
+  position: relative;
+
+  .widget-item__element-options {
+    background: $widget-item-element-options-bg-color;
+    border-bottom-left-radius: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 2;
+  }
+}
+
+.list-item {
+  margin-bottom: 1em;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
