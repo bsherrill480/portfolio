@@ -71,7 +71,10 @@ export default {
   BROWSER_SYNC_RELOAD_DELAY: 500,
 
   server: {
-    file: 'server/index.js' // from top directory
+    path: 'server/',
+    tests: 'test/server_unit/**/*spec.js',
+    file: 'server/index.js', // from top directory
+    files: 'server/**/*.js'
   },
 
   init: function() {

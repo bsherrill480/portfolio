@@ -48,7 +48,7 @@ const karmaBaseConfig = {
     'node_modules/angular-mocks/angular-mocks.js',
 
     // test files
-    'test/unit/**/*.js'
+    'test/app_unit/**/*.js'
   ]
 
 };

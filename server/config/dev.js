@@ -1,3 +1,6 @@
-module.exports = function (app) {
-  
+module.exports = {
+  something: 'isHere',
+  multiply(a, b) {
+    return 6
+  }
 };
