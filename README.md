@@ -1,15 +1,19 @@
 I have based this project off angularjs-gulp-browserify-boilerplate, and I have left their readme
  intact below. I have also made my own additions
  
-1. I have added nodemon, which should autodetect changes changes in the server files and then 
-restart the server, but at least on my local machine it only detects changes once and then 
-ignores all following changes. I did some attempt to debug this, but ultimatley decided it wasn't
- with the time I was putting in. I think the issue may be due to my environment than the code 
- based on what I read from their github issues page. 
 
-2. I added a sever folder for all server related files.
+
+1. I added a sever folder for all server related files.
+
+2. I am watching the server files ("server/") for changes, and reload them if they do change. I am
+Serving running the server with gulp-express.
 
 3. I added linting for SASS.
+
+5. Modified tests so now that all angular unit app tests are in "test/app_unit/". Added a directory 
+called "tests/server_unit/" for server unit tests. Note that these tests should import from 
+"test_tmp" so that istabul js can produce a code coverage report. Code coverage reports are found
+in ./coverage
 
 =====================================
 

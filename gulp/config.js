@@ -74,7 +74,8 @@ export default {
     path: 'server/',
     tests: 'test/server_unit/**/*spec.js',
     file: 'server/index.js', // from top directory
-    files: 'server/**/*.js'
+    files: 'server/**/*.js',
+    testTemp: 'test_tmp/'
   },
 
   init: function() {

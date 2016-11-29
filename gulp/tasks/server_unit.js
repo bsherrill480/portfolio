@@ -2,14 +2,13 @@ import config    from '../config';
 import gulp      from 'gulp';
 import jasmine   from 'gulp-jasmine';
 import istanbul  from 'gulp-istanbul';
-import debug     from 'gulp-debug';
 
 gulp.task('pre-test', function () {
   return gulp.src(config.server.files)
     // Covering files
     .pipe(istanbul())
     // Write the covered files to a temporary directory
-    .pipe(gulp.dest('test-tmp/'));
+    .pipe(gulp.dest(config.server.testTemp));
 });
 
 gulp.task('server_unit', ['pre-test'], function(cb) {
