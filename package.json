@@ -33,12 +33,13 @@
     "unit": "cross-env NODE_ENV=test ./node_modules/.bin/gulp unit"
   },
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
     "cookie-parser": "^1.4.3",
     "cross-env": "^3.1.1",
     "istanbul": "^0.3.22",
-    "mongoose": "^4.7.0",
+    "mongoose": "^4.7.1",
     "morgan": "^1.7.0",
     "serve-favicon": "^2.3.2"
   },

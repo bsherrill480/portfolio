@@ -4,13 +4,14 @@ const express = require('express'),
   logger = require('morgan'),
   cookieParser = require('cookie-parser'),
   bodyParser = require('body-parser'),
-  mongoose = require('mongoose'),
+  // mongoose = require('mongoose'),
+  dbInitialize = require('./db/initialize'),
   routes = require('./routes'),
-
   app = express(),
-  env = app.get('env');
-
-let connectionString;
+  envs = require('./config/envs'),
+  env = app.get('env'),
+  getConfig = require('./config/get_config'),
+  config = getConfig(env);
 
 // var passport = require('passport');
 // var assignment = require('./routes/assignment');
@@ -50,8 +51,6 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-// error handlers
-
 // development error handler
 // will print stacktrace
 if (env === envs.DEVELOPMENT) {
@@ -73,14 +72,9 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 //setup db
-if(env === envs.DEVELOPMENT) {
-  connectionString = 'mongodb://localhost/sherrill-brian-webdev'
-} else {
-  connectionString = 'mongodb://admin:test1234@ds033046.mlab.com:33046/sherrill-brian-webdev';
-}
-mongoose.connect(connectionString);
-mongoose.Promise = require('bluebird');
+dbInitialize(env);
+// mongoose.connect(config.connectionString);
+// mongoose.Promise = require('bluebird');
 
 module.exports = app;

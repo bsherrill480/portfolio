@@ -18,7 +18,7 @@ gulp.task('server_unit', ['pre-test'], function(cb) {
   // gulp-jasmine works on filepaths so you can't have any plugins before it
     .pipe(jasmine())
     .pipe(istanbul.writeReports())
-    .on('end', function (e) {
+    .on('end', function () {
       cb();
     });
 });
