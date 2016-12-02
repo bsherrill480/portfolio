@@ -1,11 +1,9 @@
-const userAPI = require('./user/user_model'),
-    websiteAPI = require('./website/website_model'),
-    pageAPI = require('./page/page_model'),
-    widgetAPI = require('./widget/widget_model');
+const userAPI = require('./user/user_api'),
+    pageAPI = require('./page/page_api'),
+    widgetAPI = require('./widget/widget_api');
 
 module.exports = {
     userAPI,
-    websiteAPI,
     pageAPI,
     widgetAPI
 };

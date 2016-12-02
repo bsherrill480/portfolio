@@ -5,21 +5,21 @@
 const testsFailed = 'Tests failed';
 
 const asyncUtil = {
-  getFailIfErrCallback(done) {
-    return function (err) {
-      // If error is "Tests failed", we've already called done and noticed we failed.
-      // else we need to fail.
-      if(err && err.message !== testsFailed) { 
-        done.fail(err);
-        return null;
-      }
-      return err;
-    }
-  },
+    getFailIfErrCallback(done) {
+        return function (err) {
+            // If error is "Tests failed", we've already called done and noticed we failed.
+            // else we need to fail.
+            if(err && err.message !== testsFailed) { 
+                done.fail(err);
+                return null;
+            }
+            return err;
+        }
+    },
   
-  throwErr(err) {
-    throw err;
-  }
+    throwErr(err) {
+        throw err;
+    }
 };
 
 module.exports = asyncUtil;

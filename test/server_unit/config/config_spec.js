@@ -1,9 +1,9 @@
 /**
  * Created by brian on 11/29/16.
  */
-const dev = require('../../../test_tmp/config/dev_config'),
-  staging = require('../../../test_tmp/config/staging_config'),
-  test = require('../../../test_tmp/config/test_config'),
+const dev = require('../../../server/config/dev_config'),
+  staging = require('../../../server/config/staging_config'),
+  test = require('../../../server/config/test_config'),
   _ = require('lodash'),
   configs = [dev, staging, test];
 describe('configFiles', function() {
