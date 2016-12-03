@@ -1,7 +1,6 @@
 const request = require('supertest'),
     app = require('../../../server/server_app');
 
-
 function expectRespondsWithAppHtml(url, done) {
     request(app)
         .get(url)
@@ -28,4 +27,3 @@ describe('request to non /api url', function () {
         expectRespondsWithAppHtml('/foobar', done);
     });
 });
-
