@@ -1,12 +1,9 @@
 const Promise = require('bluebird'),
-    dbUtil = require('../../../test_util/db_util'),
     models = require('../../../../../server/db/model/models'),
     Page = require('../../../../../server/db/model/page/page_model'),
     userTestUtil = require('../user/user_test_util'),
     pageAPI = models.pageAPI,
     userAPI = models.userAPI;
-
-let defaultPageOwner = null;
 
 module.exports = {
     cleanUpAsyncPages() {

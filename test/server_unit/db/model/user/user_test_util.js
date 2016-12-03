@@ -16,7 +16,7 @@ const User = require('../../../../../server/db/model/user/user_model'),
                 password: testUserStr,
                 firstName: testUserStr,
                 lastName: testUserStr,
-                email: testUserStr + "@" + testUserStr + '.com'
+                email: testUserStr + '@' + testUserStr + '.com'
             }
         }
     };

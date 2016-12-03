@@ -1,6 +1,5 @@
 const mongoose = require('mongoose'),
     bcrypt = require('bcrypt-nodejs'),
-    userUtil = require('./user_util'),
     Schema = mongoose.Schema,
     userSchema = new Schema({
         username: {type: String, default: '', unique: true},

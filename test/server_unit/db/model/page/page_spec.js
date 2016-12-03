@@ -7,18 +7,6 @@ const dbUtil = require('../../../test_util/db_util'),
 
 dbUtil.initialize();
 
-function expectPageIs(testPage, page) {
-    expect(page).toBeTruthy();
-    expect(page.title).toBe(testPage.title);
-    expect(page.updatedAt).toBeDefined();
-    expect(page.createdAt).toBeDefined();
-    expect(page._id).toBeDefined();
-}
-
-function expectPageIsTestPage1(page) {
-    expectPageIs(dbUtil.testPages.testPage1, page);
-}
-
 function cleanUpAsync(done) {
     pageTestUtil
         .cleanUpAsyncPages()

@@ -9,9 +9,9 @@ const express = require('express'),
   routes = require('./routes'),
   app = express(),
   envs = require('./config/envs'),
-  env = app.get('env'),
-  getConfig = require('./config/get_config'),
-  config = getConfig(env);
+  env = app.get('env');
+  // getConfig = require('./config/get_config'),
+  // config = getConfig(env);
 
 // var passport = require('passport');
 // var assignment = require('./routes/assignment');

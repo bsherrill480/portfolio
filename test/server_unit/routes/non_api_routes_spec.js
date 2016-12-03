@@ -11,7 +11,7 @@ function expectRespondsWithAppHtml(url, done) {
             expect(res.text).toMatch(/.*<script src="js\/main\.js".*/);
             expect(res.text).toMatch(/.*<link.*href="css\/main\.css".*/);
         })
-        .end(function (err, res) {
+        .end(function (err) {
             if(err) {
                 done.fail(err);
             } else {
