@@ -4,7 +4,10 @@
 const User = require('./user_model'),
     userUtil = require('./user_util');
 
-//all functions return promises
+// all functions return promises
+// options are options for how to preform the query.
+// e.g. updateUser('whatever', {username: 'ted'}, {lean:true}) will add the lean qualifier
+// which means a plain javascript object will be returned.
 module.exports = {
     createUser(newUser) {
         const user = new User(newUser);
@@ -20,11 +23,11 @@ module.exports = {
         return User.findOne({username}).exec();
     },
 
-    updateUser(userId, updatedUser) {
+    updateUser(userId, updatedUser, options) {
         if(updatedUser.password) {
             updatedUser.password = userUtil.hashPassword(updatedUser.password);
         }
-        return User.findByIdAndUpdate(userId, updatedUser, {new: true}).exec();
+        return User.findByIdAndUpdate(userId, {$set: updatedUser}, {new: true}).exec();
     },
 
     deleteUser(userId) {
@@ -52,7 +55,7 @@ module.exports = {
     //             .catch(reject);
     //     });
     // },
-    
+
     // findUserByFacebookId(facebookId) {
     //     return User.findOne({'facebook.id': facebookId}).exec();
     // }

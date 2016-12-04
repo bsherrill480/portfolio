@@ -2,7 +2,10 @@
  * Created by brian on 12/2/16.
  */
 
-const User = require('../../../../../server/db/model/user/user_model'),
+const User = require('../../../server/db/model/user/user_model'),
+    models = require('../../../server/db/model/models'),
+    userAPI = models.userAPI,
+    
     testUsers = {
         _testUser: 0,
 
@@ -16,7 +19,11 @@ const User = require('../../../../../server/db/model/user/user_model'),
                 password: testUserStr,
                 firstName: testUserStr,
                 lastName: testUserStr,
-                email: testUserStr + '@' + testUserStr + '.com'
+                email: testUserStr + '@' + testUserStr + '.com',
+                facebook: {
+                    id: testUserStr,
+                    token: testUserStr
+                }
             }
         }
     };
@@ -28,6 +35,11 @@ module.exports = {
     
     generateTestUser() {
         return testUsers.generateTestUser()
+    },
+    
+    generateAndSaveTestUser() {
+        console.log('generateAndSaveTestUser');
+        return userAPI.createUser(this.generateTestUser());
     }
 };
 

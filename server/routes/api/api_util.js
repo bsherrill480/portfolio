@@ -26,13 +26,14 @@ module.exports = {
         let queryFailedResponse = this.queryFailedCallback(res);
         queryPromise
             .then(function(result) {
+                console.log("queryResponse password", result.password);
                 res.json(result)
             })
             .catch(queryFailedResponse);
     },
 
     queryFailedCallback(res) {
-        return () => res.status(500).send('Database error');
+        return (err) => {console.log('dberr', err); res.status(500).send('Database error');}
     },
 
     sendResponseCallback: function (res, resArg) {

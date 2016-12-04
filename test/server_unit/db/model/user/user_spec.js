@@ -2,7 +2,7 @@ const dbUtil = require('../../../test_util/db_util'),
     asyncUtil = require('../../../test_util/async_util'),
     models = require('../../../../../server/db/model/models'),
     userAPI = models.userAPI,
-    userTestUtil = require('./user_test_util'),
+    userTestUtil = require('../../../test_util/user_test_util'),
     generateTestUser = userTestUtil.generateTestUser;
 
 function cleanUpAsync(done) {
@@ -23,6 +23,10 @@ function expectUser(user, target) {
     expect(user.updatedAt).toBeDefined();
     expect(user.createdAt).toBeDefined();
     expect(user._id).toBeDefined();
+    expect(user.facebook.id).toBe(target.facebook.id);
+    expect(user.facebook.token).toBe(target.facebook.token);
+    // expect(_.get(user, 'facebook.id')).toBe(_.get(user, 'facebook.id'));
+    // expect(_.get(user, 'facebook.token')).toBe(_.get(user, 'facebook.token'));
 }
 
 dbUtil.initialize();
@@ -34,7 +38,6 @@ describe('userAPI', function () {
     it('should create', function (done) {
         const failIfErr = asyncUtil.getFailIfErrCallback(done),
             myTestUser = generateTestUser();
-        // saveTestUserAndSetId(myTestUser)
         userAPI
             .createUser(myTestUser)
             .then(function (createdUser) {
@@ -112,7 +115,7 @@ describe('userAPI', function () {
             .then(function (user) {
                 const myId = user._id;
                 userAPI
-                    .updateUser(myId, myTestUser2) 
+                    .updateUser(myId, myTestUser2)
                     .then(function (user) {
                         myTestUser2.password = myTestUser1Password;
                         expectUser(user, myTestUser2);

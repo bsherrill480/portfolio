@@ -13,7 +13,6 @@ function getLoginUserThenSendResponseCallback(req, res) {
                 res.json(user)
             }
         });
-        console.log("beforeReturn", user);
         return user;
     };
 }

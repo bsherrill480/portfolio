@@ -75,6 +75,8 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
+
+
 //setup db
 dbInitialize(env);
 // mongoose.connect(config.connectionString);

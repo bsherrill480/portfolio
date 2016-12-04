@@ -8,12 +8,10 @@ let PassportLocalStategy = require('passport-local'),
     facebookStrategy;
 
 serializeUser = function (user, done) {
-    console.log("serializeUser", user);
     done(null, user._id);
 };
 
 deserializeUser = function (id, done) {
-    console.log("deserializeUser", id);
     userAPI
         .findUserById(id)
         .then(function (returnedUser) {
@@ -21,7 +19,6 @@ deserializeUser = function (id, done) {
             return returnedUser;
         })
         .catch(function (err) {
-            console.log("err", err);
             done(err);
         });
 };
@@ -30,7 +27,6 @@ localStrategy = new PassportLocalStategy({
     userNameField: 'email',
     passwordField: 'password'
 }, function(username, password, done) {
-    console.log("localStrat");
     userAPI
         .findUserByUsername(username)
         .then(function(user) {
@@ -59,7 +55,6 @@ facebookStrategy = new FacebookStrategy({
             fbId = profile.id,
             email;
         email = emails[0] ? emails[0].value : '';
-        console.log("profile", profile, profile.emails);
         if(email && fbId) {
             userAPI
                 .findOrCreate({

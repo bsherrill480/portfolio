@@ -1,7 +1,7 @@
 const dbUtil = require('../../../test_util/db_util'),
     models = require('../../../../../server/db/model/models'),
     pageAPI = models.pageAPI,
-    pageTestUtil = require('./page_test_util'),
+    pageTestUtil = require('../../../test_util/page_test_util'),
     saveTestPageAddUser = pageTestUtil.saveTestPageAddUser,
     asyncUtil = require('../../../test_util/async_util');
 

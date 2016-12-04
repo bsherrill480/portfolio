@@ -1,7 +1,7 @@
 const Promise = require('bluebird'),
-    models = require('../../../../../server/db/model/models'),
-    Page = require('../../../../../server/db/model/page/page_model'),
-    userTestUtil = require('../user/user_test_util'),
+    models = require('../../../server/db/model/models'),
+    Page = require('../../../server/db/model/page/page_model'),
+    userTestUtil = require('./user_test_util'),
     pageAPI = models.pageAPI,
     userAPI = models.userAPI;
 
