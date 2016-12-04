@@ -4,20 +4,9 @@ const request = require('supertest'),
     userAPI = models.userAPI,
     asyncUtil = require('../../../test_util/async_util'),
     userTestUtil = require('../../../test_util/user_test_util'),
+    apiTestUtil = require('../api_test_util'),
     userRoute = '/api/user/';
 
-function expectedUserResponse(user, target) {
-    expect(user).toBeTruthy();
-    expect(user.username).toBe(target.username);
-    expect(user.password).toBeUndefined();
-    expect(user.firstName).toBe(target.firstName);
-    expect(user.lastName).toBe(target.lastName);
-    expect(user.email).toBe(target.email);
-    expect(user.facebook).toBeUndefined();
-    expect(user.updatedAt).toBeDefined();
-    expect(user.createdAt).toBeDefined();
-    expect(user._id).toBeDefined();
-}
 
 describe('user API route', function () {
     it('should get a user properly', function (done) {
@@ -28,10 +17,9 @@ describe('user API route', function () {
                 request(app)
                     .get(userRoute + savedUser._id)
                     .set('Accept', 'application/json')
-                    // .expect('Content-Type', /json/)
-                    // .expect(200)
+                    .expect(200)
                     .expect(function (res) {
-                        expectedUserResponse(res.body, savedUser)
+                        apiTestUtil.expectedUserResponse(res.body, savedUser)
                     })
                     .end(function (err) {
                         if(err) {
@@ -47,17 +35,7 @@ describe('user API route', function () {
     // should update a user, but not allow them to update password or facebook
     it('should update a user properly', function (done) {
         const failIfErr = asyncUtil.getFailIfErrCallback(done),
-            changedUserAttrs = {
-                username: 'bob',
-                password: 'shouldNotChange',
-                firstName: 'bill',
-                lastName: 'bag',
-                email: 'newEmail@email.com',
-                facebook: {
-                    id: 'foo',
-                    token: 'bar'
-                }
-        };
+            changedUserAttrs = userTestUtil.generateTestUser();
         userTestUtil
             .generateAndSaveTestUser()
             .then(function (initUser) {
@@ -68,14 +46,12 @@ describe('user API route', function () {
                     .expect('Content-Type', /json/)
                     .expect(200)
                     .expect(function (res) {
-                        expectedUserResponse(res.body, changedUserAttrs);
+                        apiTestUtil.expectedUserResponse(res.body, changedUserAttrs);
                     })
                     .end(function (err) {
                         if(err) {
                             done.fail(err);
                         } else {
-                            // done()
-                            // check db really did update
                             userAPI
                                 .findUserById(initUser._id)
                                 .then(function (user) {

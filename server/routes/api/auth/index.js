@@ -2,6 +2,7 @@ const express = require('express'),
     router = express.Router(),
     models = require('../../../db/model/models'),
     userAPI = models.userAPI,
+    apiUtil = require('../api_util'),
     passport = require('passport');
 
 function getLoginUserThenSendResponseCallback(req, res) {
@@ -10,6 +11,7 @@ function getLoginUserThenSendResponseCallback(req, res) {
             if(err) {
                 res.status(400).send(err);
             } else {
+                apiUtil.formatUserResponse(user);
                 res.json(user)
             }
         });
@@ -18,7 +20,9 @@ function getLoginUserThenSendResponseCallback(req, res) {
 }
 
 router.post('/login', passport.authenticate('local'), function (req, res, next) {
-    res.json(req.user);
+    const user = req.user;
+    apiUtil.formatUserResponse(user);
+    res.json(user);
 });
 
 router.post('/logout', function (req, res) {
@@ -32,9 +36,9 @@ router.post('/register', function (req, res, next) {
     userAPI.createUser(user).then(loginUser);
 });
 
-router.get('/loggedin', function (req, res, next) {
+router.get('/userId', function (req, res, next) {
     // console.log("loggedin",req.isAuthenticated() ? 'isLoggedIn' : 'notIsLoggedIn', req.user, 'id: ', req.user._id);
-    res.send(req.isAuthenticated() ? req.user._id : '');
+    res.json({userId: req.isAuthenticated() ? req.user._id : ''});
 });
 
 // Redirect the user to Facebook for authentication.  When complete,

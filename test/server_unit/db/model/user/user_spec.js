@@ -12,22 +12,6 @@ function cleanUpAsync(done) {
         .catch(done.fail);
 }
 
-function expectUser(user, target) {
-    expect(user).toBeTruthy();
-    expect(user.username).toBe(target.username);
-    expect(user.isValidPassword(target.password)).toBeTruthy();
-    expect(user.isValidPassword('foobar')).toBeFalsy();
-    expect(user.firstName).toBe(target.firstName);
-    expect(user.lastName).toBe(target.lastName);
-    expect(user.email).toBe(target.email);
-    expect(user.updatedAt).toBeDefined();
-    expect(user.createdAt).toBeDefined();
-    expect(user._id).toBeDefined();
-    expect(user.facebook.id).toBe(target.facebook.id);
-    expect(user.facebook.token).toBe(target.facebook.token);
-    // expect(_.get(user, 'facebook.id')).toBe(_.get(user, 'facebook.id'));
-    // expect(_.get(user, 'facebook.token')).toBe(_.get(user, 'facebook.token'));
-}
 
 dbUtil.initialize();
 
@@ -41,7 +25,7 @@ describe('userAPI', function () {
         userAPI
             .createUser(myTestUser)
             .then(function (createdUser) {
-                expectUser(createdUser, myTestUser);
+                userTestUtil.expectUser(createdUser, myTestUser);
                 done();
             })
             .catch(failIfErr);
@@ -57,7 +41,7 @@ describe('userAPI', function () {
                 userAPI
                     .findUserById(myId)
                     .then(function (user) {
-                        expectUser(user, myTestUser);
+                        userTestUtil.expectUser(user, myTestUser);
                         expect(user._id.toString()).toBe(myId.toString());
                         done();
                     })
@@ -75,7 +59,7 @@ describe('userAPI', function () {
                 userAPI
                     .findUserByUsername(myTestUser.username)
                     .then(function (user) {
-                        expectUser(user, myTestUser);
+                        userTestUtil.expectUser(user, myTestUser);
                         done();
                     })
                     .catch(failIfErr);
@@ -96,7 +80,7 @@ describe('userAPI', function () {
                     .updateUser(myId, myTestUser2) // also hashes new password
                     .then(function (user) {
                         myTestUser2.password = myTestUser2Password;
-                        expectUser(user, myTestUser2);
+                        userTestUtil.expectUser(user, myTestUser2);
                         done();
                     })
                     .catch(failIfErr);
@@ -118,7 +102,7 @@ describe('userAPI', function () {
                     .updateUser(myId, myTestUser2)
                     .then(function (user) {
                         myTestUser2.password = myTestUser1Password;
-                        expectUser(user, myTestUser2);
+                        userTestUtil.expectUser(user, myTestUser2);
                         done();
                     })
                     .catch(failIfErr);

@@ -1,4 +1,5 @@
-const _ = require('lodash');
+const _ = require('lodash'),
+    internalUserAttributes = ['password', 'facebook'];
 
 module.exports = {
 
@@ -26,7 +27,6 @@ module.exports = {
         let queryFailedResponse = this.queryFailedCallback(res);
         queryPromise
             .then(function(result) {
-                console.log("queryResponse password", result.password);
                 res.json(result)
             })
             .catch(queryFailedResponse);
@@ -39,7 +39,21 @@ module.exports = {
     sendResponseCallback: function (res, resArg) {
         return () => res.send(resArg);
     },
+    
+    // takes in an object, and returns a new object with all the attributes the public can see
+    // e.g. doesn't return password.
+    removeInternalUserAttributes(user) {
+        _.each(internalUserAttributes, function (attribute) {
+            delete user[attribute];
+        });   
+    },
 
+    formatUserResponse(user) {
+        _.each(internalUserAttributes, function (attribute) {
+            user[attribute] = undefined;
+        });    
+        return user;
+    }
     // //moved item from start to finish, then sets item.order = index of of item
     // reorderItemInArr(start, end, arr) {
     //     let movedItem,
