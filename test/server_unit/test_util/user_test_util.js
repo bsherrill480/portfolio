@@ -6,6 +6,7 @@ const User = require('../../../server/db/model/user/user_model'),
     models = require('../../../server/db/model/models'),
     userAPI = models.userAPI,
     _ = require('lodash'),
+    Promise = require('bluebird'),
     testUsersGen = {
         _testUser: 0,
 
@@ -78,6 +79,29 @@ module.exports = {
             expect(user.facebook.id).toBe(target.facebook.id);
             expect(user.facebook.token).toBe(target.facebook.token);
         }
+    },
+    
+    //login as user through passed agent and then return db object of testUser
+    loginAsTestUser(testUser, agent) {
+        return new Promise(function (resolve, reject) {
+            agent
+                .post('/api/auth/login')
+                .set('Accept', 'application/json')
+                .send({
+                    username: testUser.username,
+                    password: testUser.password
+                })
+                .end(function (err) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        userAPI
+                            .findUserByUsername(testUser.username)
+                            .then(resolve)
+                            .catch(reject);
+                    }
+                });
+        });
     }
 };
 

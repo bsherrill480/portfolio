@@ -28,47 +28,31 @@ describe('auth route userID route', function () {
             });
     });
 
-     it('should send an userId if one is logged in', function (done) {
+    it('should send an userId if one is logged in', function (done) {
         const failIfErr = asyncUtil.getFailIfErrCallback(done),
-            generatedUser = userTestUtil.generateTestUser();
-        userAPI
-            .createUser(generatedUser)
-            .then(function (savedGeneratedUser) {
-                const agent = request.agent(app);
+            agent = request.agent(app),
+            u1 = userTestUtil.testUsers.u1;
+        userTestUtil.loginAsTestUser(u1, agent)
+            .then(function (user) {
                 agent
-                    .post(authRoute + 'login')
+                    .get(authRoute + 'userId')
                     .set('Accept', 'application/json')
-                    .send({
-                        username: generatedUser.username,
-                        password: generatedUser.password
-                    })
                     .expect(200)
                     .expect(function (res) {
-                        apiTestUtil.expectedUserResponse(res.body, generatedUser);
+                        expect(res.body.userId).toBe(user._id.toString());
                     })
                     .end(function (err) {
                         if (err) {
                             done.fail(err);
                         } else {
-                            agent
-                                .get(authRoute + 'userId')
-                                .set('Accept', 'application/json')
-                                .expect(200)
-                                .expect(function (res) {
-                                    expect(res.body.userId).toBe(savedGeneratedUser._id.toString());
-                                })
-                                .end(function (err) {
-                                    if (err) {
-                                        done.fail(err);
-                                    } else {
-                                        done();
-                                    }
-                                });
+                            done();
                         }
                     });
+
             })
-            .catch(failIfErr);
-     });
+            .catch(done.fail);
+
+    });
 });
 
 describe('auth route login', function () {
