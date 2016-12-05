@@ -1,6 +1,6 @@
 function OnConfig($stateProvider, $locationProvider, $urlRouterProvider, $compileProvider) {
   'ngInject';
-  
+
   const env = process.env.NODE_ENV;
   if (env === 'production' || env === 'staging') {
     $compileProvider.debugInfoEnabled(false);
@@ -21,6 +21,14 @@ function OnConfig($stateProvider, $locationProvider, $urlRouterProvider, $compil
     .state('Login', {
       url: '/login',
       template: '<login></login>'
+    })
+      .state('Register', {
+      url: '/register',
+      template: '<register></register>'
+    })
+    .state('Profile', {
+      url: '/profile/:userId',
+      template: '<profile></profile>'
     });
 
   $urlRouterProvider.otherwise('/');

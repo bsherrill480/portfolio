@@ -1,18 +1,8 @@
-const dbUtil = require('../../../test_util/db_util'),
-    models = require('../../../../../server/db/model/models'),
+const models = require('../../../../../server/db/model/models'),
     pageAPI = models.pageAPI,
     pageTestUtil = require('../../../test_util/page_test_util'),
     saveTestPageAddUser = pageTestUtil.saveTestPageAddUser,
     asyncUtil = require('../../../test_util/async_util');
-
-dbUtil.initialize();
-
-function cleanUpAsync(done) {
-    pageTestUtil
-        .cleanUpAsyncPages()
-        .then(done)
-        .catch(done.fail);
-}
 
 function expectPage(page, target) {
     expect(page).toBeTruthy();
@@ -24,8 +14,6 @@ function expectPage(page, target) {
 }
 
 describe('pageAPI', function () {
-    beforeAll(cleanUpAsync);
-    afterAll(cleanUpAsync);
 
     it('should create', function (done) {
         const failIfErr = asyncUtil.getFailIfErrCallback(done),

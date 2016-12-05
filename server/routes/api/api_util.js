@@ -39,20 +39,24 @@ module.exports = {
     sendResponseCallback: function (res, resArg) {
         return () => res.send(resArg);
     },
-    
+
     // takes in an object, and returns a new object with all the attributes the public can see
     // e.g. doesn't return password.
     removeInternalUserAttributes(user) {
         _.each(internalUserAttributes, function (attribute) {
             delete user[attribute];
-        });   
+        });
     },
 
     formatUserResponse(user) {
         _.each(internalUserAttributes, function (attribute) {
             user[attribute] = undefined;
-        });    
+        });
         return user;
+    },
+
+    badParamsJsonResponse(res) {
+        res.status(400).end();
     }
     // //moved item from start to finish, then sets item.order = index of of item
     // reorderItemInArr(start, end, arr) {

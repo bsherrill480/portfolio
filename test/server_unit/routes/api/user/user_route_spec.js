@@ -10,7 +10,6 @@ const request = require('supertest'),
 
 describe('user API route', function () {
     it('should get a user properly', function (done) {
-        const failIfErr = asyncUtil.getFailIfErrCallback(done);
         userTestUtil
             .generateAndSaveTestUser()
             .then(function (savedUser) {

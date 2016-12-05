@@ -3,12 +3,10 @@
  * Created by brian on 10/30/16.
  */
 const express = require('express'),
-    _ = require('lodash'),
     util = require('../api_util'),
     router = express.Router(),
     models = require('../../../db/model/models'),
-    userAPI = models.userAPI,
-    passport = require('passport');
+    userAPI = models.userAPI;
 
 
 

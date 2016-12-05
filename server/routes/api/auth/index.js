@@ -9,7 +9,7 @@ function getLoginUserThenSendResponseCallback(req, res) {
     return function (user) {
         req.login(user, function (err) {
             if(err) {
-                res.status(400).send(err);
+                res.status(500).json({error: err});
             } else {
                 apiUtil.formatUserResponse(user);
                 res.json(user)
@@ -19,13 +19,25 @@ function getLoginUserThenSendResponseCallback(req, res) {
     };
 }
 
+function registerUserIsValid(user) {
+    return user.username && user.email && user.password;
+}
+
+function loginUserIsValid(user) {
+    return user.username && user.password
+}
+
 router.post('/login', passport.authenticate('local'), function (req, res, next) {
     const user = req.user;
-    apiUtil.formatUserResponse(user);
-    res.json(user);
+    if(loginUserIsValid(user)) {
+        apiUtil.formatUserResponse(user);
+        res.json(user);
+    } else {
+        apiUtil.badParamsJsonResponse(res);
+    }
 });
 
-router.post('/logout', function (req, res) {
+router.post('/logout', function (req, res, next) {
     req.logout();
     res.send();
 });
@@ -33,11 +45,18 @@ router.post('/logout', function (req, res) {
 router.post('/register', function (req, res, next) {
     let user = req.body,
         loginUser = getLoginUserThenSendResponseCallback(req, res);
-    userAPI.createUser(user).then(loginUser);
+    if(registerUserIsValid(user)) {
+        userAPI
+            .createUser(user)
+            .then(loginUser)
+            .catch(apiUtil.queryFailedCallback(res));
+    } else {
+        apiUtil.badParamsJsonResponse(res)
+    }
 });
 
 router.get('/userId', function (req, res, next) {
-    // console.log("loggedin",req.isAuthenticated() ? 'isLoggedIn' : 'notIsLoggedIn', req.user, 'id: ', req.user._id);
+    // console.log('loggedin',req.isAuthenticated() ? 'isLoggedIn' : 'notIsLoggedIn', req.user, 'id: ', req.user._id);
     res.json({userId: req.isAuthenticated() ? req.user._id : ''});
 });
 

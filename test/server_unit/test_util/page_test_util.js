@@ -11,7 +11,7 @@ module.exports = {
     // all objects below should have unique title
     testPages: {
         // page 1 owned by u1
-        p1_u1: {
+        p1U1: {
             title: 'a',
 
             // object only on testPages.*

@@ -10,7 +10,7 @@ const models = require('../../server/db/model/models'),
 describe('test db', function () {
     it('user u1 and his pages', function (done) {
         const u1 = userTestUtil.testUsers.u1,
-            p1_u1 = pageTestUtil.testPages.p1_u1,
+            p1U1 = pageTestUtil.testPages.p1U1,
             failIfErr = asyncUtil.getFailIfErrCallback(done);
         userTestUtil.testUsers
             .getTestUserId(u1)
@@ -21,7 +21,7 @@ describe('test db', function () {
                     .then(function (pages) {
                         const page = pages[0];
                         expect(page).toBeTruthy();
-                        expect(page.title).toBe(p1_u1.title);
+                        expect(page.title).toBe(p1U1.title);
                         expect(page._user.toString()).toBe(user._id.toString());
                         done();
                     })

@@ -1,24 +1,10 @@
-const dbUtil = require('../../../test_util/db_util'),
-    asyncUtil = require('../../../test_util/async_util'),
+const asyncUtil = require('../../../test_util/async_util'),
     models = require('../../../../../server/db/model/models'),
     userAPI = models.userAPI,
     userTestUtil = require('../../../test_util/user_test_util'),
     generateTestUser = userTestUtil.generateTestUser;
 
-function cleanUpAsync(done) {
-    userTestUtil
-        .cleanUpAsyncUsers()
-        .then(done)
-        .catch(done.fail);
-}
-
-
-dbUtil.initialize();
-
 describe('userAPI', function () {
-    beforeAll(cleanUpAsync);
-    afterAll(cleanUpAsync);
-
     it('should create', function (done) {
         const failIfErr = asyncUtil.getFailIfErrCallback(done),
             myTestUser = generateTestUser();

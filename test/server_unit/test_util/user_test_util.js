@@ -97,6 +97,13 @@ module.exports = {
                     } else {
                         userAPI
                             .findUserByUsername(testUser.username)
+                            .then(function (user) {
+                                if(user) {
+                                    resolve(user);
+                                } else {
+                                    reject('findUserByUsername returned null!');
+                                }
+                            })
                             .then(resolve)
                             .catch(reject);
                     }

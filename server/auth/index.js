@@ -37,7 +37,6 @@ localStrategy = new PassportLocalStategy({
             }
         })
         .catch(function (err) {
-            console.log("localStrat err", err);
             done(err);
         });
 });
@@ -70,7 +69,7 @@ facebookStrategy = new FacebookStrategy({
                     done(err);
                 });
         } else {
-            done("email/fbId Invalid or missing.")
+            done('email/fbId Invalid or missing.')
         }
 });
 

@@ -23,7 +23,7 @@ module.exports = {
         return User.findOne({username}).exec();
     },
 
-    updateUser(userId, updatedUser, options) {
+    updateUser(userId, updatedUser) {
         if(updatedUser.password) {
             updatedUser.password = userUtil.hashPassword(updatedUser.password);
         }
