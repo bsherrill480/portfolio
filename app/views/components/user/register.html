@@ -2,22 +2,37 @@
     <div class="col-sm-12">
         <h1>Register</h1>
         <form>
+            <error-alert ng-show="$ctrl.errors.alertError"
+                         msg="$ctrl.errors.alertError"></error-alert>
+            <div ng-class="{'has-error': $ctrl.errors.email}" class="form-group">
+                <label for="email-input" class="control-label">Email:</label>
+                <input id="email-input" type="text" placeholder="email"
+                       ng-model="$ctrl.user.email"
+                       class="form-control">
+                <div class="text-danger">{{$ctrl.errors.email}}</div>
+            </div>
             <div ng-class="{'has-error': $ctrl.errors.username}" class="form-group">
-                <input type="text" placeholder="username"
+                <label for="username-input" class="control-label">Username:</label>
+                <input id="username-input" type="text" placeholder="username"
                        ng-model="$ctrl.user.username"
                        class="form-control">
+                <div class="text-danger">{{$ctrl.errors.username}}</div>
                 <div class="text-danger"></div>
             </div>
             <div ng-class="{'has-error': $ctrl.errors.password}" class="form-group">
-                <input type="password" placeholder="password"
+                <label for="password-input" class="control-label">Password:</label>
+                <input id="password-input" type="password" placeholder="password"
                        ng-model="$ctrl.user.password"
                        class="form-control">
+                <div class="text-danger">{{$ctrl.errors.password}}</div>
                 <div class="text-danger"></div>
             </div>
             <div ng-class="{'has-error': $ctrl.errors.verifyPassword}" class="form-group">
-                <input type="password" placeholder="verify password"
+                <label for="verify-password-input" class="control-label">Verify Password:</label>
+                <input id="verify-password-input" type="password" placeholder="verify password"
                        ng-model="$ctrl.user.verifyPassword"
                        class="form-control">
+                <div class="text-danger">{{$ctrl.errors.verifyPassword}}</div>
                 <div class="text-danger"></div>
             </div>
             <a ng-click="$ctrl.register($ctrl.user)" class="btn btn-success btn-block">Register</a>

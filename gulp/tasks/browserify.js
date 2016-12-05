@@ -73,7 +73,7 @@ function buildScript(file) {
 
 }
 
-gulp.task('browserify', function() {
+gulp.task('browserify', ['eslint'], function() {
 
   return buildScript('main.js');
 
