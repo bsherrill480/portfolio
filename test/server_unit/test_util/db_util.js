@@ -1,8 +1,9 @@
-const envs = require('../../../server/config/envs'),
+const 
     dbInitialize = require('../../../server/db/initialize');
 
 module.exports = {
     initialize() {
-        dbInitialize(envs.TEST);
-    }
+        // dbInitialize(envs.TEST);
+    },
+
 };

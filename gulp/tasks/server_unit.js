@@ -3,7 +3,7 @@ import gulp      from 'gulp';
 import jasmine   from 'gulp-jasmine';
 import istanbul  from 'gulp-istanbul';
 
-gulp.task('pre-test', function () {
+gulp.task('pre_test', function () {
   return gulp.src(config.server.files)
     // Covering files
     .pipe(istanbul())
@@ -11,7 +11,7 @@ gulp.task('pre-test', function () {
     .pipe(istanbul.hookRequire());
 });
 
-gulp.task('server_unit', ['pre-test'], function(cb) {
+gulp.task('server_unit', ['prep_test_db', 'pre_test'], function(cb) {
   gulp.src(config.server.tests)
   // gulp-jasmine works on filepaths so you can't have any plugins before it
     .pipe(jasmine())

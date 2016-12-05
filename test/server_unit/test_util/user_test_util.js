@@ -6,7 +6,7 @@ const User = require('../../../server/db/model/user/user_model'),
     models = require('../../../server/db/model/models'),
     userAPI = models.userAPI,
     _ = require('lodash'),
-    testUsers = {
+    testUsersGen = {
         _testUser: 0,
 
         // We have to generate users because tests are async, however username and email are unique
@@ -29,12 +29,32 @@ const User = require('../../../server/db/model/user/user_model'),
     };
 
 module.exports = {
+    testUsers: {
+        // keep usernames unique
+        u1: {
+            username: 'a',
+            password: 'a',
+            firstName: 'a',
+            lastName: 'a',
+            email: 'a' + '@' + 'a' + '.com',
+            facebook: {
+                id: 'a',
+                token: 'a'
+            }
+
+        },
+        
+        getTestUserId: function (testUser) {
+            return userAPI.findUserByUsername(testUser.username);
+        }
+    },
+    
     cleanUpAsyncUsers() {
         return User.remove({}).exec();
     },
     
     generateTestUser() {
-        return testUsers.generateTestUser()
+        return testUsersGen.generateTestUser()
     },
     
     generateAndSaveTestUser() {

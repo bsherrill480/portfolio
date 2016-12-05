@@ -1,5 +1,5 @@
 const request = require('supertest'),
-    app = require('../../../../../server/server_app'),
+    app = require('../../../test_util/test_server_app'),
     models = require('../../../../../server/db/model/models'),
     userAPI = models.userAPI,
     asyncUtil = require('../../../test_util/async_util'),

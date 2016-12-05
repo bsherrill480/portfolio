@@ -5,6 +5,7 @@ let initialized = false;
 
 function initialize(env) {
   if(!initialized) {
+      console.log("initializing ", env);
     const config = getConfig(env);
     initialized = true;
     mongoose.connect(config.connectionString);
