@@ -21,6 +21,7 @@ const requires = [
     'app.services',
     'app.directives',
     'app.components',
+    require('angular-animate'),
     require('angular-bootstrap-calendar'),
     require('angular-ui-bootstrap')
 ];

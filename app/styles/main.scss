@@ -2,6 +2,8 @@
 @import 'vendor/font-awesome.min';
 @import 'vendor/flat-style';
 @import 'my_flat_style_tweaks';
+@import '../../node_modules/angular-bootstrap-calendar/dist/css/angular-bootstrap-calendar';
+//@import '../../node_modules/angular-ui-bootstrap/dist/ui-bootstrap-csp';
 
 .bot-spacing {
     margin-bottom: 1em;
@@ -33,6 +35,9 @@
     }
 }
 
+.calendar-container {
+    margin-bottom: 1em;
+}
 
 
 

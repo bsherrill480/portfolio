@@ -1,5 +1,5 @@
-require('bootstrap'); // requires bootstrap javascript file
-require('moment');
+// require('bootstrap'); // requires bootstrap javascript file
+// require('moment');
 
 function OnConfig($stateProvider, $locationProvider, $urlRouterProvider, $compileProvider) {
     'ngInject';

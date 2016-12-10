@@ -14,6 +14,7 @@ function OnRun($rootScope, AppSettings, UserAuthService, $state) {
             $rootScope.pageTitle += ' \u2014 ';
         }
 
+        // http://stackoverflow.com/questions/27212182/angularjs-ui-router-how-to-redirect-to-login-page
         // home is always allowed
         if(toStateName === 'Home') {
             return;

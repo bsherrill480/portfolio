@@ -31,3 +31,9 @@
 #headerwrap .img-responsive {
 	margin: 0 auto;
 }
+
+#blue {
+    @media (max-width: $screen-xs-max) {
+        margin-bottom: 1.5em;
+    }
+}
