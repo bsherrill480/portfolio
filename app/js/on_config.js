@@ -17,15 +17,15 @@ function OnConfig($stateProvider, $locationProvider, $urlRouterProvider, $compil
             url: '/',
             template: '<home></home>',
             title: 'Home'
-        });
+        })
     // .state('Login', {
     //   url: '/login',
     //   template: '<login></login>'
     // })
-    //   .state('Register', {
-    //   url: '/register',
-    //   template: '<register></register>'
-    // })
+      .state('Register', {
+      url: '/register',
+      template: '<register></register>'
+    });
     // .state('Profile', {
     //   url: '/profile/:userId',
     //   template: '<profile></profile>'

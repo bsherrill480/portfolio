@@ -46,7 +46,7 @@ module.exports = {
         },
         
         getTestUserId: function (testUser) {
-            return userAPI.findUserByUsername(testUser.username);
+            return userAPI.findUserByEmail(testUser.username);
         }
     },
     
@@ -96,12 +96,12 @@ module.exports = {
                         reject(err);
                     } else {
                         userAPI
-                            .findUserByUsername(testUser.username)
+                            .findUserByEmail(testUser.username)
                             .then(function (user) {
                                 if(user) {
                                     resolve(user);
                                 } else {
-                                    reject('findUserByUsername returned null!');
+                                    reject('findUserByEmail returned null!');
                                 }
                             })
                             .then(resolve)

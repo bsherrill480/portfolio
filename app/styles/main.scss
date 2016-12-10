@@ -9,15 +9,16 @@
 
 .row--vert-mid-md {
     @media (min-width: $screen-sm-min) {
-        display: flex;
         align-items: center;
+        display: flex;
         text-align: center;
     }
 }
+
 .navbar-header__login-button {
-    margin-top: 8px;
-    margin-right: 15px;
     margin-bottom: 8px;
+    margin-right: 15px;
+    margin-top: 8px;
 }
 
 .my-hidden-lt-sm {

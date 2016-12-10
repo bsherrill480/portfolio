@@ -43,7 +43,7 @@ describe('userAPI', function () {
             .createUser(myTestUser)
             .then(function () {
                 userAPI
-                    .findUserByUsername(myTestUser.username)
+                    .findUserByEmail(myTestUser.username)
                     .then(function (user) {
                         userTestUtil.expectUser(user, myTestUser);
                         done();

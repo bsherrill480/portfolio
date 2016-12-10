@@ -1,8 +1,17 @@
 // user nav at the top of all pages
 function UserNavCtrl(UserAuthService) {
     'ngInject';
-    // UserAuthService;
-    this.user = UserAuthService.getListener();
+    const ctrl = this,
+        user = UserAuthService.getListener();
+    this.user = user;
+    window.nav = ctrl;
+    this.$onChanges = function () {
+        console.log('on changes');
+    };
+    this.changeUser = function () {
+        console.log('change user');
+        ctrl.user.userId = '12';
+    }
 }
 
 function userNav() {

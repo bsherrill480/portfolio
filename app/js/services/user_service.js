@@ -22,16 +22,6 @@ function UserService($http) {
             });
         },
 
-        findUserByUsername: function (username) {
-            return $http({
-                method: 'GET',
-                url: '/api/user' ,
-                data: {
-                    username: username
-                }
-            });
-        },
-
         loginUserByCredentials: function (username, password) {
             return $http({
                 method: 'POST',

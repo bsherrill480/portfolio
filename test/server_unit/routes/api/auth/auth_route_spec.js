@@ -150,7 +150,7 @@ describe('auth route register', function () {
                 } else {
                     // check to see if the user exists
                     userAPI
-                        .findUserByUsername(generatedUser.username)
+                        .findUserByEmail(generatedUser.username)
                         .then(function (user) {
                             userTestUtil.expectUser(user, generatedUser, {ignoreFacebook: true});
                             done();

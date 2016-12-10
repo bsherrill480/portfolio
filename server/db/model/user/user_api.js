@@ -19,8 +19,8 @@ module.exports = {
         return User.findById(userId).exec();
     },
 
-    findUserByUsername(username) {
-        return User.findOne({username}).exec();
+    findUserByEmail(email) {
+        return User.findOne({email}).exec();
     },
 
     updateUser(userId, updatedUser) {

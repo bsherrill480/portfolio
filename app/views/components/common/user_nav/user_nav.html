@@ -9,8 +9,12 @@
                 <span class="icon-bar"></span>
             </button>
 
-            A<login-button ng-if="!ctrl.user.userId"
-                           class="pull-right my-hidden-geq-sm"></login-button>
+            <div ng-show="!ctrl.user.userId"
+                 class="pull-right my-hidden-geq-sm">
+                <button class="btn btn-success navbar-header__login-button" ng-click="$ctrl.changeUser()">
+                    Login
+                </button>
+            </div>
             <a class="navbar-brand" href="index.html">PlanIt.</a>
         </div>
         <div ng-if="$ctrl.user.userId" class="navbar-collapse collapse navbar-right">
@@ -31,11 +35,10 @@
                 </li>
             </ul>
         </div><!--/.nav-collapse -->
-        <div ng-if="!$ctrl.user.userId" class="pull-right my-hidden-lt-sm">
-            B<login-button></login-button>
+        <div ng-show="!$ctrl.user.userId" class="pull-right my-hidden-lt-sm">
+            <button class="btn btn-success navbar-header__login-button" ng-click="$ctrl.changeUser()">
+                Login
+            </button>
         </div><!--/.nav-collapse -->
-    </div>
-    <div>
-        hello
     </div>
 </div>

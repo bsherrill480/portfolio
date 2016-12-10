@@ -28,7 +28,7 @@ localStrategy = new PassportLocalStategy({
     passwordField: 'password'
 }, function(username, password, done) {
     userAPI
-        .findUserByUsername(username)
+        .findUserByEmail(username)
         .then(function(user) {
             if (!user || !user.isValidPassword(password)) {
                 done(null, false);

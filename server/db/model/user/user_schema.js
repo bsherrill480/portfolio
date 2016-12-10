@@ -2,7 +2,6 @@ const mongoose = require('mongoose'),
     bcrypt = require('bcrypt-nodejs'),
     Schema = mongoose.Schema,
     userSchema = new Schema({
-        username: {type: String, unique: true, required: true},
         password: {type: String, default: 'someTrueRandomValueGeneratedAtInsert'},
         firstName: {type: String, default: ''},
         lastName: {type: String, default: ''},

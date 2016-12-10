@@ -1,4 +1,4 @@
 const devConfig = {
-  connectionString: 'mongodb://localhost/sherrill-brian-webdev'
+  connectionString: 'mongodb://localhost/sherrill-brian-webdev-final'
 };
 module.exports = devConfig;
