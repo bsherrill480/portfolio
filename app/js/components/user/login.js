@@ -1,4 +1,4 @@
-function LoginCtrl($state, UserService) {
+function OldLoginCtrl($state, UserService) {
     'ngInject';
     const vm = this,
         USERNAME_REQUIRED_MSG = 'Username required.',
@@ -49,15 +49,15 @@ function LoginCtrl($state, UserService) {
     }
 }
 
-function loginCmpnt() {
+function oldLoginCmpnt() {
     return {
         templateUrl: 'components/user/login.html',
-        controller: LoginCtrl
+        controller: OldLoginCtrl
     }
 }
 
 
 export default {
-    name: 'login',
-    fn: loginCmpnt
+    name: 'oldLogin',
+    fn: oldLoginCmpnt
 };

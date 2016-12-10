@@ -1,16 +1,9 @@
 // user nav at the top of all pages
 function UserNavCtrl(UserAuthService) {
     'ngInject';
-    const ctrl = this,
-        user = UserAuthService.getListener();
-    this.user = user;
-    window.nav = ctrl;
-    this.$onChanges = function () {
-        console.log('on changes');
-    };
-    this.changeUser = function () {
-        console.log('change user');
-        ctrl.user.userId = '12';
+    const $ctrl = this;
+    this.$onInit = function () {
+        $ctrl.isLoggedIn = UserAuthService.isLoggedIn();
     }
 }
 
@@ -19,7 +12,7 @@ function userNav() {
         templateUrl: 'components/common/user_nav/user_nav.html',
         controller: UserNavCtrl,
         bindings: {
-            user: '<'
+            isLoggedIn: '<'
         }
     }
 }

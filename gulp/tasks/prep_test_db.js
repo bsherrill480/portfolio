@@ -4,7 +4,6 @@
 import dbInit from '../../server/db/initialize';
 import User from '../../server/db/model/user/user_model';
 import Page from '../../server/db/model/page/page_model';
-import Widget from '../../server/db/model/widget/widget_model';
 import modelAPIs from '../../server/db/model/models';
 import envs from '../../server/config/envs';
 import Promise from 'bluebird';
@@ -14,7 +13,7 @@ import userTestUtil from '../../test/server_unit/test_util/user_test_util';
 import pageTestUtil from '../../test/server_unit/test_util/page_test_util';
 import mongoose from 'mongoose';
 
-const models = [User, Page, Widget];
+const models = [User, Page];
 
 // This tasks cleans out all data in the test database and initialized mongoose test db connection
 gulp.task('prep_test_db', function(cb) {

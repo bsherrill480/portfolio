@@ -1,23 +1,21 @@
-function RegisterCtrl() {
+function RegisterCtrl(UserAuthService, ResponseService, $window, $state) {
     'ngInject';
-    const vm = this,
+    const $ctrl = this,
         EMAIL_REQUIRED_MSG = 'Valid email required.',
         VERIFY_PASSWORD_NOT_MATCHING_MSG = 'Passwords do not match.',
         VERIFY_PASSWORD_REQUIRED_MSG = 'Verify password does not match',
-        PASSWORD_REQUIRED_MSG = 'Password required.',
-        HAS_INPUT_ERROR_ALERT_MSG = 'Unable to register you, please fix errors below.';
+        PASSWORD_REQUIRED_MSG = 'Password required.';
 
-    vm.$onInit = () => {
-        vm.user = {
+    $ctrl.$onInit = () => {
+        $ctrl.user = {
             email: '',
             password: '',
             verifyPassword: ''
         };
-        vm.errors = {
+        $ctrl.errors = {
             email: '',
             password: '',
-            verifyPassword: '',
-            alertError: ''
+            verifyPassword: ''
         };
     };
 
@@ -29,8 +27,8 @@ function RegisterCtrl() {
             allValid = passwordValid && verifyPasswordMatches && emailValid;
         let verifyPasswordMsg;
 
-        vm.errors.password = passwordValid ? '' : PASSWORD_REQUIRED_MSG;
-        vm.errors.email = emailValid ? '' : EMAIL_REQUIRED_MSG;
+        $ctrl.errors.password = passwordValid ? '' : PASSWORD_REQUIRED_MSG;
+        $ctrl.errors.email = emailValid ? '' : EMAIL_REQUIRED_MSG;
         if(!verifyPasswordRequired) {
             verifyPasswordMsg = VERIFY_PASSWORD_REQUIRED_MSG;
         } else if(!verifyPasswordMatches) {
@@ -38,25 +36,25 @@ function RegisterCtrl() {
         } else {
             verifyPasswordMsg = '';
         }
-        vm.errors.verifyPassword = verifyPasswordMsg;
-        vm.errors.alertError = allValid ? '' : HAS_INPUT_ERROR_ALERT_MSG;
+        $ctrl.errors.verifyPassword = verifyPasswordMsg;
         return allValid;
     }
 
 
-    vm.register = function(userCred) {
+    $ctrl.register = function(userCred) {
         if(validInputs(userCred)) {
             const user = {
                 password: userCred.password,
                 email: userCred.email
             },
-                promise = UserService.createUser(user);
+                promise = UserAuthService.register(user);
             promise
                 .then(function (payload) {
-                    $state.go('Profile', {userId: payload._id});
+                    console.log(payload);
+                    $state.go('Home');
                 })
-                .catch(function () {
-                    $window.alert("Error logging in.");
+                .catch(function (err) {
+                    ResponseService.alertResponseError('Error signing up.', err);
                 });
         }
     };

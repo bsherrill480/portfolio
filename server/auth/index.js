@@ -8,10 +8,12 @@ let PassportLocalStategy = require('passport-local'),
     facebookStrategy;
 
 serializeUser = function (user, done) {
+    console.log('deserialize user', user);
     done(null, user._id);
 };
 
 deserializeUser = function (id, done) {
+    console.log('serialize user', id);
     userAPI
         .findUserById(id)
         .then(function (returnedUser) {
@@ -23,20 +25,23 @@ deserializeUser = function (id, done) {
         });
 };
 
-localStrategy = new PassportLocalStategy({
-    userNameField: 'email',
-    passwordField: 'password'
-}, function(username, password, done) {
+localStrategy = new PassportLocalStategy(
+    // passport for some reason did not like be telling it to use 'email' as username
+    function(email, password, done) {
+    console.log('passport auth', email, password);
     userAPI
-        .findUserByEmail(username)
+        .findUserByEmail(email)
         .then(function(user) {
             if (!user || !user.isValidPassword(password)) {
+                console.log('failed: ', user, user.isValidPassword(password));
                 done(null, false);
             } else {
+                console.log('successs: ', user);
                 done(null, user);
             }
         })
         .catch(function (err) {
+            console.log('passport local error', err);
             done(err);
         });
 });

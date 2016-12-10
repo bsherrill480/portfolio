@@ -5,9 +5,6 @@ const User = require('./user_model'),
     userUtil = require('./user_util');
 
 // all functions return promises
-// options are options for how to preform the query.
-// e.g. updateUser('whatever', {username: 'ted'}, {lean:true}) will add the lean qualifier
-// which means a plain javascript object will be returned.
 module.exports = {
     createUser(newUser) {
         const user = new User(newUser);
@@ -20,6 +17,7 @@ module.exports = {
     },
 
     findUserByEmail(email) {
+        console.log('find user: ', email);
         return User.findOne({email}).exec();
     },
 

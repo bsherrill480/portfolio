@@ -2,17 +2,6 @@ function UserService($http) {
     'ngInject';
     
     return {
-        createUser: function (user) {
-            return $http({
-                method: 'POST',
-                url: '/api/auth/register',
-                data: user
-            }).then(function (payload) {
-                return payload.data;
-            });
-        },
-
-
         findUserById: function (userId) {
             return $http({
                 method: 'GET',
@@ -20,26 +9,6 @@ function UserService($http) {
             }).then(function (payload) {
                 return payload.data;
             });
-        },
-
-        loginUserByCredentials: function (username, password) {
-            return $http({
-                method: 'POST',
-                url: '/api/auth/login' ,
-                data: {
-                    username: username,
-                    password: password
-                }
-            }).then(function (payload) {
-                return payload.data;
-            });
-        },
-            
-        logoutUser: function () {
-            return $http({
-                method: 'POST',
-                url: '/api/auth/logout'
-            })
         },
 
         updateUser: function (userId, user) {

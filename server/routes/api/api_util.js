@@ -33,7 +33,13 @@ module.exports = {
     },
 
     queryFailedCallback(res) {
-        return (err) => {console.log('dberr', err); res.status(500).send('Database error');}
+        return (err) => {
+            console.log('dberr', err); 
+            res.status(500).json({
+                error: 'Database error'
+            });
+            return err;
+        }
     },
 
     sendResponseCallback: function (res, resArg) {
@@ -53,6 +59,12 @@ module.exports = {
             user[attribute] = undefined;
         });
         return user;
+    },
+    
+    errorResponse(res, status, message) {
+        res.status(status).json({
+            error: message
+        })
     },
 
     badParamsJsonResponse(res) {

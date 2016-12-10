@@ -3,13 +3,7 @@ const mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     userSchema = new Schema({
         password: {type: String, default: 'someTrueRandomValueGeneratedAtInsert'},
-        firstName: {type: String, default: ''},
-        lastName: {type: String, default: ''},
-        email: {type: String, unique: true, required: true},
-        facebook: {
-            id: String,
-            token: String
-        }
+        email: {type: String, unique: true, required: true}
     }, {
         timestamps: true
     });

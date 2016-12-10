@@ -1,7 +1,7 @@
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
-            <button ng-if="$ctrl.user.userId" type="button" class="navbar-toggle" data-toggle="collapse"
+            <button ng-if="$ctrl.isLoggedIn" type="button" class="navbar-toggle" data-toggle="collapse"
                     data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
@@ -9,15 +9,15 @@
                 <span class="icon-bar"></span>
             </button>
 
-            <div ng-show="!ctrl.user.userId"
+            <div ng-show="!$ctrl.isLoggedIn"
                  class="pull-right my-hidden-geq-sm">
-                <button class="btn btn-success navbar-header__login-button" ng-click="$ctrl.changeUser()">
-                    Login
-                </button>
+                <a ui-sref="Login" class="btn btn-success navbar-header__login-button">
+                    Log in
+                </a>
             </div>
-            <a class="navbar-brand" href="index.html">PlanIt.</a>
+            <a class="navbar-brand" href="index.html">PlanIt. {{$ctrl.isLoggedIn ? 't' : 'f'}}</a>
         </div>
-        <div ng-if="$ctrl.user.userId" class="navbar-collapse collapse navbar-right">
+        <div ng-if="$ctrl.isLoggedIn" class="navbar-collapse collapse navbar-right">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="index.html">HOME</a></li>
                 <li><a href="about.html">ABOUT</a></li>
@@ -35,10 +35,10 @@
                 </li>
             </ul>
         </div><!--/.nav-collapse -->
-        <div ng-show="!$ctrl.user.userId" class="pull-right my-hidden-lt-sm">
-            <button class="btn btn-success navbar-header__login-button" ng-click="$ctrl.changeUser()">
-                Login
-            </button>
+        <div ng-show="!$ctrl.isLoggedIn" class="pull-right my-hidden-lt-sm">
+            <a ui-sref="Login" class="btn btn-success navbar-header__login-button">
+                Log in
+            </a>
         </div><!--/.nav-collapse -->
     </div>
 </div>
