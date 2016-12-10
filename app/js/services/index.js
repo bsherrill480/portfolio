@@ -11,8 +11,9 @@ function declare(serviceMap) {
     if (!item) {
       return;
     }
-
+    console.log('item', item);
     if (item.fn && typeof item.fn === 'function') {
+        console.log('adding item');
       servicesModule.service(item.name, item.fn);
     } else {
       declare(item);

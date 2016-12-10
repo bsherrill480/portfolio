@@ -10,11 +10,15 @@ import autoprefixer from 'gulp-autoprefixer';
 import sassLint     from 'gulp-sass-lint';
 
 gulp.task('sass-lint', function () {
-  return gulp.src(config.styles.src)
+  return gulp.src([config.styles.srcAll, config.styles.ignore])
     .pipe(sassLint({
         rules: {
             'class-name-format': 0, // It doesnt like my BEM conventions
-            'placeholder-name-format': 0 // It doesnt like my BEM conventions
+            'placeholder-name-format': 0, // It doesnt like my BEM conventions
+            'indentation': [1, {
+                size: 4
+            }]
+            
         }
     }))
     .pipe(sassLint.format())

@@ -1,0 +1,33 @@
+@import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables';
+#headerwrap {
+    min-height: inherit;
+}
+
+#service {
+    margin-top: 40px;
+    @media (max-width: $screen-xs-max){
+        margin-bottom: 1em;
+        margin-top: 1em;
+    }
+}
+
+#headerwrap {
+	background-color: #00b3fe;
+	padding-top: 100px;
+	padding-bottom: 0px;
+	text-align: center;
+}
+
+#headerwrap h3, h5 {
+	color: white;
+	font-weight: 400;
+}
+
+#headerwrap h1 {
+	color: white;
+	margin-bottom: 25px;
+}
+
+#headerwrap .img-responsive {
+	margin: 0 auto;
+}

@@ -1,5 +1,5 @@
 const AppSettings = {
-    appTitle: 'Example Application',
+    appTitle: 'PlanIt',
     apiUrl: '/api/v1',
     serverErrorMsg: 'Encountered server error.'
 };
