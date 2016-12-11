@@ -13,6 +13,14 @@
     margin-left: 1em;
 }
 
+.left-spacing-2 {
+    margin-left: 2em;
+}
+
+.right-spacing {
+    margin-right: 1em;
+}
+
 .flex {
     display: flex;
 }
@@ -63,8 +71,8 @@
     background-color: white;
 }
 
-.datepicker-input {
-    max-width: 286px;
+.small-number-input {
+    max-width: 5em;
 }
 
 

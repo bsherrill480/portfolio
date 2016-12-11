@@ -3,7 +3,7 @@
         <input class="no-margin" type="checkbox" ng-model="$ctrl.topic.isSet">
         <div class="left-spacing font-size-h4">{{$ctrl.topic.name}}</div>
     </div>
-    <div class="panel-body">
+    <div class="panel-body" uib-collapse="!$ctrl.topic.isSet">
         <div class="row">
             <div class="col-sm-12">
                 <h4>Remind Me To:</h4>
