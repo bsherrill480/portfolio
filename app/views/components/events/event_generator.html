@@ -1,0 +1,28 @@
+<div>
+    <div class="row">
+        <div class="col-sm-12 left-spacing">
+            <div class="flex flex--vert-mid">
+                <input class="no-margin" type="checkbox">
+                <span class="left-spacing">Do a barrel roll.</span>
+            </div>
+        </div>
+    </div>
+    <div class="row bot-spacing">
+        <div class="col-sm-12 left-spacing">
+            <div class="form-inline left-spacing">
+                <div class="form-group form-group-sm">
+                    <label>Last/Next date of event: </label>
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control" ng-model="$ctrl.eventGenerator.date"
+                               uib-datepicker-popup="MM/dd/yyyy" is-open="$ctrl.pickerOpen">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="$ctrl.openPicker()"><i
+                                class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

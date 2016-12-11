@@ -9,6 +9,26 @@
     margin-bottom: 1em;
 }
 
+.left-spacing {
+    margin-left: 1em;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex--vert-mid {
+    align-items: center;
+}
+
+.font-size-h4 {
+    font-size: $font-size-h4;
+}
+
+.no-margin, input[type="checkbox"].no-margin {
+    margin: 0;
+}
+
 .row--vert-mid-md {
     @media (min-width: $screen-sm-min) {
         align-items: center;
@@ -39,8 +59,13 @@
     margin-bottom: 1em;
 }
 
+.uib-datepicker-popup.dropdown-menu {
+    background-color: white;
+}
 
-
+.datepicker-input {
+    max-width: 286px;
+}
 
 
 

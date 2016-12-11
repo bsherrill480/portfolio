@@ -8,7 +8,7 @@ function CalendarCtrl(moment, calendarConfig) {
         }
     },
         now = moment().startOf('day'),
-        twoWeeksFromNow = now.add(2, 'weeks').endOf('day');
+        twoWeeksFromNow = moment(now).add(2, 'weeks').endOf('day');
     //set now to be start of today. Set 2 weeks from now to be end of day.
 
     var vm = this;
@@ -56,7 +56,6 @@ function CalendarCtrl(moment, calendarConfig) {
 
         vm.upcomingEvents = _.filter(vm.events, function (event) {
             const eventDate = moment(event.startsAt);
-            console.log(eventDate, eventDate.isSameOrBefore(twoWeeksFromNow), eventDate.isSameOrAfter(now));
             return eventDate.isSameOrBefore(twoWeeksFromNow) && eventDate.isSameOrAfter(now);
         });
 

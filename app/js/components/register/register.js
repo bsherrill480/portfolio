@@ -49,8 +49,7 @@ function RegisterCtrl(UserAuthService, ResponseService, $window, $state) {
             },
                 promise = UserAuthService.register(user);
             promise
-                .then(function (payload) {
-                    console.log(payload);
+                .then(function () {
                     $state.go('Home');
                 })
                 .catch(function (err) {

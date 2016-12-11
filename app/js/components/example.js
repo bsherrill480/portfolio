@@ -1,6 +1,6 @@
 function ExampleCtrl() {
-  var vm = this;
-  vm.hero = 'spawn';
+  // var vm = this;
+  // vm.hero = 'spawn';
 }
 
 function exampleCmpnt() {
