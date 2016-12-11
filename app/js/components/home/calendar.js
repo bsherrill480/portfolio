@@ -1,10 +1,15 @@
+const _ = require('lodash');
+
 function CalendarCtrl(moment, calendarConfig) {
     'ngInject';
     const alert = {
         show(event){
             console.log('alert', event);
         }
-    }
+    },
+        now = moment().startOf('day'),
+        twoWeeksFromNow = now.add(2, 'weeks').endOf('day');
+    //set now to be start of today. Set 2 weeks from now to be end of day.
 
     var vm = this;
     vm.$onInit = function () {
@@ -49,6 +54,16 @@ function CalendarCtrl(moment, calendarConfig) {
             }
         ];
 
+        vm.upcomingEvents = _.filter(vm.events, function (event) {
+            const eventDate = moment(event.startsAt);
+            console.log(eventDate, eventDate.isSameOrBefore(twoWeeksFromNow), eventDate.isSameOrAfter(now));
+            return eventDate.isSameOrBefore(twoWeeksFromNow) && eventDate.isSameOrAfter(now);
+        });
+
+        _.each(vm.upcomingEvents, function (event) {
+            event.prettyDate = moment(event.date).format('MM/DD/YYYY')
+        });
+
         vm.cellIsOpen = true;
 
         vm.eventClicked = function(event) {
@@ -68,7 +83,7 @@ function CalendarCtrl(moment, calendarConfig) {
         };
 
         vm.timespanClicked = function(date, cell) {
-            console.log("timespan clicked");
+            console.log('timespan clicked');
             if (vm.calendarView === 'month') {
                 if ((vm.cellIsOpen && moment(date).startOf('day').isSame(moment(vm.viewDate).startOf('day'))) || cell.events.length === 0 || !cell.inMonth) {
                     vm.cellIsOpen = false;
