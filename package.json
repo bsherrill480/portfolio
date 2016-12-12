@@ -50,7 +50,7 @@
     "test": "cross-env NODE_ENV=test ./node_modules/.bin/gulp test",
     "protractor": "cross-env NODE_ENV=test ./node_modules/.bin/gulp protractor",
     "unit": "cross-env NODE_ENV=test ./node_modules/.bin/gulp unit",
-    "start": "cross-env NODE_ENV=staging node ./server/index.js"
+    "start": "export NODE_ENV=staging && node ./server/index.js"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
@@ -58,6 +58,7 @@
     "body-parser": "^1.15.2",
     "cookie-parser": "^1.4.3",
     "cross-env": "^3.1.1",
+    "express": "^4.13.3",
     "istanbul": "^0.3.22",
     "lodash": "^4.17.2",
     "mongoose": "^4.7.1",
@@ -97,7 +98,6 @@
     "del": "^2.1.0",
     "envify": "^3.4.0",
     "eslint": "3.7.1",
-    "express": "^4.13.3",
     "googleapis": "^15.0.0",
     "gulp": "^3.9.0",
     "gulp-angular-templatecache": "^2.0.0",
