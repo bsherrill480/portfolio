@@ -57,6 +57,9 @@ function UserAuthService($http) {
             return $http({
                 method: 'POST',
                 url: '/api/auth/logout'
+            }).then(function (payload) {
+                userSingleton.userId = '';
+                return payload;
             })
         }
     };

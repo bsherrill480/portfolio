@@ -41,6 +41,7 @@ module.exports = function(passedEnv) {
         passport.deserializeUser(auth.deserializeUser);
         passport.use(auth.localStrategy);
         passport.use(auth.facebookStrategy);
+        passport.use(auth.googleStrategy);
         app.use(passport.initialize());
         app.use(passport.session());
 

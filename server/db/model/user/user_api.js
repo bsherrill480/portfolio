@@ -30,31 +30,32 @@ module.exports = {
 
     deleteUser(userId) {
         return User.findByIdAndRemove(userId).exec();
+    },
+
+    findUser: function (user) {
+        return User.findOne(user).exec();
+    },
+
+    findOrCreate(user) {
+        const self = this;
+        return new Promise((resolve, reject) => {
+            function resolveUserIfFoundElseCreate(searchedUserResult) {
+                if(searchedUserResult) {
+                    resolve(searchedUserResult);
+                } else {
+                    self.createUser(user)
+                        .then(resolve)
+                        .catch(reject)
+                }
+            }
+
+            this.findUser(user)
+                .then(resolveUserIfFoundElseCreate)
+                .catch(reject);
+        });
+    },
+
+    findUserByFacebookId(facebookId) {
+        return User.findOne({'facebook.id': facebookId}).exec();
     }
-
-    // findUser: function (user) {
-    //     return User.findOne(user).exec();
-    // },
-
-    // findOrCreate(user) {
-    //     return new Promise((resolve, reject) => {
-    //         function resolveUserIfFoundElseCreate(searchedUserResult) {
-    //             if(searchedUserResult) {
-    //                 resolve(searchedUserResult);
-    //             } else {
-    //                 this.createUser(user)
-    //                     .then(resolve)
-    //                     .catch(reject)
-    //             }
-    //         }
-    //
-    //         this.findUser(user)
-    //             .then(resolveUserIfFoundElseCreate)
-    //             .catch(reject);
-    //     });
-    // },
-
-    // findUserByFacebookId(facebookId) {
-    //     return User.findOne({'facebook.id': facebookId}).exec();
-    // }
 };

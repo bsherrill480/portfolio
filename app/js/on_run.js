@@ -3,7 +3,7 @@ function hasPermission(isLoggedIn, toStateName, event, $state) {
         event.preventDefault(); // stop current execution
         $state.go('Home');
     } else if (!isLoggedIn && (toStateName !== 'Login' || toStateName !== 'Register')) {
-        $state.go('Login');
+        $state.go(toStateName);
     }
 }
 
@@ -25,6 +25,7 @@ function OnRun($rootScope, AppSettings, UserAuthService, $state) {
 
         // http://stackoverflow.com/questions/27212182/angularjs-ui-router-how-to-redirect-to-login-page
         // home is always allowed
+        console.log('ToState', toStateName);
         if(toStateName === 'Home') {
             return;
         }

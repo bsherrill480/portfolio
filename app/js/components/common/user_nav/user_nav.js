@@ -11,6 +11,11 @@ function UserNavCtrl(UserAuthService) {
                     $ctrl.isLoggedIn = UserAuthService.isLoggedIn();
                 })
         }
+        $ctrl.logout = function () {
+            UserAuthService.logout().then(function () {
+                window.location.reload();
+            });
+        }
     }
 }
 

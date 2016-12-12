@@ -4,8 +4,13 @@ let PassportLocalStategy = require('passport-local'),
     localStrategy,
     deserializeUser,
     serializeUser,
+// in prod we would make these environmental variabeles so they don't need to live in code
+    googClientId = '176316419365-kptpt2gp57tldfu27h2b97o872bnap44.apps.googleusercontent.com',
+    googSec = 'Xr_5ypwF-dNbcdtEJNQWNl8e',
     FacebookStrategy = require('passport-facebook').Strategy,
-    facebookStrategy;
+    facebookStrategy,
+    GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
+    googleStrategy;
 
 serializeUser = function (user, done) {
     console.log('deserialize user', user);
@@ -50,7 +55,7 @@ localStrategy = new PassportLocalStategy(
 facebookStrategy = new FacebookStrategy({
     clientID: '320404104996627', // facebook app id
     clientSecret: 'caad76cc56f16b1d46abfe917d556cfb',
-    callbackURL: 'http://localhost:3000/assignment/api/auth/facebook/callback',
+    callbackURL: 'http://localhost:5000/api/auth/facebook/callback',
     profileFields: ['id', 'emails']
 
 },
@@ -59,7 +64,9 @@ facebookStrategy = new FacebookStrategy({
             fbId = profile.id,
             email;
         email = emails[0] ? emails[0].value : '';
+        console.log('facebookStrat', email, fbId);
         if(email && fbId) {
+            console.log('Gonna create this user', email, fbId);
             userAPI
                 .findOrCreate({
                     email: email,
@@ -78,10 +85,46 @@ facebookStrategy = new FacebookStrategy({
         }
 });
 
+googleStrategy = new GoogleStrategy({
+    clientID: googClientId,
+    clientSecret: googSec,
+    callbackURL: 'http://localhost:5000/api/auth/google/callback',
+    // profileFields: ['id', 'emails'] // in routes
+    // callbackURL: "http://www.example.com/auth/google/callback"
+},
+    function(accessToken, refreshToken, profile, done) {
+        let emails = profile.emails, // for simplicity sake we'll just take the first email
+            id = profile.id,
+            email;
+        console.log('google profile', profile);
+        email = emails[0] ? emails[0].value : '';
+        console.log('googleStrat', email, id);
+        if(email && id) {
+            console.log('Gonna create this user', email, id);
+            userAPI
+                .findOrCreate({
+                    email: email,
+                    google: {
+                        id: id
+                    }
+                })
+                .then(function (user) {
+                    done(null, user);
+                })
+                .catch(function (err) {
+                    done(err);
+                });
+        } else {
+            done('email/id Invalid or missing.')
+        }
+    }
+);
+
 module.exports = {
     serializeUser,
     deserializeUser,
     localStrategy,
-    facebookStrategy
+    facebookStrategy,
+    googleStrategy
 };
 
