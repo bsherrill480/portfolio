@@ -136,6 +136,8 @@ function EventGeneratorService($http, $q) {
               method: 'POST',
               url: '/api/event_generator/',
               data: eventGenerator
+          }).then(function (payload) {
+              return payload.data;
           });
       },
 

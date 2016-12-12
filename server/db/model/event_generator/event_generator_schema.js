@@ -3,7 +3,7 @@ const mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     eventGeneratorSchema = new Schema({
         _user: {type: Schema.Types.ObjectId, ref: 'User'},
-        question: {type: String, required: true},
+        question: {type: String, default: ''},
         date: {type: Date, required: true},
         intervalYear: {type: Number, required: true},
         intervalMonth: {type: Number, required: true},

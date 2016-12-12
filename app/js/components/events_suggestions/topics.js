@@ -1,6 +1,6 @@
 const _ = require('lodash');
 
-function TopicsCtrl(EventGeneratorService, $q) {
+function TopicsCtrl(EventGeneratorService, $q, $state) {
     'ngInject';
     const $ctrl = this;
     $ctrl.$onInit = function () {
@@ -26,8 +26,11 @@ function TopicsCtrl(EventGeneratorService, $q) {
                 );
                 $q
                     .all(promises)
-                    .then(function (val) {
-                        console.log('success', val)
+                    .then(function () {
+                        $state.go('MyEvents');
+                    })
+                    .catch(function (err) {
+                        console.log('err', err);
                     });
             } else {
                 $ctrl.isValid = false;

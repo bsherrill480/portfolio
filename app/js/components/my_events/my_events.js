@@ -32,6 +32,7 @@ function createEventGeneratorsTopics(generatorTypes, eventGenerators) {
     _.forOwn(typeToEventGeneratorList, function (value, key) {
         const eventGeneratorTopic = {
             name: generatorTypeToName(generatorTypes, key),
+            generatorType: key,
             eventGenerators: value
         };
         eventGeneratorTopics.push(eventGeneratorTopic);

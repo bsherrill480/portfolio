@@ -1,5 +1,8 @@
 <div>
-    <h2>{{$ctrl.topic.name}}</h2>
+    <h2>
+        {{$ctrl.topic.name}}
+        <button class="btn btn-primary" ng-click="$ctrl.addEvent()">Add Event</button>
+    </h2>
     <div ng-repeat="eventGenerator in $ctrl.topic.eventGenerators">
         <div class="panel panel-default">
             <div class="panel-body">
