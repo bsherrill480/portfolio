@@ -3,7 +3,8 @@ const express = require('express'),
     models = require('../../../db/model/models'),
     userAPI = models.userAPI,
     apiUtil = require('../api_util'),
-    passport = require('passport');
+    passport = require('passport'),
+    googleScope = ['https://www.googleapis.com/auth/calendar.readonly', 'email'];
 
 function getLoginUserThenSendResponseCallback(req, res) {
     return function (user) {
@@ -104,7 +105,7 @@ router.get('/facebook/callback',
 //   redirecting the user to google.com.  After authorization, Google
 //   will redirect the user back to this application at /auth/google/callback
 router.get('/google',
-  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'email'] }));
+  passport.authenticate('google', { scope: googleScope }));
 
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  If authentication fails, the user will be redirected back to the

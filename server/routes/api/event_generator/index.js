@@ -4,16 +4,8 @@ const express = require('express'),
     models = require('../../../db/model/models'),
     eventGeneratorAPI = models.eventGeneratorAPI;
 
-function userIsLoggedIn(req, res, next) {
-    const user = req.user;
-    if(user) {
-        next();
-    } else {
-        util.errorResponse(res, 401, 'Not Logged In');
-    }
-}
 
-router.get('/', userIsLoggedIn, function (req, res, next) {
+router.get('/', util.userIsLoggedIn, function (req, res, next) {
     const userId = req.user._id;
     util.queryResponse(
         res,
@@ -21,7 +13,7 @@ router.get('/', userIsLoggedIn, function (req, res, next) {
     );
 });
 
-router.post('/', userIsLoggedIn, function (req, res, next) {
+router.post('/', util.userIsLoggedIn, function (req, res, next) {
     const receivedEventGenerator = req.body,
         userId = req.user._id;
     util.queryResponse(
@@ -31,7 +23,7 @@ router.post('/', userIsLoggedIn, function (req, res, next) {
 });
 
 
-router.put('/:eventGeneratorId', userIsLoggedIn, function (req, res, next) {
+router.put('/:eventGeneratorId', util.userIsLoggedIn, function (req, res, next) {
     const receivedEventGenerator = req.body,
         eventGeneratorId = req.params.eventGeneratorId,
         updateCallback = function() {
@@ -49,7 +41,7 @@ router.put('/:eventGeneratorId', userIsLoggedIn, function (req, res, next) {
     );
 });
 
-router.delete('/:eventGeneratorId', userIsLoggedIn, function (req, res, next) {
+router.delete('/:eventGeneratorId', util.userIsLoggedIn, function (req, res, next) {
     const eventGeneratorId = req.params.eventGeneratorId,
         deleteCallback = function () {
             eventGeneratorAPI

@@ -9,15 +9,16 @@ const envs = require('./envs'),
 //   connectionString: String
 // }
 function getConfig(env) {
-  if(env === envs.DEVELOPMENT) {
-    return devConfig;
-  } else if (env === envs.STAGING) {
-    return stagingConfig;
-  } else if (env === envs.TEST) {
-    return testConfig;
-  } else {
-    throw new Error('Env not found.');
-  }
+    env = env || process.env.NODE_ENV;
+    if(env === envs.DEVELOPMENT) {
+        return devConfig;
+    } else if (env === envs.STAGING) {
+        return stagingConfig;
+    } else if (env === envs.TEST) {
+        return testConfig;
+    } else {
+        throw new Error('Env not found for ' + env);
+    }
 }
 
 module.exports = getConfig;

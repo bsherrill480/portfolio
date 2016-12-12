@@ -9,9 +9,15 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-offset-2 col-sm-8">
-                <a class="btn btn-block btn-social btn-google" href="/api/auth/google">
+                <a class="btn btn-block btn-social btn-google" href="/api/auth/google"
+                   target="_blank">
                     <span class="fa fa-google"></span> Sign in with Google
                 </a>
+                <a class="btn btn-block btn-social btn-facebook" href="/api/auth/facebook"
+                   target="_blank">
+                    <span class="fa fa-facebook"></span> Sign in with Facebook
+                </a>
+                <h4>OR</h4>
                 <form>
                     <div ng-class="{'has-error': $ctrl.errors.email}" class="form-group">
                         <label for="email-input" class="control-label">Email:</label>

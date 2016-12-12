@@ -1,7 +1,3 @@
-/**
- *
- * Created by brian on 10/30/16.
- */
 const express = require('express'),
     util = require('../api_util'),
     router = express.Router(),

@@ -9,7 +9,8 @@ const mongoose = require('mongoose'),
             token: String
         },
         google: {
-            id: String
+            id: String,
+            accessToken: String
         }
     }, {
         timestamps: true

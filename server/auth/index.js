@@ -1,12 +1,11 @@
 let PassportLocalStategy = require('passport-local'),
+    getConfig = require('../config/get_config'),
+    config = getConfig(),
     models = require('../db/model/models'),
     userAPI = models.userAPI,
     localStrategy,
     deserializeUser,
     serializeUser,
-// in prod we would make these environmental variabeles so they don't need to live in code
-    googClientId = '176316419365-kptpt2gp57tldfu27h2b97o872bnap44.apps.googleusercontent.com',
-    googSec = 'Xr_5ypwF-dNbcdtEJNQWNl8e',
     FacebookStrategy = require('passport-facebook').Strategy,
     facebookStrategy,
     GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
@@ -85,9 +84,13 @@ facebookStrategy = new FacebookStrategy({
         }
 });
 
+// Use the GoogleStrategy within Passport.
+//   Strategies in Passport require a `verify` function, which accept
+//   credentials (in this case, an accessToken, refreshToken, and Google
+//   profile), and invoke a callback with a user object.
 googleStrategy = new GoogleStrategy({
-    clientID: googClientId,
-    clientSecret: googSec,
+    clientID: config.googleClient,
+    clientSecret: config.googleSecret,
     callbackURL: 'http://localhost:5000/api/auth/google/callback',
     // profileFields: ['id', 'emails'] // in routes
     // callbackURL: "http://www.example.com/auth/google/callback"
@@ -96,6 +99,8 @@ googleStrategy = new GoogleStrategy({
         let emails = profile.emails, // for simplicity sake we'll just take the first email
             id = profile.id,
             email;
+        console.log('accessToken', accessToken);
+        console.log('refreshToken', refreshToken);
         console.log('google profile', profile);
         email = emails[0] ? emails[0].value : '';
         console.log('googleStrat', email, id);
@@ -109,7 +114,14 @@ googleStrategy = new GoogleStrategy({
                     }
                 })
                 .then(function (user) {
-                    done(null, user);
+                    user.google.accessToken = accessToken;
+                    user.save()
+                        .then(function () {
+                            done(null, user);
+                        })
+                        .catch(function (err) {
+                            done(err);
+                        });
                 })
                 .catch(function (err) {
                     done(err);
