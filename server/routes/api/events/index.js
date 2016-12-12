@@ -17,7 +17,7 @@ function userIsGoogleUser(req, res, next) {
     }
 }
 
-router.get('/google_events', util.userIsLoggedIn, userIsGoogleUser, function (req) {
+router.get('/google_events', util.userIsLoggedIn, userIsGoogleUser, function (req, res, next) {
     const oauth2Client = new OAuth2(
         config.googleClient,
         config.googleSecret,
@@ -31,12 +31,13 @@ router.get('/google_events', util.userIsLoggedIn, userIsGoogleUser, function (re
         auth: oauth2Client,
         calendarId: 'primary',
         timeMin: (new Date()).toISOString(),
-        maxResults: 10,
+        maxResults: 50,
         singleEvents: true,
         orderBy: 'startTime'
     }, function (err, response) {
         if(err) {
             console.log('err1', err);
+            util.errorResponse(res, 500, err);
             return;
         }
         const events = response.items;
@@ -50,6 +51,7 @@ router.get('/google_events', util.userIsLoggedIn, userIsGoogleUser, function (re
                 console.log('%s - %s', start, event.summary);
             }
         }
+        res.json(events);
     })
 
 

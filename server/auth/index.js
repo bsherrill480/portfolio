@@ -109,12 +109,13 @@ googleStrategy = new GoogleStrategy({
             userAPI
                 .findOrCreate({
                     email: email,
-                    google: {
-                        id: id
-                    }
+                    // google: {
+                    //     id: id
+                    // }
                 })
                 .then(function (user) {
                     user.google.accessToken = accessToken;
+                    user.google.id = id;
                     user.save()
                         .then(function () {
                             done(null, user);
