@@ -50,7 +50,7 @@ function RegisterCtrl(UserAuthService, ResponseService, $window, $state) {
                 promise = UserAuthService.register(user);
             promise
                 .then(function () {
-                    $state.go('Home');
+                    $state.go('EventsSuggestions');
                 })
                 .catch(function (err) {
                     ResponseService.alertResponseError('Error signing up.', err);
