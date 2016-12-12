@@ -1,4 +1,4 @@
-function EventGeneratorCtrl($scope) {
+function EventGeneratorCtrl() {
     'ngInject';
     const $ctrl = this;
 
@@ -22,7 +22,7 @@ function EventGeneratorCtrl($scope) {
 
 function eventGeneratorCmpnt() {
     return {
-        templateUrl: 'components/events/event_generator.html',
+        templateUrl: 'components/events_suggestions/suggestion_event_generator.html',
         controller: EventGeneratorCtrl,
         bindings: {
             eventGenerator: '='
@@ -32,6 +32,6 @@ function eventGeneratorCmpnt() {
 
 
 export default {
-    name: 'eventGenerator',
+    name: 'suggestionEventGenerator',
     fn: eventGeneratorCmpnt
 };

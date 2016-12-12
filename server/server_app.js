@@ -15,9 +15,13 @@ const express = require('express'),
 
 let calledBefore = false;
 
+
 module.exports = function(passedEnv) {
     if(!calledBefore) {
         let env = passedEnv || app.get('env');
+
+        app.set('view engine', 'pug');
+        app.set('views', path.join(__dirname, '/views'));
 
         // uncomment after placing your favicon in /public
         //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));

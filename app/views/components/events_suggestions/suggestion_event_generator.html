@@ -27,11 +27,12 @@
         <div class="row">
             <div class="col-sm-12 left-spacing-2">
                 <div class="form-inline">
-                    <div class="form-group form-group-sm right-spacing">
-                        <label>Last/Next date of event: </label>
+                    <div class="form-group form-group-sm right-spacing"
+                         ng-class="$ctrl.eventGenerator.uiDate ? '' : 'has-error'">
+                        <label class="control-label">Last/Next date of event: </label>
                         <div class="input-group input-group-sm">
                             <input type="text" class="form-control"
-                                   ng-model="$ctrl.eventGenerator.date"
+                                   ng-model="$ctrl.eventGenerator.uiDate"
                                    uib-datepicker-popup="MM/dd/yyyy"
                                    is-open="$ctrl.pickerOpen"
                             >

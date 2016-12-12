@@ -4,7 +4,7 @@ function TopicCtrl() {
 
 function topicCmpnt() {
     return {
-        templateUrl: 'components/events/topic.html',
+        templateUrl: 'components/events_suggestions/topic.html',
         controller: TopicCtrl,
         bindings: {
             topic: '='

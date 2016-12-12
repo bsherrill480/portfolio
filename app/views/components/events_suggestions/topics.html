@@ -1,0 +1,13 @@
+<div class="bot-spacing">
+    <ng-repeat ng-repeat="topic in $ctrl.topics">
+        <topic topic="topic"></topic>
+    </ng-repeat>
+    <div class="text-right">
+        <div>
+            <button class="btn btn-success" ng-click="$ctrl.onSave($ctrl.topics)">Save</button>
+        </div>
+        <div class="text-danger" ng-show="!$ctrl.isValid">
+            Please fix errors.
+        </div>
+    </div>
+</div>

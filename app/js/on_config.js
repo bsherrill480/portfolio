@@ -20,17 +20,27 @@ function OnConfig($stateProvider, $locationProvider, $urlRouterProvider, $compil
             title: 'Home'
         })
         .state('Login', {
-            url: '/login',
+            url: '/Login',
             template: '<login></login>',
+            title: 'Login'
         })
         .state('Register', {
-            url: '/register',
-            template: '<register></register>'
+            url: '/Register',
+            template: '<register></register>',
+            title: 'Register'
         })
-        .state('Events', {
-            url: '/events',
-            template: '<events></events>'
-});
+        .state('EventsSuggestions', {
+            url: '/Suggested_Events',
+            template: '<events-suggestions></events-suggestions>',
+            title: 'Suggested Events'
+        })
+        .state('MyEvents', {
+            url: '/My_Events',
+            template: '<my-events></my-events>',
+            title: 'My Events'
+        })
+       
+    ;
 
     $urlRouterProvider.otherwise('/');
 

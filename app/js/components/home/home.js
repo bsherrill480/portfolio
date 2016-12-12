@@ -3,8 +3,16 @@
  */
 function HomeCtrl(UserAuthService) {
     'ngInject';
+    const $ctrl = this;
     this.$onInit = function () {
-        this.isLoggedIn = UserAuthService.isLoggedIn();
+        $ctrl.isLoggedIn = UserAuthService.isLoggedIn();
+        if(!$ctrl.isLoggedIn) {
+            UserAuthService
+                .fetchIsLoggedIn()
+                .then(function () {
+                    $ctrl.isLoggedIn = UserAuthService.isLoggedIn();
+                })
+        }
     }
 }
 

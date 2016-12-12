@@ -3,13 +3,13 @@ function EventsCtrl() {
 
 function eventsCmpnt() {
   return {
-    templateUrl: 'components/events/events.html',
+    templateUrl: 'components/events_suggestions/events_suggestions.html',
     controller: EventsCtrl
   }
 }
 
 
 export default {
-  name: 'events',
+  name: 'eventsSuggestions',
   fn: eventsCmpnt
 };

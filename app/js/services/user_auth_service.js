@@ -17,7 +17,7 @@ function UserAuthService($http) {
         },
 
         fetchIsLoggedIn() {
-            $http({
+            return $http({
                 method: 'GET',
                 url: '/api/auth/userId'
             }).then(getUserIdAndReturnData);

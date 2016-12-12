@@ -23,6 +23,22 @@ module.exports = {
     //     }
     // },
 
+    // calls callback if user is owner
+    userIsOwnerThenCallback(res, userId, itemPromise, doUpdateCallback) {
+        const self = this;
+        console.log('userIsOwnerThenCallabck', userId);
+        itemPromise
+            .then(function (result) {
+                if(result && userId && result._user.toString() === userId.toString()) {
+                    doUpdateCallback(res);
+                } else {
+                    self.errorResponse(res, 403, 'Forbidden');
+                }
+                return result;
+            })
+            .catch(self.queryFailedCallback(res));
+    },
+
     queryResponse(res, queryPromise) {
         let queryFailedResponse = this.queryFailedCallback(res);
         queryPromise
@@ -34,7 +50,7 @@ module.exports = {
 
     queryFailedCallback(res) {
         return (err) => {
-            console.log('dberr', err); 
+            console.log('dberr', err);
             res.status(500).json({
                 error: 'Database error'
             });
@@ -60,7 +76,7 @@ module.exports = {
         });
         return user;
     },
-    
+
     errorResponse(res, status, message) {
         res.status(status).json({
             error: message

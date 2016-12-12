@@ -1,7 +1,16 @@
+function hasPermission(isLoggedIn, toStateName, event, $state) {
+    if(isLoggedIn && (toStateName === 'Login' || toStateName === 'Register')) {
+        event.preventDefault(); // stop current execution
+        $state.go('Home');
+    } else if (!isLoggedIn && (toStateName !== 'Login' || toStateName !== 'Register')) {
+        $state.go('Login');
+    }
+}
+
 function OnRun($rootScope, AppSettings, UserAuthService, $state) {
     'ngInject';
 
-    UserAuthService.fetchIsLoggedIn();
+    // UserAuthService.fetchIsLoggedIn();
 
     $rootScope.$on('$stateChangeSuccess', (event, toState) => {
         const toStateName = toState.name,
@@ -19,13 +28,16 @@ function OnRun($rootScope, AppSettings, UserAuthService, $state) {
         if(toStateName === 'Home') {
             return;
         }
-
-        if(isLoggedIn && (toStateName === 'Login' || toStateName === 'Register')) {
-            event.preventDefault(); // stop current execution
-            $state.go('Home');
-        } else if (!isLoggedIn && (toStateName !== 'Login' || toStateName !== 'Register')) {
-            $state.go('Login');
+        if(isLoggedIn) {
+            hasPermission(isLoggedIn, toStateName, event, $state)
+        } else {
+            UserAuthService
+                .fetchIsLoggedIn()
+                .then(function () {
+                    hasPermission(UserAuthService.isLoggedIn(), toStateName, event, $state);
+                });
         }
+
 
         $rootScope.pageTitle += AppSettings.appTitle;
 

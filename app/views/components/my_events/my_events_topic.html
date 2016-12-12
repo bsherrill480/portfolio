@@ -1,0 +1,12 @@
+<div>
+    <h2>{{$ctrl.topic.name}}</h2>
+    <div ng-repeat="eventGenerator in $ctrl.topic.eventGenerators">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <my-events-event-generator
+                    on-delete="$ctrl.onDeleteEventGenerator(eventGeneratorId)"
+                    event-generator="eventGenerator"></my-events-event-generator>
+            </div>
+        </div>
+    </div>
+</div>

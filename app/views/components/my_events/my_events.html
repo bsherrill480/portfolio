@@ -1,0 +1,15 @@
+<app-page>
+    <div id="blue">
+        <div class="container">
+            <div class="row">
+                    <h3>My Events.</h3>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        {{$ctrl.topics}}
+        <ng-repeat ng-repeat="topic in $ctrl.topics">
+            <my-events-topic topic="topic"></my-events-topic>
+        </ng-repeat>
+    </div>
+</app-page>
