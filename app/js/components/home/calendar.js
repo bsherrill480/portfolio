@@ -79,15 +79,12 @@ function CalendarCtrl(EventsService, $q, EventGeneratorService) {
         const googleEventsPromise = EventsService
             .getGoogleEvents()
             .then(function (googleEvents) {
-                console.log('googleEvents', formatGoogleEvents(googleEvents));
                 googleEventsFinished = formatGoogleEvents(googleEvents);
             }),
             eventGeneratorsPromise = EventGeneratorService
                 .getEventGeneratorsForUser()
                 .then(function (eventGenerators) {
-                    console.log('preGeneratedEvents');
                     generatedEvents = generateEventsFromEventGenerators(eventGenerators);
-                    console.log('generatedEvents', generatedEvents);
                 })
                 .catch(function (err) {
                     console.log('eventGeneratorsPromiseErr', err);
@@ -95,16 +92,16 @@ function CalendarCtrl(EventsService, $q, EventGeneratorService) {
             promises = [googleEventsPromise, eventGeneratorsPromise];
         $q.all(promises)
             .then(function () {
+                let upcomingEvents;
+
                 vm.events = googleEventsFinished.concat(generatedEvents);
 
-                vm.upcomingEvents = _.filter(vm.events, function (event) {
+                upcomingEvents = _.filter(vm.events, function (event) {
                     const evntDate = moment(event.startsAt);
                     return evntDate.isSameOrBefore(twoWeeksFromNow) && evntDate.isSameOrAfter(now);
                 });
-                console.log('upcomingEvents', vm.upcomingEvents);
-                // _.each(vm.upcomingEvents, function (event) {
-                //     event.prettyDate = moment(event.date).format('MM/DD/YYYY')
-                // });
+                upcomingEvents = _.sortBy(upcomingEvents, (event) => event.startsAt);
+                vm.upcomingEvents = upcomingEvents;
             });
 
         // https://mattlewis92.github.io/angular-bootstrap-calendar/#?example=kitchen-sink
@@ -113,37 +110,6 @@ function CalendarCtrl(EventsService, $q, EventGeneratorService) {
         vm.viewDate = new Date();
         vm.events = [];
 
-        // vm.events = [
-        //     {
-        //         title: 'An event',
-        //         color: calendarConfig.colorTypes.warning,
-        //         startsAt: moment().startOf('week').subtract(2, 'days').add(8, 'hours').toDate(),
-        //         draggable: false,
-        //         resizable: false,
-        //     }, {
-        //         title: '<i class="glyphicon glyphicon-asterisk"></i> <span class="text-primary">Another event</span>, with a <i>html</i> title',
-        //         color: calendarConfig.colorTypes.info,
-        //         startsAt: moment().subtract(1, 'day').toDate(),
-        //         draggable: false,
-        //         resizable: false,
-        //     }, {
-        //         title: 'This is a really long event title that occurs on every year',
-        //         color: calendarConfig.colorTypes.important,
-        //         startsAt: moment().startOf('day').toDate(),
-        //         endsAt: moment().startOf('day').add(23, 'hours').add(59, 'minutes').toDate(),
-        //         draggable: false,
-        //         resizable: false,
-        //     }
-        // ];
-
-        // vm.upcomingEvents = _.filter(vm.events, function (event) {
-        //     const eventDate = moment(event.startsAt);
-        //     return eventDate.isSameOrBefore(twoWeeksFromNow) && eventDate.isSameOrAfter(now);
-        // });
-        //
-        // _.each(vm.upcomingEvents, function (event) {
-            // event.prettyDate = moment(event.date).format('MM/DD/YYYY')
-        // });
 
         vm.cellIsOpen = true;
 

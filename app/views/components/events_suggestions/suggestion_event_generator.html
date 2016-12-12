@@ -52,12 +52,15 @@
                             {{$ctrl.eventGenerator.intervalDay}} day
                         </span>
                         <span ng-show="$ctrl.editInterval">
-                            <input type="number" class="form-control small-number-input" min="0"
-                                   max="99" ng-model="$ctrl.eventGenerator.intervalYear"> year,
-                            <input type="number" class="form-control small-number-input" min="0"
-                                   max="99" ng-model="$ctrl.eventGenerator.intervalMonth"> month,
-                            <input type="number" class="form-control small-number-input" min="0"
-                                   max="99" ng-model="$ctrl.eventGenerator.intervalDay"> day
+                            Year: <input type="number" class="form-control small-number-input"
+                                        min="0"
+                                   max="99" ng-model="$ctrl.eventGenerator.intervalYear">
+                            Month: <input type="number" class="form-control small-number-input"
+                                        min="0"
+                                   max="99" ng-model="$ctrl.eventGenerator.intervalMonth">
+                            Day: <input type="number" class="form-control small-number-input"
+                                        min="0"
+                                   max="99" ng-model="$ctrl.eventGenerator.intervalDay">
                         </span>
                         <button class="btn btn-default"
                                 ng-class="$ctrl.editInterval ? 'btn-sm' : 'btn-xs'"
