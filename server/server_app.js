@@ -57,7 +57,7 @@ module.exports = function(passedEnv) {
 
         // development error handler
         // will print stacktrace
-        if (env === envs.DEVELOPMENT) {
+        // if (env === envs.DEVELOPMENT) {
             app.use(function(err, req, res, next) {
                 res.status(err.status || 500);
                 res.render('error', {
@@ -65,17 +65,17 @@ module.exports = function(passedEnv) {
                     error: err
                 });
             });
-        }
+        // }
 
 // production error handler
 // no stacktraces leaked to user
-        app.use(function(err, req, res, next) {
-            res.status(err.status || 500);
-            res.render('error', {
-                message: err.message,
-                error: {}
-            });
-        });
+//         app.use(function(err, req, res, next) {
+//             res.status(err.status || 500);
+//             res.render('error', {
+//                 message: err.message,
+//                 error: {}
+//             });
+//         });
 
 
         // don't run db in test, it's already setup by prep_test_db
