@@ -1,3 +1,5 @@
+Reach me at bdsherrill9@gmail.com, it's the only email I check.
+
 I have based this project off angularjs-gulp-browserify-boilerplate, and I have left their readme
  intact below. I have also made my own additions
  
