@@ -54,7 +54,7 @@ localStrategy = new PassportLocalStategy(
 facebookStrategy = new FacebookStrategy({
     clientID: '320404104996627', // facebook app id
     clientSecret: 'caad76cc56f16b1d46abfe917d556cfb',
-    callbackURL: 'http://localhost:5000/api/auth/facebook/callback',
+    callbackURL: config.facebookCallbackUrl,
     profileFields: ['id', 'emails']
 
 },
@@ -91,7 +91,7 @@ facebookStrategy = new FacebookStrategy({
 googleStrategy = new GoogleStrategy({
     clientID: config.googleClient,
     clientSecret: config.googleSecret,
-    callbackURL: 'http://localhost:5000/api/auth/google/callback',
+    callbackURL: config.googleCallbackUrl,
     // profileFields: ['id', 'emails'] // in routes
     // callbackURL: "http://www.example.com/auth/google/callback"
 },
