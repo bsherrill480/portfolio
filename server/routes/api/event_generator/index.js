@@ -13,7 +13,10 @@ router.get('/', util.userIsLoggedIn, function (req, res, next) {
     );
 });
 
-router.post('/', util.userIsLoggedIn, function (req, res, next) {
+router.post('/', function (req, res, next) {
+    console.log('got request from', req.user);
+    next();
+}, util.userIsLoggedIn, function (req, res, next) {
     const receivedEventGenerator = req.body,
         userId = req.user._id;
     util.queryResponse(

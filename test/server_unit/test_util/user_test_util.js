@@ -30,6 +30,61 @@ const User = require('../../../server/db/model/user/user_model'),
         }
     };
 
+//login as user through passed agent and then return db object of testUser
+function loginAsTestUser(testUser, agent) {
+    return new Promise(function (resolve, reject) {
+        agent
+            .post('/api/auth/login')
+            .set('Accept', 'application/json')
+            .send({
+                username: testUser.email,
+                password: testUser.password
+            })
+            // .expect(200)
+            .expect(function (req) {
+                console.log('loginAsTestUser', req.body)
+            })
+            .end(function (err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    userAPI
+                        .findUserByEmail(testUser.email)
+                        .then(function (user) {
+                            if(user) {
+                                resolve(user);
+                            } else {
+                                reject('findUserByEmail returned null!');
+                            }
+                        })
+                        .then(resolve)
+                        .catch(reject);
+                }
+            });
+    });
+}
+
+function generateTestUser() {
+    return testUsersGen.generateTestUser()
+}
+
+function generateAndSaveTestUser() {
+    return userAPI.createUser(generateTestUser());
+}
+
+function createAndLoginAsTestUser(agent) {
+    return new Promise(function (resolve, reject) {
+        const testUser = generateTestUser();
+        userAPI.createUser(testUser)
+            .then(function () {
+                loginAsTestUser(testUser, agent)
+                    .then(resolve)
+                    .catch(reject)
+            })
+            .catch(reject);
+    });
+}
+
 module.exports = {
     testUsers: {
         // keep usernames unique
@@ -52,17 +107,6 @@ module.exports = {
         }
     },
     
-    cleanUpAsyncUsers() {
-        return User.remove({}).exec();
-    },
-    
-    generateTestUser() {
-        return testUsersGen.generateTestUser()
-    },
-    
-    generateAndSaveTestUser() {
-        return userAPI.createUser(this.generateTestUser());
-    },
     
     // target is usually a generated user
     expectUser(user, target, options) {
@@ -85,34 +129,14 @@ module.exports = {
         }
     },
     
-    //login as user through passed agent and then return db object of testUser
-    loginAsTestUser(testUser, agent) {
-        return new Promise(function (resolve, reject) {
-            agent
-                .post('/api/auth/login')
-                .set('Accept', 'application/json')
-                .send({
-                    username: testUser.email,
-                    password: testUser.password
-                })
-                .end(function (err) {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        userAPI
-                            .findUserByEmail(testUser.email)
-                            .then(function (user) {
-                                if(user) {
-                                    resolve(user);
-                                } else {
-                                    reject('findUserByEmail returned null!');
-                                }
-                            })
-                            .then(resolve)
-                            .catch(reject);
-                    }
-                });
-        });
-    }
+    generateTestUser: generateTestUser,
+
+    generateAndSaveTestUser: generateAndSaveTestUser,
+    
+    loginAsTestUser: loginAsTestUser,
+    
+    createAndLoginAsTestUser: createAndLoginAsTestUser
+    
+
 };
 

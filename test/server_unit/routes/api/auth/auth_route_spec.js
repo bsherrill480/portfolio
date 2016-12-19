@@ -27,20 +27,6 @@ function expectUserToBeLoggedOut(request, done) {
 describe('auth route userID route', function () {
     it('should send an empty if one is not logged in', function (done) {
         expectUserToBeLoggedOut(request(app), done);
-        // request(app)
-        //     .get(authRoute + 'userId')
-        //     .set('Accept', 'application/json')
-        //     .expect(200)
-        //     .expect(function (res) {
-        //         expect(res.body._id).toBe('');
-        //     })
-        //     .end(function (err) {
-        //         if (err) {
-        //             done.fail(err);
-        //         } else {
-        //             done();
-        //         }
-        //     });
     });
 
     it('should send a userId if one is logged in', function (done) {
