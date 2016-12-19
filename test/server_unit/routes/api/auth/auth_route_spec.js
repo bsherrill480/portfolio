@@ -47,7 +47,6 @@ describe('auth route userID route', function () {
                     });
             })
             .catch(done.fail);
-
     });
 });
 

@@ -48,6 +48,7 @@
     "build": "cross-env NODE_ENV=production ./node_modules/.bin/gulp prod",
     "deploy": "cross-env NODE_ENV=production ./node_modules/.bin/gulp deploy",
     "test": "cross-env NODE_ENV=test ./node_modules/.bin/gulp test",
+    "serverTest": "cross-env NODE_ENV=test ./node_modules/.bin/gulp server_unit",
     "protractor": "cross-env NODE_ENV=test ./node_modules/.bin/gulp protractor",
     "unit": "cross-env NODE_ENV=test ./node_modules/.bin/gulp unit",
     "start": "export NODE_ENV=staging && node ./server/index.js"
