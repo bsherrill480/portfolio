@@ -14,6 +14,7 @@ describe('test db', function () {
             .getTestUserId(u1)
             .then(function (user) {
                 userTestUtil.expectUser(user, u1);
+                done();
             })
             .catch(failIfErr);
     });

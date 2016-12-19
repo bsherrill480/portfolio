@@ -16,14 +16,15 @@ const User = require('../../../server/db/model/user/user_model'),
             const testUserStr = String(this._testUser);
             this._testUser++;
             return {
-                username: testUserStr,
-                password: testUserStr,
-                firstName: testUserStr,
-                lastName: testUserStr,
                 email: testUserStr + '@' + testUserStr + '.com',
+                password: testUserStr,
                 facebook: {
                     id: testUserStr,
                     token: testUserStr
+                },
+                google: {
+                    id: testUserStr,
+                    accessToken: testUserStr
                 }
             }
         }
@@ -33,20 +34,21 @@ module.exports = {
     testUsers: {
         // keep usernames unique
         u1: {
-            username: 'a',
-            password: 'a',
-            firstName: 'a',
-            lastName: 'a',
             email: 'a' + '@' + 'a' + '.com',
+            password: 'a',
             facebook: {
                 id: 'a',
                 token: 'a'
+            },
+            google: {
+                id: 'a',
+                accessToken: 'a'
             }
 
         },
         
         getTestUserId: function (testUser) {
-            return userAPI.findUserByEmail(testUser.username);
+            return userAPI.findUserByEmail(testUser.email);
         }
     },
     
@@ -64,20 +66,22 @@ module.exports = {
     
     // target is usually a generated user
     expectUser(user, target, options) {
-        const ignoreFacebook = _.get(options, 'ignoreFacebook');
+        const ignoreFacebook = _.get(options, 'ignoreFacebook'),
+            ignoreGoogle = _.get(options, 'ignoreGoogle');
         expect(user).toBeTruthy();
-        expect(user.username).toBe(target.username);
+        expect(user.email).toBe(target.email);
         expect(user.isValidPassword(target.password)).toBeTruthy();
         expect(user.isValidPassword('foobar')).toBeFalsy();
-        expect(user.firstName).toBe(target.firstName);
-        expect(user.lastName).toBe(target.lastName);
-        expect(user.email).toBe(target.email);
         expect(user.updatedAt).toBeDefined();
         expect(user.createdAt).toBeDefined();
         expect(user._id).toBeDefined();
         if(!ignoreFacebook) {
             expect(user.facebook.id).toBe(target.facebook.id);
             expect(user.facebook.token).toBe(target.facebook.token);
+        }
+        if(!ignoreGoogle) {
+            expect(user.google.id).toBe(target.google.id);
+            expect(user.google.accessToken).toBe(target.google.accessToken);
         }
     },
     
@@ -88,7 +92,7 @@ module.exports = {
                 .post('/api/auth/login')
                 .set('Accept', 'application/json')
                 .send({
-                    username: testUser.username,
+                    username: testUser.email,
                     password: testUser.password
                 })
                 .end(function (err) {
@@ -96,7 +100,7 @@ module.exports = {
                         reject(err);
                     } else {
                         userAPI
-                            .findUserByEmail(testUser.username)
+                            .findUserByEmail(testUser.email)
                             .then(function (user) {
                                 if(user) {
                                     resolve(user);
