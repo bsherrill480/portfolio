@@ -9,7 +9,6 @@ const express = require('express'),
     OAuth2 = google.auth.OAuth2;
 
 function userIsGoogleUser(req, res, next) {
-    console.log('user', req.user);
     if(req.user.google.id && req.user.google.accessToken) {
         next();
     } else {
@@ -36,14 +35,11 @@ router.get('/google_events', util.userIsLoggedIn, userIsGoogleUser, function (re
         orderBy: 'startTime'
     }, function (err, response) {
         if(err) {
-            console.log('err1', err);
             util.errorResponse(res, 500, err);
             return;
         }
         const events = response.items;
-        if(events.length == 0) {
-            console.log('no upcoming events');
-        } else {
+        if(events.length != 0) {
             console.log('upcoming events');
             for (var i = 0; i < events.length; i++) {
                 var event = events[i];

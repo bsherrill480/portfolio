@@ -12,12 +12,10 @@ let PassportLocalStategy = require('passport-local'),
     googleStrategy;
 
 serializeUser = function (user, done) {
-    console.log('deserialize user', user);
     done(null, user._id);
 };
 
 deserializeUser = function (id, done) {
-    console.log('serialize user', id);
     userAPI
         .findUserById(id)
         .then(function (returnedUser) {
@@ -37,10 +35,8 @@ localStrategy = new PassportLocalStategy(
         .findUserByEmail(email)
         .then(function(user) {
             if (!user || !user.isValidPassword(password)) {
-                console.log('failed: ', user, user.isValidPassword(password));
                 done(null, false);
             } else {
-                console.log('successs: ', user);
                 done(null, user);
             }
         })
@@ -63,9 +59,7 @@ facebookStrategy = new FacebookStrategy({
             fbId = profile.id,
             email;
         email = emails[0] ? emails[0].value : '';
-        console.log('facebookStrat', email, fbId);
         if(email && fbId) {
-            console.log('Gonna create this user', email, fbId);
             userAPI
                 .findOrCreate({
                     email: email,
@@ -99,13 +93,8 @@ googleStrategy = new GoogleStrategy({
         let emails = profile.emails, // for simplicity sake we'll just take the first email
             id = profile.id,
             email;
-        console.log('accessToken', accessToken);
-        console.log('refreshToken', refreshToken);
-        console.log('google profile', profile);
         email = emails[0] ? emails[0].value : '';
-        console.log('googleStrat', email, id);
         if(email && id) {
-            console.log('Gonna create this user', email, id);
             userAPI
                 .findOrCreate({
                     email: email,

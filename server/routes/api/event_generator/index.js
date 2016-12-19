@@ -27,7 +27,6 @@ router.put('/:eventGeneratorId', util.userIsLoggedIn, function (req, res, next) 
     const receivedEventGenerator = req.body,
         eventGeneratorId = req.params.eventGeneratorId,
         updateCallback = function() {
-            console.log('update callback', eventGeneratorId, receivedEventGenerator);
             util.queryResponse(
                 res,
                 eventGeneratorAPI.updateEventGenerator(eventGeneratorId, receivedEventGenerator)

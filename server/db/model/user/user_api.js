@@ -17,7 +17,6 @@ module.exports = {
     },
 
     findUserByEmail(email) {
-        console.log('find user: ', email);
         return User.findOne({email}).exec();
     },
 

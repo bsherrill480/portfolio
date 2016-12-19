@@ -18,6 +18,6 @@ describe('envs', function () {
 
     it('will throw error for unknown env', function () {
         expect(() => {getConfig('foo')}).toThrow(new Error('Env not found for foo'))
-    })
+    });
 
 });

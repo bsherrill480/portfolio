@@ -36,19 +36,12 @@ function loginUserIsValid(user) {
 router.post('/login', passport.authenticate('local'), function (req, res, next) {
     const user = req.user;
     if(loginUserIsValid(user)) {
-        console.log('valid user');
         apiUtil.formatUserResponse(user);
         res.json(user);
     } else {
-        console.log('invalid user');
         apiUtil.badParamsJsonResponse(res);
     }
 });
-
-// router.post('/login',  function (req, res, next) {
-//     console.log('req!', req.body);
-//     res.status(420).send()
-// });
 
 router.post('/logout', function (req, res, next) {
     req.logout();
@@ -58,12 +51,15 @@ router.post('/logout', function (req, res, next) {
 router.post('/register', function (req, res, next) {
     let user = req.body,
         loginUser = getLoginUserThenSendResponseCallback(req, res);
+    console.log('got request');
     if(registerUserIsValid(user)) {
+        console.log('userIsValid')
         emailTaken(user)
             .then(function (isEmailTaken) {
                 if(isEmailTaken) {
                     apiUtil.errorResponse(res, 409, 'Email taken.')
                 } else {
+                    console.log('create user!')
                     userAPI
                         .createUser(user)
                         .then(loginUser)

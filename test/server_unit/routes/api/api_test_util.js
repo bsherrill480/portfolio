@@ -14,5 +14,7 @@ module.exports = {
         expect(user.updatedAt).toBeDefined();
         expect(user.createdAt).toBeDefined();
         expect(user._id).toBeDefined();
-    }
+    },
+    
+    badParams: 'Bad Params'
 };

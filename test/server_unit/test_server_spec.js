@@ -1,8 +1,7 @@
 /**
  * Created by brian on 12/4/16.
  */
-const models = require('../../server/db/model/models'),
-    userTestUtil = require('./test_util/user_test_util'),
+const userTestUtil = require('./test_util/user_test_util'),
     asyncUtil = require('./test_util/async_util');
 
 
