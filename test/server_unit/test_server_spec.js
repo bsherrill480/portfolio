@@ -11,7 +11,7 @@ describe('test db', function () {
             ev1Cpy = _.extend({}, eventGeneratorTestUtil.testEventGenerators.eg1),
             failIfErr = asyncUtil.getFailIfErrCallback(done);
         userTestUtil.testUsers
-            .getTestUserId(u1)
+            .getTestUser(u1)
             .then(function (user) {
                 userTestUtil.expectUser(user, u1);
                 modelAPIs.eventGeneratorAPI

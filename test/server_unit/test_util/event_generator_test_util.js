@@ -1,6 +1,21 @@
 const _ = require('lodash'),
+    Promise = require('bluebird'),
+    userTestUtil = require('./user_test_util'),
+    models = require('../../../server/db/model/models'),
     eventGeneratorConsts =
         require('../../../server/db/model/event_generator/event_generator_consts'),
+    testEventGenerators = {
+        // keep question unique
+        eg1: {
+            _user: null,
+            question: 'a',
+            date: new Date(0),
+            intervalYear: 1,
+            intervalMonth: 0,
+            intervalDay: 0,
+            generatorType: eventGeneratorConsts.HOMEOWNER
+        }
+    },
     testEventGeneratorGen = {
         _testGenerator: 0,
         
@@ -24,20 +39,24 @@ function generateEventGenerator(generatorType) {
     return testEventGeneratorGen.generateEventGenerator(generatorType);
 }
 
-module.exports = {
-    testEventGenerators: {
-        // keep question unique
-        eg1: {
-            _user: null,
-            question: 'a',
-            date: new Date(0),
-            intervalYear: 1,
-            intervalMonth: 0,
-            intervalDay: 0,
-            generatorType: eventGeneratorConsts.HOMEOWNER
-        }
-    },
+function getEventGeneratorsForTestUser(testUser) {
+    return new Promise(function(resolve, reject) {
+        userTestUtil.testUsers.getTestUser(testUser)
+            .then(function (user) {
+                models.eventGeneratorAPI.findAllEventGeneratorsForUser(user._id)
+                    .then(function (eventGenerators) {
+                        resolve(eventGenerators)
+                    })
+                    .catch(reject)
+            })
+            .catch(reject);
+    });
+}
 
+module.exports = {
+
+    testEventGenerators: testEventGenerators,
+    
     // target is usually a generated user
     expectEventGenerator(eventGenerator, target, options) {
         const isServerResponse = _.get(options, 'isServerResponse');
@@ -58,6 +77,9 @@ module.exports = {
         expect(eventGenerator._id).toBeDefined();
     },
     
-    generateEventGenerator: generateEventGenerator
+    generateEventGenerator: generateEventGenerator,
+    
+    getEventGeneratorsForTestUser: getEventGeneratorsForTestUser
+    
 };
 

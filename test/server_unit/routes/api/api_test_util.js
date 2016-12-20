@@ -30,5 +30,14 @@ module.exports = {
             .end(errIfErrElseDone(done))
     },
     
+    expectFailsIfNotOwner(request, done) {
+        request
+            .expect(403)
+            .expect(function (res) {
+                expect(res.body.error).toBe('Forbidden');
+            })
+            .end(errIfErrElseDone(done))
+    },
+    
     errIfErrElseDone
 };

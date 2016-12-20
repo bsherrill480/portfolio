@@ -1,9 +1,4 @@
-/**
- * Created by brian on 12/2/16.
- */
-
-const User = require('../../../server/db/model/user/user_model'),
-    models = require('../../../server/db/model/models'),
+const models = require('../../../server/db/model/models'),
     userAPI = models.userAPI,
     _ = require('lodash'),
     Promise = require('bluebird'),
@@ -39,10 +34,6 @@ function loginAsTestUser(testUser, agent) {
             .send({
                 username: testUser.email,
                 password: testUser.password
-            })
-            // .expect(200)
-            .expect(function (req) {
-                console.log('loginAsTestUser', req.body)
             })
             .end(function (err) {
                 if (err) {
@@ -102,7 +93,7 @@ module.exports = {
 
         },
         
-        getTestUserId: function (testUser) {
+        getTestUser: function (testUser) {
             return userAPI.findUserByEmail(testUser.email);
         }
     },
