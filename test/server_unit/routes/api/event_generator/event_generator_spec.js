@@ -223,14 +223,14 @@ describe('event generator api delete', function () {
                 // we're using test user u1, who was set up with 1 event generator
                 const eventGenerator = eventGenerators[0];
                 apiTestUtil.expectFailsIfNotLoggedIn(
-                    request(app).put(eventGeneratorRoute + eventGenerator._id.toString()),
+                    request(app).delete(eventGeneratorRoute + eventGenerator._id.toString()),
                     done
                 );
             })
             .catch(done.fail);
     });
 
-     it('should fail if trying to edit someone else\'s', function (done) {
+     it('should fail if trying to delete someone else\'s', function (done) {
         eventGeneratorTestUtil.getEventGeneratorsForTestUser(userTestUtil.testUsers.u1)
             .then(function (eventGenerators) {
                 // we're using test user u1, who was set up with 1 event generator
@@ -239,7 +239,7 @@ describe('event generator api delete', function () {
                 userTestUtil.createAndLoginAsTestUser(agent)
                     .then(function () {
                         apiTestUtil.expectFailsIfNotOwner(
-                            agent.put(eventGeneratorRoute + eventGenerator._id.toString()),
+                            agent.delete(eventGeneratorRoute + eventGenerator._id.toString()),
                             done
                         );                       
                     })
