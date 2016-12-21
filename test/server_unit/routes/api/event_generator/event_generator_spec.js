@@ -3,8 +3,6 @@ const request = require('supertest'),
     eventGeneratorConsts =
         require('../../../../../server/db/model/event_generator/event_generator_consts'),
     models = require('../../../../../server/db/model/models'),
-    userAPI = models.userAPI,
-    asyncUtil = require('../../../test_util/async_util'),
     userTestUtil = require('../../../test_util/user_test_util'),
     eventGeneratorTestUtil = require('../../../test_util/event_generator_test_util'),
     apiTestUtil = require('../api_test_util'),
