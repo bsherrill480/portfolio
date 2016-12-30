@@ -62,7 +62,8 @@ function EventGeneratorService($http, $q) {
                           intervalYear: 0,
                           intervalMonth: 0,
                           intervalDay: 0,
-                          generatorType: HOMEOWNER
+                          generatorType: HOMEOWNER,
+                          isReoccurring: true
                       },
                       {
                           isSet: false,
@@ -72,7 +73,8 @@ function EventGeneratorService($http, $q) {
                           intervalYear: 0,
                           intervalMonth: 0,
                           intervalDay: 0,
-                          generatorType: HOMEOWNER
+                          generatorType: HOMEOWNER,
+                          isReoccurring: true
                       }
                   ]
               },
@@ -88,7 +90,8 @@ function EventGeneratorService($http, $q) {
                           intervalYear: 0,
                           intervalMonth: 0,
                           intervalDay: 0,
-                          generatorType: CAR_OWNER
+                          generatorType: CAR_OWNER,
+                          isReoccurring: true
                       },
                       {
                           isSet: false,
@@ -98,34 +101,37 @@ function EventGeneratorService($http, $q) {
                           intervalYear: 0,
                           intervalMonth: 0,
                           intervalDay: 0,
-                          generatorType: CAR_OWNER
+                          generatorType: CAR_OWNER,
+                          isReoccurring: true
                       }
                   ]
               },
-               {
-                   name: 'Medicine taker',
-                   isSet: false,
-                   eventGenerators: [
-                       {
-                           isSet: false,
-                           question: 'Get A refill of my prescription',
-                           date: null,
-                           intervalYear: 0,
-                           intervalMonth: 0,
-                           intervalDay: 0,
-                           generatorType: MEDICINE_TAKER
-                       },
-                       {
-                           isSet: false,
-                           question: 'Have my tires changed',
-                           date: new Date(2016, 12, 31),
-                           intervalYear: 0,
-                           intervalMonth: 0,
-                           intervalDay: 0,
-                           generatorType: MEDICINE_TAKER
-                       }
-                   ]
-               }
+              {
+                  name: 'Medicine taker',
+                  isSet: false,
+                  eventGenerators: [
+                      {
+                          isSet: false,
+                          question: 'Get A refill of my prescription',
+                          date: null,
+                          intervalYear: 0,
+                          intervalMonth: 0,
+                          intervalDay: 0,
+                          generatorType: MEDICINE_TAKER,
+                          isReoccurring: true
+                      },
+                      {
+                          isSet: false,
+                          question: 'Have my tires changed',
+                          date: new Date(2016, 12, 31),
+                          intervalYear: 0,
+                          intervalMonth: 0,
+                          intervalDay: 0,
+                          generatorType: MEDICINE_TAKER,
+                          isReoccurring: true
+                      }
+                  ]
+              }
 
           ]);
           return deferred.promise;
@@ -162,7 +168,7 @@ function EventGeneratorService($http, $q) {
           });
       },
       
-       deleteEventGenerator: function (eventGeneratorId) {
+      deleteEventGenerator: function (eventGeneratorId) {
           return $http({
               method: 'DELETE',
               url: '/api/event_generator/' + eventGeneratorId

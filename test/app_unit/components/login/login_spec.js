@@ -37,33 +37,15 @@ describe('Unit: Login Component', function() {
             password: ''
         });
     });
-    //
-    // it('should call login and go home if success', function () {
-    //     const ctrl = $componentController('login', null, {}),
-    //         deferred = $q.defer();
-    //     deferred.resolve();
-    //     spyOn(UserAuthService, 'login').and.returnValue(deferred.promise);
-    //     ctrl.login({
-    //         email: 'foo@bar.com',
-    //         password: 'foo'
-    //     });
-    //     expect(UserAuthService.login).toHaveBeenCalled();
-    // });
 
-    it('should call login and go home if success', function (done) {
+    it('should call login and go home if success', function () {
         const
-            deferredPromise = $q(function (resolve, reject) {
-                console.log('////////////////')
-                console.log('resolve promise!')
-                console.log('////////////////')
-                resolve('foo');
-            }).then(function (foobar) {
-                console.log('foobar', foobar);
-            }),
             locals = {
                 UserAuthService: {
                     login: function () {
-                        return deferredPromise;
+                        return $q(function (resolve) {
+                            resolve('foo');
+                        });
                     }
                 },
                 $state: {
@@ -71,24 +53,40 @@ describe('Unit: Login Component', function() {
                 }
             },
             ctrl = $componentController('login', locals, {});
-        // spyOn(locals.UserAuthService, 'login').and.callThrough();
-        // spyOn(locals.$state, 'go');
-        console.log('===========================');
-        console.log('===========================');
-        deferredPromise
-            .then(function (foo) {
-                console.log('FOO', foo);
-                done();
-            })
-            .catch(function (bar) {
-                console.log('BAR', bar);
-                done();
-            });
-        console.log('rootScrope', $rootScope);
-        $rootScope.$apply();
-        // ctrl.login({
-        //     email: 'foo@bar.com',
-        //     password: 'foo'
-        // });
+        spyOn(locals.UserAuthService, 'login').and.callThrough();
+        spyOn(locals.$state, 'go');
+        ctrl.login({
+            email: 'foo@bar.com',
+            password: 'foo'
+        });
+        $rootScope.$apply(); // force $q promise to evaluate
+        expect(locals.UserAuthService.login).toHaveBeenCalled();
+        expect(locals.$state.go).toHaveBeenCalledWith('Home');
+    });
+
+    it('should call alert if login failed', function () {
+        const
+            locals = {
+                UserAuthService: {
+                    login: function () {
+                        return $q(function (resolve, reject) {
+                            reject('foo');
+                        });
+                    }
+                },
+                ResponseService: {
+                    alertResponseError: function () {}
+                }
+            },
+            ctrl = $componentController('login', locals, {});
+        spyOn(locals.UserAuthService, 'login').and.callThrough();
+        spyOn(locals.ResponseService, 'alertResponseError');
+        ctrl.login({
+            email: 'foo@bar.com',
+            password: 'foo'
+        });
+        $rootScope.$apply(); // force $q promise to evaluate
+        expect(locals.UserAuthService.login).toHaveBeenCalled();
+        expect(locals.ResponseService.alertResponseError).toHaveBeenCalled();
     });
 });

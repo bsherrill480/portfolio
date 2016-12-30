@@ -19,6 +19,7 @@ function myEventsEventGeneratorCmpnt() {
         controller: MyEventsEventGeneratorCtrl,
         bindings: {
             eventGenerator: '<',
+            showPast: '<',
             onDelete: '&'
         }
     }

@@ -9,6 +9,10 @@
     margin-bottom: 1em;
 }
 
+.bot-spacing-half {
+    margin-bottom: 0.5em;
+}
+
 .left-spacing {
     margin-left: 1em;
 }
@@ -123,4 +127,20 @@
     color: #fff;
     background-color: #3b5998;
     border-color: rgba(0, 0, 0, 0.2);
+}
+
+$suggestion-spacing: 1em;
+
+.suggestion-event-generator {
+    .suggestion-event-generator__question {
+        margin-left: $suggestion-spacing;
+    }
+
+    .suggestion-event-generator__options {
+        margin-left: 2 * $suggestion-spacing;
+    }
+}
+
+.inputs-inline-block .form-control {
+    display: inline-block;
 }

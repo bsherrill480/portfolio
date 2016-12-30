@@ -1,77 +1,72 @@
-<div>
-    <div class="row">
-        <div class="col-sm-12 left-spacing">
-            <div class="flex flex--vert-mid">
-                <input class="no-margin" type="checkbox" ng-model="$ctrl.eventGenerator.isSet">
-                <input ng-show="$ctrl.editQuestion && $ctrl.eventGenerator.isSet"
-                       class="left-spacing form-control input-sm"
-                       ng-model="$ctrl.eventGenerator.question">
-                </input>
-                <span ng-show="!$ctrl.editQuestion  || !$ctrl.eventGenerator.isSet"
-                      class="left-spacing">
-                    {{$ctrl.eventGenerator.question}}&nbsp;
-                </span>
+<div class="suggestion-event-generator__question bot-spacing">
+    <div class="flex flex--vert-mid">
+        <input class="no-margin" type="checkbox" ng-model="$ctrl.eventGenerator.isSet">
 
-                <button class="btn btn-default"
-                        ng-show="$ctrl.eventGenerator.isSet"
-                        ng-class="$ctrl.editQuestion ? 'btn-sm' : 'btn-xs'"
-                        ng-click="$ctrl.invertEditQuestion()">
-                    <i class="glyphicon"
-                       ng-class="$ctrl.editQuestion ? 'glyphicon-check' : 'glyphicon-pencil'">
-                    </i>
-                </button>
+        <input ng-show="$ctrl.editQuestion && $ctrl.eventGenerator.isSet"
+               class="left-spacing form-control input-sm"
+               ng-model="$ctrl.eventGenerator.question">
+        </input>
+
+        <span ng-show="!$ctrl.editQuestion  || !$ctrl.eventGenerator.isSet"
+              class="left-spacing">
+            {{$ctrl.eventGenerator.question}}&nbsp;
+        </span>
+
+        <button class="btn btn-default"
+                ng-show="$ctrl.eventGenerator.isSet"
+                ng-class="$ctrl.editQuestion ? 'btn-sm' : 'btn-xs'"
+                ng-click="$ctrl.invertEditQuestion()">
+            <i class="glyphicon"
+               ng-class="$ctrl.editQuestion ? 'glyphicon-check' : 'glyphicon-pencil'">
+            </i>
+        </button>
+    </div>
+</div>
+
+<div uib-collapse="!$ctrl.eventGenerator.isSet" class="suggestion-event-generator__options">
+    <div class="form-inline bot-spacing">
+        <div class="form-group form-group-sm"
+             ng-class="$ctrl.eventGenerator.uiDate ? '' : 'has-error'">
+            <label class="control-label">Last/Next date of event: </label>
+
+            <div class="input-group input-group-sm">
+                <input type="text" class="form-control"
+                       ng-model="$ctrl.eventGenerator.uiDate"
+                       uib-datepicker-popup="MM/dd/yyyy"
+                       is-open="$ctrl.pickerOpen"
+                >
+
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default"
+                            ng-click="$ctrl.openPicker()"
+                    >
+                        <i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
             </div>
         </div>
     </div>
-    <div uib-collapse="!$ctrl.eventGenerator.isSet">
-        <div class="row">
-            <div class="col-sm-12 left-spacing-2">
-                <div class="form-inline">
-                    <div class="form-group form-group-sm right-spacing"
-                         ng-class="$ctrl.eventGenerator.uiDate ? '' : 'has-error'">
-                        <label class="control-label">Last/Next date of event: </label>
-                        <div class="input-group input-group-sm">
-                            <input type="text" class="form-control"
-                                   ng-model="$ctrl.eventGenerator.uiDate"
-                                   uib-datepicker-popup="MM/dd/yyyy"
-                                   is-open="$ctrl.pickerOpen"
-                            >
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-default"
-                                        ng-click="$ctrl.openPicker()"
-                                >
-                                    <i class="glyphicon glyphicon-calendar"></i></button>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group form-group-sm right-spacing">
-                        <label>Interval</label>
-                        <span ng-show="!$ctrl.editInterval" class="left-spacing">
-                            {{$ctrl.eventGenerator.intervalYear}} year,
-                            {{$ctrl.eventGenerator.intervalMonth}} month,
-                            {{$ctrl.eventGenerator.intervalDay}} day
-                        </span>
-                        <span ng-show="$ctrl.editInterval">
-                            Year: <input type="number" class="form-control small-number-input"
-                                        min="0"
-                                   max="99" ng-model="$ctrl.eventGenerator.intervalYear">
-                            Month: <input type="number" class="form-control small-number-input"
-                                        min="0"
-                                   max="99" ng-model="$ctrl.eventGenerator.intervalMonth">
-                            Day: <input type="number" class="form-control small-number-input"
-                                        min="0"
-                                   max="99" ng-model="$ctrl.eventGenerator.intervalDay">
-                        </span>
-                        <button class="btn btn-default"
-                                ng-class="$ctrl.editInterval ? 'btn-sm' : 'btn-xs'"
-                                ng-click="$ctrl.invertEditInterval()">
-                            <i class="glyphicon"
-                               ng-class="$ctrl.editInterval ? 'glyphicon-check' : 'glyphicon-pencil'">
-                            </i>
-                        </button>
-                    </div>
-                </div>
-            </div>
+
+    <div class="form-group form-group-sm">
+        <div class="flex flex--vert-mid bot-spacing-half">
+            <span class="right-spacing">
+                Reoccurring
+            </span>
+
+            <input type="checkbox" ng-model="$ctrl.eventGenerator.isReoccurring" class="no-margin">
+        </div>
+
+        <div class="left-spacing">
+            <span ng-show="$ctrl.eventGenerator.isReoccurring" class="inputs-inline-block">
+                Year: <input type="number" class="form-control small-number-input"
+                             min="0"
+                             max="99" ng-model="$ctrl.eventGenerator.intervalYear">
+                Month: <input type="number" class="form-control small-number-input"
+                              min="0"
+                              max="99" ng-model="$ctrl.eventGenerator.intervalMonth">
+                Day: <input type="number" class="form-control small-number-input"
+                            min="0"
+                            max="99" ng-model="$ctrl.eventGenerator.intervalDay">
+            </span>
         </div>
     </div>
 </div>

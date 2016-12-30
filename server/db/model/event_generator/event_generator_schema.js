@@ -8,6 +8,7 @@ const mongoose = require('mongoose'),
         intervalYear: {type: Number, required: true},
         intervalMonth: {type: Number, required: true},
         intervalDay: {type: Number, required: true},
+        isReoccurring: {type: Boolean, default: false},
         generatorType: {type:String, enum: eventGeneratorConsts.EVENT_GENERATOR_TYPES}
     }, {
         timestamps: true

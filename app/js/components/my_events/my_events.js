@@ -44,17 +44,21 @@ function MyEventsCtrl(EventGeneratorService) {
     'ngInject';
     const $ctrl = this,
         generatorTypes = EventGeneratorService.getGeneratorTypes();
-    $ctrl.$onInit = function () {
-        $ctrl.eventGeneratorsTopics = [];
-        EventGeneratorService
-            .getEventGeneratorsForUser()
-            .then(function (eventGenerators) {
-                $ctrl.topics = createEventGeneratorsTopics(
-                    generatorTypes,
-                    eventGenerators
-                )
-            });
-    }
+
+    $ctrl.showPast = false;
+
+    $ctrl.eventGeneratorsTopics = [];
+    EventGeneratorService
+        .getEventGeneratorsForUser()
+        .then(function (eventGenerators) {
+            $ctrl.topics = createEventGeneratorsTopics(
+                generatorTypes,
+                eventGenerators
+            )
+        })
+        .catch(function (err) {
+            console.log('err', err);
+        });
 }
 
 function myEventsCmpnt() {

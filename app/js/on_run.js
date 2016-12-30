@@ -3,19 +3,19 @@ function hasPermission(isLoggedIn, toStateName, event, $state) {
         event.preventDefault(); // stop current execution
         $state.go('Home');
     } else if (!isLoggedIn && (toStateName !== 'Login' || toStateName !== 'Register')) {
-        $state.go(toStateName);
+        event.preventDefault(); // stop current execution
+        $state.go('Login');
     }
 }
 
 function OnRun($rootScope, AppSettings, UserAuthService, $state) {
     'ngInject';
 
-    // UserAuthService.fetchIsLoggedIn();
-
     $rootScope.$on('$stateChangeSuccess', (event, toState) => {
         const toStateName = toState.name,
             isLoggedIn = UserAuthService.isLoggedIn();
         $rootScope.pageTitle = '';
+        console.log('isLoggedIn', isLoggedIn);
 
 
         if (toState.title) {

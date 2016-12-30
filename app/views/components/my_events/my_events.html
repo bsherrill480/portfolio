@@ -7,8 +7,14 @@
         </div>
     </div>
     <div class="container">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" ng-model="$ctrl.showPast">
+                Show past events
+            </label>
+        </div>
         <ng-repeat ng-repeat="topic in $ctrl.topics">
-            <my-events-topic topic="topic"></my-events-topic>
+            <my-events-topic topic="topic" show-past="$ctrl.showPast"></my-events-topic>
         </ng-repeat>
     </div>
 </app-page>
