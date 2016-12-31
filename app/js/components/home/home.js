@@ -4,15 +4,22 @@
 function HomeCtrl(UserAuthService) {
     'ngInject';
     const $ctrl = this;
+    UserAuthService.getUserId()
+        .then(function (userId) {
+            $ctrl.isLoggedIn = userId;
+        })
+        .catch(function (err) {
+            console.log('HomeCtrl UserAuthService.getUserId err', err);
+        });
     this.$onInit = function () {
-        $ctrl.isLoggedIn = UserAuthService.isLoggedIn();
-        if(!$ctrl.isLoggedIn) {
-            UserAuthService
-                .fetchIsLoggedIn()
-                .then(function () {
-                    $ctrl.isLoggedIn = UserAuthService.isLoggedIn();
-                })
-        }
+        // $ctrl.isLoggedIn = UserAuthService.isLoggedIn();
+        // if(!$ctrl.isLoggedIn) {
+        //     UserAuthService
+        //         .fetchIsLoggedIn()
+        //         .then(function () {
+        //             $ctrl.isLoggedIn = UserAuthService.isLoggedIn();
+        //         })
+        // }
     }
 }
 

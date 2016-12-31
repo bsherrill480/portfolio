@@ -12,10 +12,8 @@ function OnRun($rootScope, AppSettings, UserAuthService, $state) {
     'ngInject';
 
     $rootScope.$on('$stateChangeSuccess', (event, toState) => {
-        const toStateName = toState.name,
-            isLoggedIn = UserAuthService.isLoggedIn();
+        const toStateName = toState.name;
         $rootScope.pageTitle = '';
-        console.log('isLoggedIn', isLoggedIn);
 
 
         if (toState.title) {
@@ -29,15 +27,22 @@ function OnRun($rootScope, AppSettings, UserAuthService, $state) {
         if(toStateName === 'Home') {
             return;
         }
-        if(isLoggedIn) {
-            hasPermission(isLoggedIn, toStateName, event, $state)
-        } else {
-            UserAuthService
-                .fetchIsLoggedIn()
-                .then(function () {
-                    hasPermission(UserAuthService.isLoggedIn(), toStateName, event, $state);
-                });
-        }
+        UserAuthService.getUserId()
+            .then(function (userId) {
+                hasPermission(userId, toStateName, event, $state)
+            })
+            .catch(function (err) {
+                console.log('onRunErr', err);
+            });
+        // if(isLoggedIn) {
+        //     hasPermission(isLoggedIn, toStateName, event, $state)
+        // } else {
+        //     UserAuthService
+        //         .fetchIsLoggedIn()
+        //         .then(function () {
+        //             hasPermission(UserAuthService.isLoggedIn(), toStateName, event, $state);
+        //         });
+        // }
 
 
         $rootScope.pageTitle += AppSettings.appTitle;
