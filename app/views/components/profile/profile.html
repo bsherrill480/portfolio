@@ -13,6 +13,30 @@
                     <label>Email</label>
                     <input class="form-control" type="text" disabled value="{{$ctrl.user.email}}">
                 </div>
+                <div class="form-group">
+                    <label>Facebook</label>
+                    <div ng-show="$ctrl.user.isFacebookUser">
+                        Facebook account linked
+                    </div>
+                    <div ng-show="!$ctrl.user.isFacebookUser">
+                        <button class="btn btn-block btn-social btn-facebook"
+                                ng-click="$ctrl.onFacebookAuthenticate()">
+                            <span class="fa fa-facebook"></span> Connect With Account
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Facebook</label>
+                    <div ng-show="$ctrl.user.isGoogleUser">
+                        Facebook account linked
+                    </div>
+                    <div ng-show="!$ctrl.user.isGoogleUser">
+                        <button class="btn btn-block btn-social btn-google"
+                                ng-click="$ctrl.onGoogleAuthenticate()">
+                            <span class="fa fa-google"></span> Connect With Account
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

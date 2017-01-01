@@ -1,5 +1,5 @@
 const _ = require('lodash'),
-    internalUserAttributes = ['password', 'facebook'];
+    internalUserAttributes = ['password', 'facebook', 'google'];
 
 function errorResponse(res, status, message) {
     res.status(status).json({

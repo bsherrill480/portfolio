@@ -16,7 +16,6 @@ function ProfileCtrl(UserAuthService, UserService, ResponseService, $state) {
         .then(function (userId) {
             UserService.findUserById(userId)
                 .then(function (result) {
-                    console.log('result', result)
                     $ctrl.user = result;
                 })
                 .catch(function (err) {
@@ -38,6 +37,9 @@ function ProfileCtrl(UserAuthService, UserService, ResponseService, $state) {
         return allValid;
     }
 
+    $ctrl.onFacebookAuthenticate = function () {
+        window.location = '/api/auth/facebook/connect';
+    };
 
     $ctrl.profile = function(userCred) {
         if(validInputs(userCred)) {

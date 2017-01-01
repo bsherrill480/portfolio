@@ -36,11 +36,14 @@
                     </ul>
                 </li>
             </ul>
-        </div><!--/.nav-collapse -->
+        </div>
         <div ng-show="!$ctrl.isLoggedIn" class="pull-right my-hidden-lt-sm">
+            <a ui-sref="Register" class="btn btn-primary navbar-header__register-button">
+                Register
+            </a>
             <a ui-sref="Login" class="btn btn-success navbar-header__login-button">
                 Log in
             </a>
-        </div><!--/.nav-collapse -->
+        </div>
     </div>
 </div>

@@ -35,20 +35,20 @@ module.exports = {
         return User.findOne(user).exec();
     },
 
-    findOrCreate(user) {
+    findOrCreate(findUser, createUser) {
         const self = this;
         return new Promise((resolve, reject) => {
             function resolveUserIfFoundElseCreate(searchedUserResult) {
                 if(searchedUserResult) {
                     resolve(searchedUserResult);
                 } else {
-                    self.createUser(user)
+                    self.createUser(createUser)
                         .then(resolve)
                         .catch(reject)
                 }
             }
 
-            this.findUser(user)
+            this.findUser(findUser)
                 .then(resolveUserIfFoundElseCreate)
                 .catch(reject);
         });
