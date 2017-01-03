@@ -41,6 +41,10 @@ function ProfileCtrl(UserAuthService, UserService, ResponseService, $state) {
         window.location = '/api/auth/facebook/connect';
     };
 
+    $ctrl.onGoogleAuthenticate = function () {
+        window.location = '/api/auth/google/connect';
+    };
+
     $ctrl.profile = function(userCred) {
         if(validInputs(userCred)) {
             const user = {

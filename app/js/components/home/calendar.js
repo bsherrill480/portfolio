@@ -20,7 +20,13 @@ function generateEvent(eventGenerator, momentDate) {
         startsAt: momentDate.toDate(),
         endsAt: moment(momentDate).startOf('day').add(23, 'hours').add(59, 'minutes').toDate(),
         draggable: false,
-        resizeable: false
+        resizeable: false,
+        actions: [{
+            label: '<i class=\'glyphicon glyphicon-pencil\'></i>',
+            onClick: function(args) {
+                console.log('Edited', args.calendarEvent);
+            }
+        }]
     }
 }
 

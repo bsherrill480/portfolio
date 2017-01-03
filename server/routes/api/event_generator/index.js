@@ -13,6 +13,16 @@ router.get('/', util.userIsLoggedIn, function (req, res, next) {
     );
 });
 
+// Should be optimized. doing two db calls.
+router.get('/:eventGeneratorId', util.userIsLoggedIn, function (req, res, next) {
+    const eventGeneratorId = req.params.eventGeneratorId;
+    util.userIsOwnerThenRespond(
+        res,
+        req.user._id,
+        eventGeneratorAPI.findEventGeneratorById(eventGeneratorId)
+    );
+});
+
 router.post('/', function (req, res, next) {
     next();
 }, util.userIsLoggedIn, function (req, res, next) {

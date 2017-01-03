@@ -10,13 +10,13 @@ const mongoose = require('mongoose'),
         facebook: {
             id: String,
             token: String,
-            facebookEmail: {type: String, unique: true}
+            facebookEmail: {type: String}
         },
         isGoogleUser: {type: Boolean, required: true},
         google: {
             id: String,
             accessToken: String,
-            googleEmail: {type: String, unique: true}
+            googleEmail: {type: String}
         }
     }, {
         timestamps: true

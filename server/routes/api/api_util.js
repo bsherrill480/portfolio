@@ -31,6 +31,21 @@ module.exports = {
             })
             .catch(self.queryFailedCallback(res));
     },
+    
+        // calls callback if user is owner
+    userIsOwnerThenRespond(res, userId, itemPromise) {
+        const self = this;
+        itemPromise
+            .then(function (result) {
+                if(result && userId && result._user.toString() === userId.toString()) {
+                    res.json(result);
+                } else {
+                    errorResponse(res, 403, 'Forbidden');
+                }
+                return result;
+            })
+            .catch(self.queryFailedCallback(res));
+    },
 
     queryResponse(res, queryPromise) {
         let queryFailedResponse = this.queryFailedCallback(res);
