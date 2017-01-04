@@ -2,11 +2,14 @@ function hasPermission(isLoggedIn, toStateName, event, $state) {
     // if toStateName is Home, we already let them go there
     if(isLoggedIn && (toStateName === 'Login' || toStateName === 'Register')) {
         event.preventDefault(); // stop current execution
+        console.log('goHome');
         $state.go('Home');
     } else if (!isLoggedIn && toStateName !== 'Register' && toStateName !== 'Login') {
+        console.log('isLoggedIn', isLoggedIn);
+        console.log('!isLoggedIn', !isLoggedIn);
         event.preventDefault(); // stop current execution
         $state.go('Login');
-    } // else LET THEM PASS
+    } else {console.log('LET THEM PASS');}// else LET THEM PASS
 }
 
 function OnRun($rootScope, AppSettings, UserAuthService, $state) {
@@ -30,6 +33,7 @@ function OnRun($rootScope, AppSettings, UserAuthService, $state) {
         }
         UserAuthService.getUserId()
             .then(function (userId) {
+                console.log('hasPermission:', toStateName, userId);
                 hasPermission(userId, toStateName, event, $state)
             })
             .catch(function (err) {

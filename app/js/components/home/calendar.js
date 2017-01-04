@@ -1,6 +1,9 @@
 const _ = require('lodash'),
     moment = require('moment'),
     MAX_EVENTS_DATE = moment();
+
+let $stateOuter;
+
 MAX_EVENTS_DATE.add(2, 'years');
 
 function isOneOffEventGenerator(eventGenerator) {
@@ -22,9 +25,13 @@ function generateEvent(eventGenerator, momentDate) {
         draggable: false,
         resizeable: false,
         actions: [{
-            label: '<i class=\'glyphicon glyphicon-pencil\'></i>',
-            onClick: function(args) {
-                console.log('Edited', args.calendarEvent);
+            label: '',
+            onClick: function() {
+                // function takes a param, args. But I'm also calling this manually when event
+                // is clicked, so args wont always be passed
+                if(eventGenerator._id) {
+                    $stateOuter.go('ViewEvent', {eventGeneratorId: eventGenerator._id});
+                }
             }
         }]
     }
@@ -69,10 +76,11 @@ function formatGoogleEvents(events) {
     })
 }
 
-function CalendarCtrl(EventsService, $q, EventGeneratorService) {
+function CalendarCtrl(EventsService, $q, EventGeneratorService, $state) {
     'ngInject';
     const now = moment().startOf('day'),
         twoWeeksFromNow = moment(now).add(2, 'weeks').endOf('day');
+    $stateOuter = $state;
     //set now to be start of today. Set 2 weeks from now to be end of day.
 
     var vm = this;
@@ -118,6 +126,13 @@ function CalendarCtrl(EventsService, $q, EventGeneratorService) {
 
 
         vm.cellIsOpen = true;
+
+        vm.eventClicked = function(event) {
+            if(event.actions.length) {
+                // function has a closure to eventGenerator
+                event.actions[0].onClick();
+            }
+        };
 
         vm.timespanClicked = function(date, cell) {
             console.log('timespan clicked');

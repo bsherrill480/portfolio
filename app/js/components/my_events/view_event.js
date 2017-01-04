@@ -5,7 +5,7 @@ function ViewEventCtrl(EventGeneratorService, $stateParams) {
     EventGeneratorService
         .getEventGenerator($stateParams.eventGeneratorId)
         .then(function (eventGenerator) {
-            $ctrl.eventGenerator = eventGenerator
+            $ctrl.eventGenerator = eventGenerator;
         })
         .catch(function (err) {
             console.log('err', err);

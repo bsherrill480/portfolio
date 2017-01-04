@@ -45,7 +45,7 @@ function OnConfig($stateProvider, $locationProvider, $urlRouterProvider, $compil
             title: 'Profile'
         })
         .state('ViewEvent', {
-            url: 'My_Events/View_Event/:eventGeneratorId',
+            url: '/My_Events/View_Event/:eventGeneratorId',
             template: '<view-event></view-event>',
             title: 'View Event'
         })

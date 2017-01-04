@@ -1,10 +1,10 @@
 const express = require('express'),
     util = require('../api_util'),
     router = express.Router(),
-    models = require('../../../db/model/models'),
+    // models = require('../../../db/model/models'),
     getConfig = require('../../../config/get_config'),
     config = getConfig(),
-    userAPI = models.userAPI,
+    // userAPI = models.userAPI,
     google = require('googleapis'),
     OAuth2 = google.auth.OAuth2;
 
@@ -52,12 +52,12 @@ router.get('/google_events', util.userIsLoggedIn, userIsGoogleUser, function (re
 
 
 });
-
-router.put('/:userId', function (req, res, next) {
-    let receivedUser = req.body,
-        userId = req.params.userId;
-    util.removeInternalUserAttributes(receivedUser);
-    util.queryResponse(res, userAPI.updateUser(userId, receivedUser).then(util.formatUserResponse));
-});
+//
+// router.put('/:userId', function (req, res, next) {
+//     let receivedUser = req.body,
+//         userId = req.params.userId;
+//     util.removeInternalUserAttributes(receivedUser);
+//     util.queryResponse(res, userAPI.updateUser(userId, receivedUser).then(util.formatUserResponse));
+// });
 
 module.exports = router;

@@ -11,6 +11,10 @@ const HOMEOWNER = 'HOMEOWNER',
         CUSTOM
     };
 
+function prepareEventGenerator(eventGenerator) {
+    eventGenerator.date = new Date(eventGenerator.date)
+}
+
 function EventGeneratorService($http, $q) {
     'ngInject';
 
@@ -147,13 +151,15 @@ function EventGeneratorService($http, $q) {
                 return payload.data;
             });
         },
-        
-        getEventGenerator(eventGenerator) {
+
+        getEventGenerator(eventGeneratorId) {
             return $http({
                 method: 'GET',
-                url: '/api/event_generator/' + eventGenerator._id
+                url: '/api/event_generator/' + eventGeneratorId
             }).then(function (payload) {
-                return payload.data;
+                const eventGenerator = payload.data;
+                prepareEventGenerator(eventGenerator);
+                return eventGenerator;
             });
         },
 
@@ -164,7 +170,8 @@ function EventGeneratorService($http, $q) {
             }).then(function (payload) {
                 const payloadData = payload.data;
                 _.each(payloadData, function (eventGenerator) {
-                    eventGenerator.date = new Date(eventGenerator.date)
+                    prepareEventGenerator(eventGenerator);
+                    // eventGenerator.date = new Date(eventGenerator.date)
                 });
                 return payloadData;
             });
@@ -184,7 +191,7 @@ function EventGeneratorService($http, $q) {
                 url: '/api/event_generator/' + eventGeneratorId
             });
         },
-        
+
         generatorTypeToName(generatorType) {
             // could also be done with an object
             switch (generatorType) {
@@ -200,8 +207,8 @@ function EventGeneratorService($http, $q) {
                     return 'Not Found';
             }
         },
-        
-        
+
+
     }
 }
 

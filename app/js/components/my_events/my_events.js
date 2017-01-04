@@ -15,11 +15,11 @@ const _ = require('lodash');
 //     }
 // }
 
-function createEventGeneratorsTopics(EventGeneratorService, eventGenerators,) {
+function createEventGeneratorsTopics(EventGeneratorService, eventGenerators) {
     const typeToEventGeneratorList = {},
         eventGeneratorTopics = [];
     // build buckets
-    _.forOwn(generatorTypes, function (key, value) {
+    _.forOwn(EventGeneratorService.getGeneratorTypes(), function (key, value) {
         typeToEventGeneratorList[value] = [];
     });
 

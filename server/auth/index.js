@@ -67,7 +67,9 @@ facebookStrategy = new FacebookStrategy({
                         'facebook.facebookEmail': email
                     }, {
                         email: email,
-                        emailState: userConsts.VERIFIED
+                        emailState: userConsts.VERIFIED,
+                        isFacebookUser: true,
+                        isGoogleUser: false
                     })
                     .then(function (user) {
                         user.isFacebookUser = true;
@@ -113,19 +115,24 @@ googleStrategy = new GoogleStrategy({
         const emails = profile.emails, // for simplicity sake we'll just take the first email
             id = profile.id,
             email = emails[0] ? emails[0].value : '';
+        console.log('email', email);
+        console.log('accessToken', accessToken);
+        console.log('refreshToken', refreshToken);
         if(!req.user) {
             if (email && id) {
                 userAPI
                     .findOrCreate({
                         'google.googleEmail': email
                     }, {
-                        email: email
+                        email: email,
+                        isFacebookUser: false,
+                        isGoogleUser: true,
+                        emailState: userConsts.VERIFIED
                     })
                     .then(function (user) {
                         user.isGoogleUser = true;
                         user.google.accessToken = accessToken;
                         user.google.id = id;
-                        user.emailState = userConsts.VERIFIED;
                         user.save()
                             .then(function () {
                                 done(null, user);
