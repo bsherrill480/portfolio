@@ -5,7 +5,10 @@ const express = require('express'),
     userConsts = require('../../../db/model/user/user_consts'),
     apiUtil = require('../api_util'),
     passport = require('passport'),
-    googleScope = ['https://www.googleapis.com/auth/calendar.readonly', 'email'],
+    googleOptions = {
+        scope: ['https://www.googleapis.com/auth/calendar.readonly', 'email'],
+        accessType: 'offline'
+    },
     facebookScope = ['email'];
 
 function getLoginUserThenSendResponseCallback(req, res) {
@@ -113,7 +116,7 @@ router.get('/facebook/connect/callback',
 //   request.  The first step in Google authentication will involve
 //   redirecting the user to google.com.  After authorization, Google
 //   will redirect the user back to this application at /auth/google/callback
-router.get('/google', passport.authenticate('google', { scope: googleScope }));
+router.get('/google', passport.authenticate('google', googleOptions));
 
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  If authentication fails, the user will be redirected back to the
@@ -125,7 +128,7 @@ router.get('/google/callback',
     res.redirect('/');
   });
 
-router.get('/google/connect', passport.authorize('google', { scope: googleScope }));
+router.get('/google/connect', passport.authorize('google', googleOptions));
 
 router.get('/google/connect/callback',
   passport.authorize('google', { failureRedirect: '/Login' }),

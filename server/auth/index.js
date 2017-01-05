@@ -132,6 +132,10 @@ googleStrategy = new GoogleStrategy({
                     .then(function (user) {
                         user.isGoogleUser = true;
                         user.google.accessToken = accessToken;
+                        if(refreshToken) {
+                            user.google.refreshToken = refreshToken;
+                        }
+                        user.google.googleEmail = email;
                         user.google.id = id;
                         user.save()
                             .then(function () {

@@ -1,4 +1,4 @@
-function ProfileCtrl(UserAuthService, UserService, ResponseService, $state) {
+function ProfileCtrl(UserAuthService, UserService, ResponseService, $state, GoogleService) {
     'ngInject';
     const $ctrl = this,
         EMAIL_REQUIRED_MSG = 'Valid email required.',
@@ -41,9 +41,10 @@ function ProfileCtrl(UserAuthService, UserService, ResponseService, $state) {
         window.location = '/api/auth/facebook/connect';
     };
 
-    $ctrl.onGoogleAuthenticate = function () {
-        window.location = '/api/auth/google/connect';
-    };
+    $ctrl.onGoogleAuthenticate = GoogleService.googleAuth;
+    // $ctrl.onGoogleAuthenticate = function () {
+    //     window.location = '/api/auth/google/connect';
+    // };
 
     $ctrl.profile = function(userCred) {
         if(validInputs(userCred)) {

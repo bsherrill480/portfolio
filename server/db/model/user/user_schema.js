@@ -16,6 +16,7 @@ const mongoose = require('mongoose'),
         google: {
             id: String,
             accessToken: String,
+            refreshToken: String,
             googleEmail: {type: String}
         }
     }, {

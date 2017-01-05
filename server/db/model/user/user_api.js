@@ -40,8 +40,10 @@ module.exports = {
         return new Promise((resolve, reject) => {
             function resolveUserIfFoundElseCreate(searchedUserResult) {
                 if(searchedUserResult) {
+                    console.log('found user', searchedUserResult);
                     resolve(searchedUserResult);
                 } else {
+                    console.log('going to create user', createUser);
                     self.createUser(createUser)
                         .then(resolve)
                         .catch(reject)
