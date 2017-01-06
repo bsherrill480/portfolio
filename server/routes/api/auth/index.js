@@ -26,6 +26,7 @@ function getLoginUserThenSendResponseCallback(req, res) {
     };
 }
 
+// alias for findUserByEmail, reads better in code
 function emailTaken(user) {
     return userAPI.findUserByEmail(user.email)
 }
