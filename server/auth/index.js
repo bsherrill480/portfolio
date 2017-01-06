@@ -4,6 +4,7 @@ let PassportLocalStategy = require('passport-local'),
     models = require('../db/model/models'),
     userConsts = require('../db/model/user/user_consts'),
     userAPI = models.userAPI,
+    userUtil = require('../db/model/user/user_util'),
     localStrategy,
     deserializeUser,
     serializeUser,
@@ -35,10 +36,26 @@ localStrategy = new PassportLocalStategy(
     userAPI
         .findUserByEmail(email)
         .then(function(user) {
-            if (!user || !user.isValidPassword(password)) {
+            // if (!user || !user.isValidPassword(password)) {
+            //     done(null, false);
+            // } else {
+            //     done(null, user);
+            // }
+            if(!user) {
                 done(null, false);
             } else {
-                done(null, user);
+                const passwordHash = user.password;
+                userUtil.isValidPassword(password, passwordHash)
+                    .then(function (result) {
+                        if(result) {
+                            done(null, user);
+                        } else {
+                            done(null, false);
+                        }
+                    })
+                    .catch(function (err) {
+                        done(err);
+                    });
             }
         })
         .catch(function (err) {

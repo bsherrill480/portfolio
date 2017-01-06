@@ -1,5 +1,4 @@
 const mongoose = require('mongoose'),
-    bcrypt = require('bcrypt-nodejs'),
     Schema = mongoose.Schema,
     userConsts = require('./user_consts'),
     userSchema = new Schema({
@@ -22,10 +21,5 @@ const mongoose = require('mongoose'),
     }, {
         timestamps: true
     });
-
-// In real use, we'd want to salt these.
-userSchema.methods.isValidPassword = function (password) {
-    return bcrypt.compareSync(password, this.password);
-};
 
 module.exports = userSchema;
