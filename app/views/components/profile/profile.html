@@ -1,0 +1,48 @@
+<app-page>
+    <div id="blue">
+        <div class="container">
+            <div class="row">
+                    <h3>Profile</h3>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-offset-2 col-sm-8">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input class="form-control" type="text" disabled value="{{$ctrl.user.email}}">
+                </div>
+                <!-- Facebook users don't have any functionality yet, so commenting this out -->
+                <!--<div class="form-group">-->
+                    <!--<label>Facebook</label>-->
+                    <!--<div ng-show="$ctrl.user.isFacebookUser">-->
+                        <!--Facebook account linked-->
+                    <!--</div>-->
+                    <!--<div ng-show="!$ctrl.user.isFacebookUser">-->
+                        <!--<button class="btn btn-block btn-social btn-facebook"-->
+                                <!--ng-click="$ctrl.onFacebookAuthenticate()">-->
+                            <!--<span class="fa fa-facebook"></span> Connect Facebook Account-->
+                        <!--</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <div class="form-group">
+                    <label>Google</label>
+                    <div ng-show="$ctrl.user.isGoogleUser">
+                        Google account linked
+                    </div>
+                    <div ng-show="!$ctrl.user.isGoogleUser">
+                        <button class="btn btn-block btn-social btn-google"
+                                ng-click="$ctrl.onGoogleAuthenticate()">
+                            <span class="fa fa-google"></span> Connect Google Account
+                        </button>
+                    </div>
+                    <small>
+                        By linking your google account, we will show your google calendar
+                        events.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-page>

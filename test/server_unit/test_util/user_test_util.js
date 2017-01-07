@@ -1,9 +1,4 @@
-/**
- * Created by brian on 12/2/16.
- */
-
-const User = require('../../../server/db/model/user/user_model'),
-    models = require('../../../server/db/model/models'),
+const models = require('../../../server/db/model/models'),
     userAPI = models.userAPI,
     _ = require('lodash'),
     Promise = require('bluebird'),
@@ -16,62 +11,102 @@ const User = require('../../../server/db/model/user/user_model'),
             const testUserStr = String(this._testUser);
             this._testUser++;
             return {
-                username: testUserStr,
-                password: testUserStr,
-                firstName: testUserStr,
-                lastName: testUserStr,
                 email: testUserStr + '@' + testUserStr + '.com',
+                password: testUserStr,
                 facebook: {
                     id: testUserStr,
                     token: testUserStr
+                },
+                google: {
+                    id: testUserStr,
+                    accessToken: testUserStr
                 }
             }
         }
     };
 
+//login as user through passed agent and then return db object of testUser
+function loginAsTestUser(testUser, agent) {
+    return new Promise(function (resolve, reject) {
+        agent
+            .post('/api/auth/login')
+            .set('Accept', 'application/json')
+            .send({
+                username: testUser.email,
+                password: testUser.password
+            })
+            .end(function (err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    userAPI
+                        .findUserByEmail(testUser.email)
+                        .then(function (user) {
+                            if(user) {
+                                resolve(user);
+                            } else {
+                                reject('findUserByEmail returned null!');
+                            }
+                        })
+                        .then(resolve)
+                        .catch(reject);
+                }
+            });
+    });
+}
+
+function generateTestUser() {
+    return testUsersGen.generateTestUser()
+}
+
+function generateAndSaveTestUser() {
+    return userAPI.createUser(generateTestUser());
+}
+
+function createAndLoginAsTestUser(agent) {
+    return new Promise(function (resolve, reject) {
+        const testUser = generateTestUser();
+        userAPI.createUser(testUser)
+            .then(function () {
+                loginAsTestUser(testUser, agent)
+                    .then(resolve)
+                    .catch(reject)
+            })
+            .catch(reject);
+    });
+}
+
 module.exports = {
     testUsers: {
         // keep usernames unique
         u1: {
-            username: 'a',
-            password: 'a',
-            firstName: 'a',
-            lastName: 'a',
             email: 'a' + '@' + 'a' + '.com',
+            password: 'a',
             facebook: {
                 id: 'a',
                 token: 'a'
+            },
+            google: {
+                id: 'a',
+                accessToken: 'a'
             }
 
         },
         
-        getTestUserId: function (testUser) {
-            return userAPI.findUserByEmail(testUser.username);
+        getTestUser: function (testUser) {
+            return userAPI.findUserByEmail(testUser.email);
         }
     },
     
-    cleanUpAsyncUsers() {
-        return User.remove({}).exec();
-    },
-    
-    generateTestUser() {
-        return testUsersGen.generateTestUser()
-    },
-    
-    generateAndSaveTestUser() {
-        return userAPI.createUser(this.generateTestUser());
-    },
     
     // target is usually a generated user
     expectUser(user, target, options) {
-        const ignoreFacebook = _.get(options, 'ignoreFacebook');
+        const ignoreFacebook = _.get(options, 'ignoreFacebook'),
+            ignoreGoogle = _.get(options, 'ignoreGoogle');
         expect(user).toBeTruthy();
-        expect(user.username).toBe(target.username);
+        expect(user.email).toBe(target.email);
         expect(user.isValidPassword(target.password)).toBeTruthy();
         expect(user.isValidPassword('foobar')).toBeFalsy();
-        expect(user.firstName).toBe(target.firstName);
-        expect(user.lastName).toBe(target.lastName);
-        expect(user.email).toBe(target.email);
         expect(user.updatedAt).toBeDefined();
         expect(user.createdAt).toBeDefined();
         expect(user._id).toBeDefined();
@@ -79,36 +114,20 @@ module.exports = {
             expect(user.facebook.id).toBe(target.facebook.id);
             expect(user.facebook.token).toBe(target.facebook.token);
         }
+        if(!ignoreGoogle) {
+            expect(user.google.id).toBe(target.google.id);
+            expect(user.google.accessToken).toBe(target.google.accessToken);
+        }
     },
     
-    //login as user through passed agent and then return db object of testUser
-    loginAsTestUser(testUser, agent) {
-        return new Promise(function (resolve, reject) {
-            agent
-                .post('/api/auth/login')
-                .set('Accept', 'application/json')
-                .send({
-                    username: testUser.username,
-                    password: testUser.password
-                })
-                .end(function (err) {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        userAPI
-                            .findUserByEmail(testUser.username)
-                            .then(function (user) {
-                                if(user) {
-                                    resolve(user);
-                                } else {
-                                    reject('findUserByEmail returned null!');
-                                }
-                            })
-                            .then(resolve)
-                            .catch(reject);
-                    }
-                });
-        });
-    }
+    generateTestUser: generateTestUser,
+
+    generateAndSaveTestUser: generateAndSaveTestUser,
+    
+    loginAsTestUser: loginAsTestUser,
+    
+    createAndLoginAsTestUser: createAndLoginAsTestUser
+    
+
 };
 

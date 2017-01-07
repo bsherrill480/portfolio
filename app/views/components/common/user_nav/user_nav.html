@@ -24,18 +24,26 @@
                 <li><a ui-sref="EventsSuggestions">SUGGESTED EVENTS</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        OPTIONS <b class="caret"></b>
+                        <span class="my-hidden-geq-sm">USER</span>
+                        <span class="my-hidden-lt-sm">
+                            <span class="glyphicon glyphicon-user"></span>
+                        </span>
+                        <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
+                        <li><a ui-sref="Profile">PROFILE</a></li>
                         <li><a href="#" ng-click="$ctrl.logout()">LOGOUT</a></li>
                     </ul>
                 </li>
             </ul>
-        </div><!--/.nav-collapse -->
+        </div>
         <div ng-show="!$ctrl.isLoggedIn" class="pull-right my-hidden-lt-sm">
+            <a ui-sref="Register" class="btn btn-primary navbar-header__register-button">
+                Register
+            </a>
             <a ui-sref="Login" class="btn btn-success navbar-header__login-button">
                 Log in
             </a>
-        </div><!--/.nav-collapse -->
+        </div>
     </div>
 </div>

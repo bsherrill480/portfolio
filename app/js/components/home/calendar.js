@@ -1,6 +1,9 @@
 const _ = require('lodash'),
     moment = require('moment'),
     MAX_EVENTS_DATE = moment();
+
+let $stateOuter;
+
 MAX_EVENTS_DATE.add(2, 'years');
 
 function isOneOffEventGenerator(eventGenerator) {
@@ -20,7 +23,17 @@ function generateEvent(eventGenerator, momentDate) {
         startsAt: momentDate.toDate(),
         endsAt: moment(momentDate).startOf('day').add(23, 'hours').add(59, 'minutes').toDate(),
         draggable: false,
-        resizeable: false
+        resizeable: false,
+        actions: [{
+            label: '',
+            onClick: function() {
+                // function takes a param, args. But I'm also calling this manually when event
+                // is clicked, so args wont always be passed
+                if(eventGenerator._id) {
+                    $stateOuter.go('ViewEvent', {eventGeneratorId: eventGenerator._id});
+                }
+            }
+        }]
     }
 }
 
@@ -63,10 +76,11 @@ function formatGoogleEvents(events) {
     })
 }
 
-function CalendarCtrl(EventsService, $q, EventGeneratorService) {
+function CalendarCtrl(EventsService, $q, EventGeneratorService, $state) {
     'ngInject';
     const now = moment().startOf('day'),
         twoWeeksFromNow = moment(now).add(2, 'weeks').endOf('day');
+    $stateOuter = $state;
     //set now to be start of today. Set 2 weeks from now to be end of day.
 
     var vm = this;
@@ -113,23 +127,35 @@ function CalendarCtrl(EventsService, $q, EventGeneratorService) {
 
         vm.cellIsOpen = true;
 
+        vm.eventClicked = function(event) {
+            if(event.actions.length) {
+                // function has a closure to eventGenerator
+                event.actions[0].onClick();
+            }
+        };
+
         vm.timespanClicked = function(date, cell) {
             console.log('timespan clicked');
             if (vm.calendarView === 'month') {
-                if ((vm.cellIsOpen && moment(date).startOf('day').isSame(moment(vm.viewDate).startOf('day'))) || cell.events.length === 0 || !cell.inMonth) {
+                if ((vm.cellIsOpen &&
+                    moment(date).startOf('day').isSame(moment(vm.viewDate).startOf('day'))) ||
+                    cell.events.length === 0 ||
+                    !cell.inMonth) {
                     vm.cellIsOpen = false;
                 } else {
-                    vm.cellIsOpen = true;
+                    console.log('setting open, viewdate', date);
                     vm.viewDate = date;
-                }
-            } else if (vm.calendarView === 'year') {
-                if ((vm.cellIsOpen && moment(date).startOf('month').isSame(moment(vm.viewDate).startOf('month'))) || cell.events.length === 0) {
-                    vm.cellIsOpen = false;
-                } else {
                     vm.cellIsOpen = true;
-                    vm.viewDate = date;
                 }
             }
+        //     } else if (vm.calendarView === 'year') {
+        //         if ((vm.cellIsOpen && moment(date).startOf('month').isSame(moment(vm.viewDate).startOf('month'))) || cell.events.length === 0) {
+        //             vm.cellIsOpen = false;
+        //         } else {
+        //             vm.cellIsOpen = true;
+        //             vm.viewDate = date;
+        //         }
+        //     }
         };
     }
 }

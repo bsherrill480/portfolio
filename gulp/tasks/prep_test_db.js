@@ -3,17 +3,17 @@
  */
 import dbInit from '../../server/db/initialize';
 import User from '../../server/db/model/user/user_model';
-import Page from '../../server/db/model/page/page_model';
+import EventGenerator from '../../server/db/model/event_generator/event_generator_model';
 import modelAPIs from '../../server/db/model/models';
 import envs from '../../server/config/envs';
 import Promise from 'bluebird';
 import gulp from 'gulp';
 import _ from 'lodash';
 import userTestUtil from '../../test/server_unit/test_util/user_test_util';
-import pageTestUtil from '../../test/server_unit/test_util/page_test_util';
+import eventGeneratorTestUtil from '../../test/server_unit/test_util/event_generator_test_util';
 import mongoose from 'mongoose';
 
-const models = [User, Page];
+const models = [User, EventGenerator];
 
 // This tasks cleans out all data in the test database and initialized mongoose test db connection
 gulp.task('prep_test_db', function(cb) {
@@ -26,8 +26,11 @@ gulp.task('prep_test_db', function(cb) {
             modelAPIs.userAPI
                 .createUser(userTestUtil.testUsers.u1)
                 .then(function (user) {
-                    modelAPIs.pageAPI
-                        .createPage(user._id, pageTestUtil.testPages.p1U1)
+                    modelAPIs.eventGeneratorAPI
+                        .createEventGenerator(
+                            user._id, 
+                            eventGeneratorTestUtil.testEventGenerators.eg1
+                        )
                         .then(function () {
                             // mongoose is global, however when running dbInit here and during my
                             // tests, would cause it to run twice (despite it being a singleton).
@@ -45,12 +48,11 @@ gulp.task('prep_test_db', function(cb) {
                             //
                             // http://stackoverflow.com/questions/16138103/resetting-mongoose-model-cache
                             delete mongoose.models['User'];
-                            delete mongoose.models['Page'];
-                            delete mongoose.models['Widget'];
                             delete mongoose.modelSchemas['User'];
-                            delete mongoose.modelSchemas['Page'];
-                            delete mongoose.modelSchemas['Widget'];
-                            cb();
+
+                            delete mongoose.models['EventGenerator'];
+                            delete mongoose.modelSchemas['EventGenerator'];
+                            cb();                       
                         });
                 });
         });

@@ -1,0 +1,19 @@
+<app-page>
+    <div id="blue">
+        <div class="container">
+            <div class="row">
+                    <h3>View Event.</h3>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+            <!--<my-events-topic topic="topic" show-past="$ctrl.showPast"></my-events-topic>-->
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <my-events-event-generator
+                    on-delete="$ctrl.onDeleteEventGenerator(eventGeneratorId)"
+                    event-generator="$ctrl.eventGenerator"></my-events-event-generator>
+            </div>
+        </div>
+    </div>
+</app-page>

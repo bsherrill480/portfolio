@@ -1,18 +1,15 @@
-function LoginCtrl(UserAuthService, ResponseService, $window, $state) {
+function LoginCtrl(UserAuthService, ResponseService, $state) {
     'ngInject';
     const $ctrl = this,
         EMAIL_REQUIRED_MSG = 'Valid email required.',
         PASSWORD_REQUIRED_MSG = 'Password required.';
-
-    $ctrl.$onInit = () => {
-        $ctrl.user = {
-            email: '',
-            password: ''
-        };
-        $ctrl.errors = {
-            email: '',
-            password: ''
-        };
+    $ctrl.user = {
+        email: '',
+        password: ''
+    };
+    $ctrl.errors = {
+        email: '',
+        password: ''
     };
 
     function validInputs (user) {

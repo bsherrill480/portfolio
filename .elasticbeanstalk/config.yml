@@ -1,4 +1,6 @@
 branch-defaults:
+  brian_working:
+    environment: planner-green
   master:
     environment: sherrill-brian-webdev
 global:

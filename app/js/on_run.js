@@ -1,20 +1,22 @@
 function hasPermission(isLoggedIn, toStateName, event, $state) {
+    // if toStateName is Home, we already let them go there
     if(isLoggedIn && (toStateName === 'Login' || toStateName === 'Register')) {
         event.preventDefault(); // stop current execution
+        console.log('goHome');
         $state.go('Home');
-    } else if (!isLoggedIn && (toStateName !== 'Login' || toStateName !== 'Register')) {
-        $state.go(toStateName);
-    }
+    } else if (!isLoggedIn && toStateName !== 'Register' && toStateName !== 'Login') {
+        console.log('isLoggedIn', isLoggedIn);
+        console.log('!isLoggedIn', !isLoggedIn);
+        event.preventDefault(); // stop current execution
+        $state.go('Login');
+    } else {console.log('LET THEM PASS');}// else LET THEM PASS
 }
 
 function OnRun($rootScope, AppSettings, UserAuthService, $state) {
     'ngInject';
 
-    // UserAuthService.fetchIsLoggedIn();
-
     $rootScope.$on('$stateChangeSuccess', (event, toState) => {
-        const toStateName = toState.name,
-            isLoggedIn = UserAuthService.isLoggedIn();
+        const toStateName = toState.name;
         $rootScope.pageTitle = '';
 
 
@@ -29,15 +31,23 @@ function OnRun($rootScope, AppSettings, UserAuthService, $state) {
         if(toStateName === 'Home') {
             return;
         }
-        if(isLoggedIn) {
-            hasPermission(isLoggedIn, toStateName, event, $state)
-        } else {
-            UserAuthService
-                .fetchIsLoggedIn()
-                .then(function () {
-                    hasPermission(UserAuthService.isLoggedIn(), toStateName, event, $state);
-                });
-        }
+        UserAuthService.getUserId()
+            .then(function (userId) {
+                console.log('hasPermission:', toStateName, userId);
+                hasPermission(userId, toStateName, event, $state)
+            })
+            .catch(function (err) {
+                console.log('onRunErr', err);
+            });
+        // if(isLoggedIn) {
+        //     hasPermission(isLoggedIn, toStateName, event, $state)
+        // } else {
+        //     UserAuthService
+        //         .fetchIsLoggedIn()
+        //         .then(function () {
+        //             hasPermission(UserAuthService.isLoggedIn(), toStateName, event, $state);
+        //         });
+        // }
 
 
         $rootScope.pageTitle += AppSettings.appTitle;

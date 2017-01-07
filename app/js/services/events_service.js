@@ -1,4 +1,4 @@
-function EventsService($http) {
+function EventsService($http, GoogleService) {
     'ngInject';
     return {
         getGoogleEvents() {
@@ -6,7 +6,14 @@ function EventsService($http) {
                 method: 'GET',
                 url: '/api/events/google_events'
             }).then(function (payload) {
-                return payload.data;
+                const data = payload.data;
+                if(data.error == 'REFRESH_AUTh') {
+                    // window.location = '/'
+                    GoogleService.googleAuth();
+                    return [];
+                } else {
+                    return payload.data;
+                }
             }).catch(function (err) {
                 console.log('googleEventsErr', err);
                 return [];

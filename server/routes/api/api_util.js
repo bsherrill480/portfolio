@@ -1,5 +1,5 @@
 const _ = require('lodash'),
-    internalUserAttributes = ['password', 'facebook'];
+    internalUserAttributes = ['password', 'facebook', 'google'];
 
 function errorResponse(res, status, message) {
     res.status(status).json({
@@ -20,13 +20,27 @@ module.exports = {
     // calls callback if user is owner
     userIsOwnerThenCallback(res, userId, itemPromise, doUpdateCallback) {
         const self = this;
-        console.log('userIsOwnerThenCallabck', userId);
         itemPromise
             .then(function (result) {
                 if(result && userId && result._user.toString() === userId.toString()) {
                     doUpdateCallback(res);
                 } else {
-                    self.errorResponse(res, 403, 'Forbidden');
+                    errorResponse(res, 403, 'Forbidden');
+                }
+                return result;
+            })
+            .catch(self.queryFailedCallback(res));
+    },
+    
+        // calls callback if user is owner
+    userIsOwnerThenRespond(res, userId, itemPromise) {
+        const self = this;
+        itemPromise
+            .then(function (result) {
+                if(result && userId && result._user.toString() === userId.toString()) {
+                    res.json(result);
+                } else {
+                    errorResponse(res, 403, 'Forbidden');
                 }
                 return result;
             })
@@ -45,9 +59,10 @@ module.exports = {
     queryFailedCallback(res) {
         return (err) => {
             console.log('dberr', err);
-            res.status(500).json({
-                error: 'Database error'
-            });
+            errorResponse(res, 500, 'Database error');
+            // res.status(500).json({
+            //     error: 'Database error'
+            // });
             return err;
         }
     },
@@ -74,6 +89,6 @@ module.exports = {
     errorResponse,
 
     badParamsJsonResponse(res) {
-        res.status(400).end();
+        errorResponse(res, 400, 'Bad Params')
     }
 };

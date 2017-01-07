@@ -3,7 +3,7 @@
         {{$ctrl.topic.name}}
         <button class="btn btn-primary" ng-click="$ctrl.addEvent()">Add Event</button>
     </h2>
-    <div ng-repeat="eventGenerator in $ctrl.topic.eventGenerators">
+    <div ng-repeat="eventGenerator in $ctrl.topic.eventGenerators | filter: $ctrl.showEventGen">
         <div class="panel panel-default">
             <div class="panel-body">
                 <my-events-event-generator

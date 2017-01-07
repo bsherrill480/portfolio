@@ -1,25 +1,25 @@
 const _ = require('lodash');
 
-function generatorTypeToName(generatorTypes, generatorType) {
-    switch (generatorType) {
-        case generatorTypes.HOMEOWNER:
-            return 'Home events';
-        case generatorTypes.CAR_OWNER:
-            return 'Car events';
-        case generatorTypes.MEDICINE_TAKER:
-            return 'Medicine events';
-        case generatorTypes.CUSTOM:
-            return 'Custom events';
-        default:
-            return 'Not Found';
-    }
-}
+// function generatorTypeToName(generatorTypes, generatorType) {
+//     switch (generatorType) {
+//         case generatorTypes.HOMEOWNER:
+//             return 'Home events';
+//         case generatorTypes.CAR_OWNER:
+//             return 'Car events';
+//         case generatorTypes.MEDICINE_TAKER:
+//             return 'Medicine events';
+//         case generatorTypes.CUSTOM:
+//             return 'Custom events';
+//         default:
+//             return 'Not Found';
+//     }
+// }
 
-function createEventGeneratorsTopics(generatorTypes, eventGenerators) {
+function createEventGeneratorsTopics(EventGeneratorService, eventGenerators) {
     const typeToEventGeneratorList = {},
         eventGeneratorTopics = [];
     // build buckets
-    _.forOwn(generatorTypes, function (key, value) {
+    _.forOwn(EventGeneratorService.getGeneratorTypes(), function (key, value) {
         typeToEventGeneratorList[value] = [];
     });
 
@@ -31,7 +31,7 @@ function createEventGeneratorsTopics(generatorTypes, eventGenerators) {
     // build list
     _.forOwn(typeToEventGeneratorList, function (value, key) {
         const eventGeneratorTopic = {
-            name: generatorTypeToName(generatorTypes, key),
+            name: EventGeneratorService.generatorTypeToName(key),
             generatorType: key,
             eventGenerators: value
         };
@@ -42,19 +42,22 @@ function createEventGeneratorsTopics(generatorTypes, eventGenerators) {
 
 function MyEventsCtrl(EventGeneratorService) {
     'ngInject';
-    const $ctrl = this,
-        generatorTypes = EventGeneratorService.getGeneratorTypes();
-    $ctrl.$onInit = function () {
-        $ctrl.eventGeneratorsTopics = [];
-        EventGeneratorService
-            .getEventGeneratorsForUser()
-            .then(function (eventGenerators) {
-                $ctrl.topics = createEventGeneratorsTopics(
-                    generatorTypes,
-                    eventGenerators
-                )
-            });
-    }
+    const $ctrl = this;
+
+    $ctrl.showPast = false;
+
+    $ctrl.eventGeneratorsTopics = [];
+    EventGeneratorService
+        .getEventGeneratorsForUser()
+        .then(function (eventGenerators) {
+            $ctrl.topics = createEventGeneratorsTopics(
+                EventGeneratorService,
+                eventGenerators
+            )
+        })
+        .catch(function (err) {
+            console.log('err', err);
+        });
 }
 
 function myEventsCmpnt() {

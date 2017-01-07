@@ -13,7 +13,6 @@ module.exports = {
     },
 
     findEventGeneratorById(eventGeneratorId) {
-        console.log('findEventGeneratorBy');
         return EventGenerator.findById(eventGeneratorId).exec();
     },
 

@@ -13,7 +13,19 @@ router.get('/', util.userIsLoggedIn, function (req, res, next) {
     );
 });
 
-router.post('/', util.userIsLoggedIn, function (req, res, next) {
+// Should be optimized. doing two db calls.
+router.get('/:eventGeneratorId', util.userIsLoggedIn, function (req, res, next) {
+    const eventGeneratorId = req.params.eventGeneratorId;
+    util.userIsOwnerThenRespond(
+        res,
+        req.user._id,
+        eventGeneratorAPI.findEventGeneratorById(eventGeneratorId)
+    );
+});
+
+router.post('/', function (req, res, next) {
+    next();
+}, util.userIsLoggedIn, function (req, res, next) {
     const receivedEventGenerator = req.body,
         userId = req.user._id;
     util.queryResponse(
@@ -27,7 +39,6 @@ router.put('/:eventGeneratorId', util.userIsLoggedIn, function (req, res, next) 
     const receivedEventGenerator = req.body,
         eventGeneratorId = req.params.eventGeneratorId,
         updateCallback = function() {
-            console.log('update callback', eventGeneratorId, receivedEventGenerator);
             util.queryResponse(
                 res,
                 eventGeneratorAPI.updateEventGenerator(eventGeneratorId, receivedEventGenerator)
