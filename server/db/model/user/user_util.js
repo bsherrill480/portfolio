@@ -1,6 +1,4 @@
-const 
-    // bcrypt = require('bcrypt'),
-    bcrypt = {},
+const bcrypt = require('bcryptjs'),
     saltRounds = 10,
     Promise = require('bluebird');
 
