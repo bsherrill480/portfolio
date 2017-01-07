@@ -11,18 +11,18 @@ const env = process.env,
     googleCallbackUrl: GOOGLE_AUTH_CALLBACK_URL,
     facebookCallbackUrl: ''
 };
-
-if(!MLAB_PASSWORD || !MLAB_PASSWORD || !GOOGLE_CLIENT_ID || !GOOGLE_SECRET || 
-    !GOOGLE_AUTH_CALLBACK_URL) {
-    console.log('=========');
-    console.log('ENV_VAR MISSING');
-    const err = (`MLAB_PASSWORD: ${MLAB_PASSWORD} 
-    MLAB_PASSWORD: ${MLAB_PASSWORD} 
-    GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID} 
-    GOOGLE_SECRET: ${GOOGLE_SECRET}
-    GOOGLE_AUTH_CALLBACK_URL: ${GOOGLE_AUTH_CALLBACK_URL}`);
-    console.log(err);
-    console.log('=========');
-}
+//
+// if(!MLAB_PASSWORD || !MLAB_PASSWORD || !GOOGLE_CLIENT_ID || !GOOGLE_SECRET || 
+//     !GOOGLE_AUTH_CALLBACK_URL) {
+//     console.log('=========');
+//     console.log('ENV_VAR MISSING');
+//     const err = (`MLAB_PASSWORD: ${MLAB_PASSWORD} 
+//     MLAB_PASSWORD: ${MLAB_PASSWORD} 
+//     GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID} 
+//     GOOGLE_SECRET: ${GOOGLE_SECRET}
+//     GOOGLE_AUTH_CALLBACK_URL: ${GOOGLE_AUTH_CALLBACK_URL}`);
+//     console.log(err);
+//     console.log('=========');
+// }
 
 module.exports = prodConfig;

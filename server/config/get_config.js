@@ -18,8 +18,7 @@ function getConfig(env) {
     } else if (env === envs.TEST) {
         return testConfig;
     } else if (env === envs.PROD) {
-        prodConfig;
-        return stagingConfig;
+        return prodConfig;
     } else {
         throw new Error('Env not found for ' + env);
     }
