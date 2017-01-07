@@ -52,7 +52,7 @@
     "testApp": "cross-env NODE_ENV=test ./node_modules/.bin/gulp app_unit",
     "protractor": "cross-env NODE_ENV=test ./node_modules/.bin/gulp protractor",
     "unit": "cross-env NODE_ENV=test ./node_modules/.bin/gulp unit",
-    "start": "export && node ./server/index.js"
+    "start": "node ./server/index.js"
   },
   "dependencies": {
     "bcrypt": "^1.0.2",
@@ -68,7 +68,6 @@
     "lodash": "^4.17.2",
     "mongoose": "^4.7.1",
     "morgan": "^1.7.0",
-    "node-cache": "^4.1.1",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-google-oauth": "^1.0.0",
