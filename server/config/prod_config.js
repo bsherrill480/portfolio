@@ -23,7 +23,6 @@ if(!MLAB_PASSWORD || !MLAB_PASSWORD || !GOOGLE_CLIENT_ID || !GOOGLE_SECRET ||
     GOOGLE_AUTH_CALLBACK_URL: ${GOOGLE_AUTH_CALLBACK_URL}`);
     console.log(err);
     console.log('=========');
-    throw err;
 }
 
 module.exports = prodConfig;
