@@ -34,8 +34,10 @@ module.exports = function(passedEnv) {
             console.log('got request, env', env);
             console.log('secure:', req.secure);
             if(env === envs.PROD && !req.secure) {
+                console.log('do redirect:', 'https://' + req.hostname + req.url);
                 res.redirect('https://' + req.hostname + req.url); 
             } else {
+                console.log('do next()');
                 next();
             }
         });
