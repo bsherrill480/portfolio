@@ -1,4 +1,5 @@
 const models = require('../../../server/db/model/models'),
+    userConsts = require('../../../server/db/model/user/user_consts'),
     userAPI = models.userAPI,
     _ = require('lodash'),
     Promise = require('bluebird'),
@@ -13,13 +14,17 @@ const models = require('../../../server/db/model/models'),
             return {
                 email: testUserStr + '@' + testUserStr + '.com',
                 password: testUserStr,
+                isFacebookUser: false,
                 facebook: {
                     id: testUserStr,
                     token: testUserStr
                 },
+                emailState: userConsts.VERIFIED,
+                isGoogleUser: false,
                 google: {
                     id: testUserStr,
-                    accessToken: testUserStr
+                    accessToken: testUserStr,
+                    refreshToken: testUserStr
                 }
             }
         }
@@ -82,23 +87,27 @@ module.exports = {
         u1: {
             email: 'a' + '@' + 'a' + '.com',
             password: 'a',
+            emailState: userConsts.VERIFIED,
+            isFacebookUser: false,
             facebook: {
                 id: 'a',
                 token: 'a'
             },
+            isGoogleUser: false,
             google: {
                 id: 'a',
-                accessToken: 'a'
+                accessToken: 'a',
+                refreshToken: 'a'
             }
 
         },
-        
+
         getTestUser: function (testUser) {
             return userAPI.findUserByEmail(testUser.email);
         }
     },
-    
-    
+
+
     // target is usually a generated user
     expectUser(user, target, options) {
         const ignoreFacebook = _.get(options, 'ignoreFacebook'),
@@ -119,15 +128,15 @@ module.exports = {
             expect(user.google.accessToken).toBe(target.google.accessToken);
         }
     },
-    
+
     generateTestUser: generateTestUser,
 
     generateAndSaveTestUser: generateAndSaveTestUser,
-    
+
     loginAsTestUser: loginAsTestUser,
-    
+
     createAndLoginAsTestUser: createAndLoginAsTestUser
-    
+
 
 };
 
