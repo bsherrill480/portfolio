@@ -30,7 +30,15 @@ module.exports = function(passedEnv) {
         app.use(bodyParser.urlencoded({ extended: true }));
         app.use(cookieParser());
         app.use(express.static(path.join(__dirname, '..', 'build')));
-
+        if(env === envs.PROD) {
+            app.use(function(req, res, next) {
+                if((!req.secure) && (req.get('X-Forwarded-Proto') !== 'https')) {
+                    res.redirect('https://' + req.get('Host') + req.url);
+                }
+                else
+                    next();
+            });
+        }
         app.use(expressSession({
             secret: 'keyboard cat', // in prod this should be an ENV variable
             resave: false,
