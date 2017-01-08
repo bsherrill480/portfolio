@@ -52,9 +52,11 @@
     "testApp": "cross-env NODE_ENV=test ./node_modules/.bin/gulp app_unit",
     "protractor": "cross-env NODE_ENV=test ./node_modules/.bin/gulp protractor",
     "unit": "cross-env NODE_ENV=test ./node_modules/.bin/gulp unit",
-    "start": "node ./server/index.js"
+    "start": "node ./server/index.js",
+    "startStaging": "export NODE_ENV=staging && node ./server/index.js"
   },
   "dependencies": {
+    "aws-sdk": "^2.7.21",
     "bcrypt-nodejs": "0.0.3",
     "bcryptjs": "^2.4.0",
     "bluebird": "^3.4.6",
@@ -68,6 +70,7 @@
     "lodash": "^4.17.2",
     "mongoose": "^4.7.1",
     "morgan": "^1.7.0",
+    "nodemailer": "^2.7.0",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-google-oauth": "^1.0.0",

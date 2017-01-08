@@ -2,7 +2,7 @@ const envs = {
     DEVELOPMENT: 'development',
     STAGING: 'staging',
     TEST: 'test',
-    PROD: 'prod'
+    PROD: 'production'
 };
 
 module.exports = envs;
