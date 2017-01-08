@@ -29,18 +29,15 @@ module.exports = function(passedEnv) {
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: true }));
         app.use(cookieParser());
-        app.use(express.static(path.join(__dirname, '..', 'build')));
         app.use(function(req, res, next) {
-            console.log('got request, env', env);
-            console.log('secure:', req.secure);
-            if(env === envs.PROD && !req.secure) {
-                console.log('do redirect:', 'https://' + req.hostname + req.url);
-                res.redirect('https://' + req.hostname + req.url); 
-            } else {
-                console.log('do next()');
+            if(env === envs.PROD && (req.get('X-Forwarded-Proto') !== 'https')) {
+                res.redirect('https://' + req.get('Host') + req.url);
+            }
+            else {
                 next();
             }
         });
+        app.use(express.static(path.join(__dirname, '..', 'build')));
         app.use(expressSession({
             secret: 'keyboard cat', // in prod this should be an ENV variable
             resave: false,
@@ -56,7 +53,6 @@ module.exports = function(passedEnv) {
         app.use(passport.session());
 
         app.use('/', routes);
-
         // catch 404 and forward to error handler
         // no need to send 404, let front end
         // app.use(function(req, res, next) {
