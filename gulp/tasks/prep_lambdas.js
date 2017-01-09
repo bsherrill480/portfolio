@@ -21,7 +21,7 @@ function cmdGetAsync(command) {
     })
 }
 
-gulp.task('prep_lambdas', function(done) {
+gulp.task('prep_lambdas', ['eslint'], function(done) {
 
     const cpDirAsync = Bluebird.promisify(ncp.ncp),
         zipDirAsync = Bluebird.promisify(zipFolder),
