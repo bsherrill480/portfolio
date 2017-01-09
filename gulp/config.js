@@ -80,6 +80,10 @@ export default {
         files: 'server/**/*.js',
         testTemp: 'test_tmp/'
     },
+    
+    lambdas: {
+        path: 'lambdas/'
+    },
 
     init: function() {
         this.views.watch = [

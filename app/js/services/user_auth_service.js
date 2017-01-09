@@ -75,6 +75,25 @@ function UserAuthService($http, $q) {
         })
     }
 
+    // should be the same as server/user_consts.js, should add test to check this.
+    function getEmailStates () {
+        const UNVERIFIED = 'unverified',
+            VERIFIED = 'verified',
+            BOUNCED = 'bounced';
+        return {
+            UNVERIFIED: UNVERIFIED,
+            VERIFIED: VERIFIED,
+            BOUNCED: BOUNCED
+        };
+    }
+
+    function sendVerificationEmail() {
+        return $http({
+            method: 'POST',
+            url: '/api/auth/sendVerificationEmail'
+        });
+    }
+
     return {
         isAlreadyLoggedIn: isAlreadyLoggedIn,
 
@@ -86,7 +105,11 @@ function UserAuthService($http, $q) {
 
         login: login,
 
-        logout: logout
+        logout: logout,
+
+        getEmailStates: getEmailStates,
+
+        sendVerificationEmail: sendVerificationEmail
     };
 }
 

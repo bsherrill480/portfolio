@@ -13,19 +13,15 @@
                     <label>Email</label>
                     <input class="form-control" type="text" disabled value="{{$ctrl.user.email}}">
                 </div>
-                <!-- Facebook users don't have any functionality yet, so commenting this out -->
-                <!--<div class="form-group">-->
-                    <!--<label>Facebook</label>-->
-                    <!--<div ng-show="$ctrl.user.isFacebookUser">-->
-                        <!--Facebook account linked-->
-                    <!--</div>-->
-                    <!--<div ng-show="!$ctrl.user.isFacebookUser">-->
-                        <!--<button class="btn btn-block btn-social btn-facebook"-->
-                                <!--ng-click="$ctrl.onFacebookAuthenticate()">-->
-                            <!--<span class="fa fa-facebook"></span> Connect Facebook Account-->
-                        <!--</button>-->
-                    <!--</div>-->
-                <!--</div>-->
+                <div ng-show="$ctrl.user.emailState !== $ctrl.emailStates.VERIFIED
+                && !$ctrl.verificationEmailResent" class="form-group">
+                    <button ng-click="$ctrl.resendVerification()" class="btn btn-default btn-sm">
+                        Resend verification email
+                    </button>
+                </div>
+                <div ng-show="$ctlr.verificationEmailResent">
+                    Resent verification email. Please wait for it to arrive.
+                </div>
                 <div class="form-group">
                     <label>Google</label>
                     <div ng-show="$ctrl.user.isGoogleUser">

@@ -5,6 +5,7 @@ const express = require('express'),
     userConsts = require('../../../db/model/user/user_consts'),
     apiUtil = require('../api_util'),
     passport = require('passport'),
+    mailer = require('../../../mailer'),
     googleOptions = {
         scope: ['https://www.googleapis.com/auth/calendar.readonly', 'email'],
         accessType: 'offline'
@@ -80,6 +81,19 @@ router.post('/register', function (req, res, next) {
 
 router.get('/userId', function (req, res, next) {
     res.json({_id: req.isAuthenticated() ? req.user._id : ''});
+});
+
+router.post('/sendVerificationEmail', apiUtil.userIsLoggedIn, function (req, res, next) {
+    if(req.user.emailState === userConsts.UNVERIFIED) {
+        mailer.sendMail({
+            from: '"ezPlan" <admin@ezplan.io>', // sender address
+            to: 'admin@ezplan.io', // list of receivers
+            subject: 'Hello', // Subject line
+            text: 'Hello world', // plaintext body
+            html: '<b>Hello world</b>' // html body
+        });
+    }
+    res.json({});
 });
 
 // ========

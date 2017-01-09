@@ -11,6 +11,10 @@ function ProfileCtrl(UserAuthService, UserService, ResponseService, $state, Goog
         email: '',
         password: ''
     };
+    
+    $ctrl.emailStates = UserAuthService.getEmailStates();
+    
+    $ctrl.verificationEmailResent = false;
 
     UserAuthService.getUserId()
         .then(function (userId) {
@@ -37,14 +41,16 @@ function ProfileCtrl(UserAuthService, UserService, ResponseService, $state, Goog
         return allValid;
     }
 
-    $ctrl.onFacebookAuthenticate = function () {
-        window.location = '/api/auth/facebook/connect';
-    };
+    // $ctrl.onFacebookAuthenticate = function () {
+    //     window.location = '/api/auth/facebook/connect';
+    // };
 
     $ctrl.onGoogleAuthenticate = GoogleService.googleAuth;
-    // $ctrl.onGoogleAuthenticate = function () {
-    //     window.location = '/api/auth/google/connect';
-    // };
+
+    $ctrl.resendVerification = function () {
+        $ctrl.verificationEmailResent = true;
+        UserAuthService.sendVerificationEmail();
+    };
 
     $ctrl.profile = function(userCred) {
         if(validInputs(userCred)) {

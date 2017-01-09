@@ -1,21 +1,21 @@
 const
     // envs = require('../config/envs'),
     // env = process.env.NODE_ENV,
+    config = require('../config/get_config')(),
     nodemailer = require('nodemailer'),
     sesTransport = require('nodemailer-ses-transport'),
-    AWS = require('aws-sdk'),
-    ses = new AWS.SES(),
     transporter = nodemailer.createTransport(sesTransport({
-        ses: ses
+        accessKeyId: config.AWS_ACCESS_KEY_ID,
+        secretAccessKey: config.AWS_SECRET_KEY,
+        region: config.AWS_DEFAULT_REGION
     }));
 
 module.exports = {
     sendMail: function (mailOptions) {
-        transporter.sendMail(mailOptions, function (err, info) {
+        transporter.sendMail(mailOptions, function (err) {
             if(err) {
                 console.log('sendMail err:', err);
             }
-            console.log('messageSent:' + info.response);
         });
     }
 };

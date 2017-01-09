@@ -1,19 +1,18 @@
 const env = process.env,
     MLAB_USER_NAME = env.MLAB_USER_NAME,
     MLAB_PASSWORD = env.MLAB_PASSWORD,
-    GOOGLE_CLIENT_ID = env.GOOGLE_CLIENT_ID,
-    GOOGLE_SECRET = env.GOOGLE_SECRET,
-    GOOGLE_AUTH_CALLBACK_URL = env.GOOGLE_AUTH_CALLBACK_URL,
-    REDIS_HOST = env.REDIS_HOST,
     prodConfig = {
         connectionString: `mongodb://${MLAB_USER_NAME}:${MLAB_PASSWORD}@ds157268.mlab.com:57268/planner-prod`,
-        googleClient: GOOGLE_CLIENT_ID,
-        googleSecret: GOOGLE_SECRET,
-        googleCallbackUrl: GOOGLE_AUTH_CALLBACK_URL,
+        googleClient: env.GOOGLE_CLIENT_ID,
+        googleSecret: env.GOOGLE_SECRET,
+        googleCallbackUrl: env.GOOGLE_AUTH_CALLBACK_URL,
         facebookCallbackUrl: '',
         redisOptions: {
-            host: REDIS_HOST
-        }
+            host: env.REDIS_HOST
+        },
+        AWS_DEFAULT_REGION: env.AWS_DEFAULT_REGION,
+        AWS_ACCESS_KEY_ID: env.AWS_ACCESS_KEY_ID,
+        AWS_SECRET_KEY: env.AWS_SECRET_KEY
     };
 
 module.exports = prodConfig;
