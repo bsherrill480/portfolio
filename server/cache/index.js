@@ -24,9 +24,18 @@ function set(key, val, expireTime) {
         });
 }
 
+function increment(key) {
+    return client.incrAsync(key);
+}
+
+
 
 module.exports = {
     set: set,
+
     get: get,
-    expire: expire
+
+    expire: expire,
+    
+    increment: increment
 };

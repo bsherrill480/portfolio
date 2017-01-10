@@ -6,10 +6,13 @@ const cache = require('../../../server/cache'),
         }
     };
 
-console.log('cache', cache);
+function makeTimestampKey(testId) {
+    return testId + ':' + String((new Date()).getTime())
+}
+
 describe('caching', function () {
     it('should allow you to set and get', function (done) {
-        const key =  'test: ' + String((new Date()).getTime()),
+        const key =  makeTimestampKey('caching-set-and-get'),
             value = 'bar';
         cache.set(key, value)
             .then(function (res) {
@@ -44,7 +47,7 @@ describe('caching', function () {
     });
 
     // not a great guarantee, but at least a check
-    it('should have keys last', function (done) {
+    it('should have keys persist', function (done) {
         const key = uniq.string(),
             value = uniq.string(),
             checkIfExpireTimeInMs = (2) * 1000;
@@ -58,6 +61,21 @@ describe('caching', function () {
                         })
                         .catch(done.fail);
                 }, checkIfExpireTimeInMs);
+            })
+            .catch(done.fail);
+    });
+
+    it('should have incr work', function (done) {
+        const key = makeTimestampKey('inc-should-work');
+        cache.increment(key)
+            .then(function (res) {
+                expect(res).toBe(1);
+                cache.increment(key)
+                    .then(function (res) {
+                        expect(res).toBe(2);
+                        done();
+                    })
+                    .catch(done.fail);
             })
             .catch(done.fail);
     });
