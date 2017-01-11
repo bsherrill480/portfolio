@@ -28,7 +28,7 @@ function OnRun($rootScope, AppSettings, UserAuthService, $state) {
         // http://stackoverflow.com/questions/27212182/angularjs-ui-router-how-to-redirect-to-login-page
         // home is always allowed
         console.log('ToState', toStateName);
-        if(toStateName === 'Home') {
+        if(toStateName === 'Home' || toStateName === 'VerifyEmail') {
             return;
         }
         UserAuthService.getUserId()

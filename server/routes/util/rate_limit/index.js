@@ -34,12 +34,15 @@ function userRateLimitMiddleware(limiterId, numRequests, resetTime) {
                                     apiUtil.errorResponse(res, 429,
                                         'Too many requests from you, please wait and try again.');
                                 }
+                                return null;
                             })
                             .catch(function (err) {
                                 console.log(`expire error for ${rateLimitKey}`, err);
                                 cache.set(rateLimitKey, 0, resetTime);
                                 next();
                             });
+                        
+                        return null;
                     })
                     .catch(function (err) {
                         console.log(`caching error for ${rateLimitKey}`, err);

@@ -94,6 +94,19 @@ function UserAuthService($http, $q) {
         });
     }
 
+    function confirmVerificationEmail(code) {
+        return $http({
+            method: 'POST',
+            url: '/api/auth/confirmVerificationEmail',
+            data: {
+                code: code
+            }
+        }).
+        then(function (res) {
+            return res.data;
+        });
+    }
+
     return {
         isAlreadyLoggedIn: isAlreadyLoggedIn,
 
@@ -109,7 +122,9 @@ function UserAuthService($http, $q) {
 
         getEmailStates: getEmailStates,
 
-        sendVerificationEmail: sendVerificationEmail
+        sendVerificationEmail: sendVerificationEmail,
+
+        confirmVerificationEmail: confirmVerificationEmail
     };
 }
 

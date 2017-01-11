@@ -7,7 +7,6 @@ function getFailRes(done) {
         status: done.fail       
     }
 }
-       
 
 describe('rate limit', function () {
     const RESET_TIME = 2,

@@ -49,6 +49,11 @@ function OnConfig($stateProvider, $locationProvider, $urlRouterProvider, $compil
             template: '<view-event></view-event>',
             title: 'View Event'
         })
+        .state('VerifyEmail', {
+            url: '/Verify/Email/:code',
+            template: '<verify-email></verify-email>',
+            title: 'Verify Email'
+        })
     ;
 
     $urlRouterProvider.otherwise('/');

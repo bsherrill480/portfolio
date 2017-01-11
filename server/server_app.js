@@ -14,7 +14,6 @@ const express = require('express'),
 
 let calledBefore = false;
 
-
 module.exports = function(passedEnv) {
     if(!calledBefore) {
         let env = passedEnv || app.get('env');
