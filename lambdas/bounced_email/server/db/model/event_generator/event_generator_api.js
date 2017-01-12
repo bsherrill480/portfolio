@@ -1,3 +1,5 @@
+'use strict';
+
 const EventGenerator = require('./event_generator_model');
 
 //all functions return promises

@@ -1,3 +1,5 @@
+'use strict';
+
 const express = require('express'),
     util = require('../api_util'),
     router = express.Router(),

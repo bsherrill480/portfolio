@@ -1,3 +1,5 @@
+'use strict';
+
 const express = require('express'),
     router = express.Router(),
     models = require('../../../db/model/models'),
@@ -6,11 +8,13 @@ const express = require('express'),
     apiUtil = require('../api_util'),
     passport = require('passport'),
     mailer = require('../../../mailer'),
+    cache = require('../../../cache'),
     googleOptions = {
         scope: ['https://www.googleapis.com/auth/calendar.readonly', 'email'],
         accessType: 'offline'
     },
-    facebookScope = ['email'];
+    facebookScope = ['email'],
+    rateLimit = require('../../util/rate_limit');
 
 function getLoginUserThenSendResponseCallback(req, res) {
     return function (user) {
@@ -83,17 +87,50 @@ router.get('/userId', function (req, res, next) {
     res.json({_id: req.isAuthenticated() ? req.user._id : ''});
 });
 
-router.post('/sendVerificationEmail', apiUtil.userIsLoggedIn, function (req, res, next) {
-    if(req.user.emailState === userConsts.UNVERIFIED) {
-        mailer.sendMail({
-            from: '"ezPlan" <admin@ezplan.io>', // sender address
-            to: 'admin@ezplan.io', // list of receivers
-            subject: 'Hello', // Subject line
-            text: 'Hello world', // plaintext body
-            html: '<b>Hello world</b>' // html body
-        });
+const sendVerificationEmailNumReq = 10,
+    sendVerificationEmailResetTime = 60 * 60; // 1 hour
+
+router.post(
+    '/sendVerificationEmail',
+    apiUtil.userIsLoggedIn,
+    // DONT MAKE ME SEND TONS OF EMAILS!!!!
+    rateLimit.getUserRateLimitMiddleware(
+        'send-verification-email',
+        sendVerificationEmailNumReq,
+        sendVerificationEmailResetTime
+    ),
+    function (req, res, next) {
+        const user = req.user;
+        if(user.emailState === userConsts.UNVERIFIED) {
+            mailer.sendVerificationEmail(user)
+        }
+        res.json({});
     }
-    res.json({});
+);
+
+router.post('/confirmVerificationEmail', function (req, res, next) {
+    const code = req.body.code,
+        key = mailer.getSendVerificationEmailKey(code);
+    cache.get(key)
+        .then(function (userId) {
+            if(userId) {
+                userAPI
+                    .updateUser(userId, {
+                        emailState: userConsts.VERIFIED
+                    })
+                    .then(function () {
+                        res.json({
+                            error: ''
+                        })
+                    })
+                    .catch(apiUtil.queryFailedCallback(res));
+            } else {
+                res.json({
+                    error: 'Key not found.'
+                });
+            }
+        })
+        .catch(apiUtil.queryFailedCallback(res));
 });
 
 // ========

@@ -1,3 +1,5 @@
+'use strict';
+
 const redis = require('redis'),
     config = require('../config/get_config')(),
     client = redis.createClient(config.redisOptions),

@@ -1,3 +1,5 @@
+'use strict';
+
 const bcrypt = require('bcryptjs'),
     saltRounds = 10,
     Promise = require('bluebird');

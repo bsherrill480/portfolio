@@ -1,3 +1,5 @@
+'use strict';
+
 const envs = {
     DEVELOPMENT: 'development',
     STAGING: 'staging',

@@ -1,3 +1,5 @@
+'use strict';
+
 const mongoose = require('mongoose'),
     eventGeneratorConsts = require('./event_generator_consts'),
     Schema = mongoose.Schema,

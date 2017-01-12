@@ -1,3 +1,5 @@
+'use strict';
+
 const express = require('express'),
     path = require('path'),
 // favicon = require('serve-favicon'),
@@ -13,7 +15,6 @@ const express = require('express'),
     expressSession = require('express-session');
 
 let calledBefore = false;
-
 
 module.exports = function(passedEnv) {
     if(!calledBefore) {

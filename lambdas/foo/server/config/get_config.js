@@ -1,3 +1,5 @@
+'use strict';
+
 const envs = require('./envs'),
     devConfig = require('./dev_config'),
     testConfig = require('./test_config'),

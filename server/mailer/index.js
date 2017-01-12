@@ -1,3 +1,5 @@
+'use strict';
+
 const
     config = require('../config/get_config')(),
     nodemailer = require('nodemailer'),
@@ -33,6 +35,7 @@ function sendVerificationEmail(user) {
                 .then(function () {
                     const emailVerificationHref = `https://www.ezplan.io/Verify/Email/${randString}`;
                     console.log('emailVerificationHref', emailVerificationHref);
+                    console.log('sending email to:', user.email);
                     sendMail({
                         from: defaultFrom,
                         // list of receivers

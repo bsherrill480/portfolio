@@ -1,3 +1,5 @@
+'use strict';
+
 const UNVERIFIED = 'unverified',
     VERIFIED = 'verified',
     BOUNCED = 'bounced',

@@ -1,3 +1,5 @@
+'use strict';
+
 const mongoose = require('mongoose'),
   blueBird = require('bluebird'),
   getConfig = require('../config/get_config');

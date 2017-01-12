@@ -1,3 +1,5 @@
+'use strict';
+
 const env = process.env,
     MLAB_USER_NAME = env.MLAB_USER_NAME,
     MLAB_PASSWORD = env.MLAB_PASSWORD,

@@ -1,3 +1,5 @@
+'use strict';
+
 const env = process.env,
     testConfig = {
     connectionString: 'mongodb://localhost/sherrill-brian-webdev-test-final',

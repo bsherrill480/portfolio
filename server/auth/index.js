@@ -1,3 +1,5 @@
+'use strict';
+
 let PassportLocalStategy = require('passport-local'),
     getConfig = require('../config/get_config'),
     config = getConfig(),
