@@ -7,12 +7,15 @@ var express = require('express'),
     SNSClient = require('aws-snsclient');
 
 var auth = {
-    region: config.AWS_DEFAULT_REGION,
-    topic: config.AWS_BOUNCED_EMAIL_SNS_ARN
+    // region: config.AWS_DEFAULT_REGION,
+    // topic: config.AWS_BOUNCED_EMAIL_SNS_ARN
+    verify: false
 };
 
 var client = SNSClient(auth, function(err, message) {
-    console.log(message);
+    console.log(`region: ${config.AWS_DEFAULT_REGION}`);
+    console.log(`topic: ${config.AWS_BOUNCED_EMAIL_SNS_ARN}`);
+    console.log('sns message', message);
 });
 
 router.post('/receive', client);
