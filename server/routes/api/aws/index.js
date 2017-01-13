@@ -34,13 +34,14 @@ router.post('/receive', function (req, res, next) {
 
             if(notificationType === 'Complaint') {
                 badEmails = bouncedMessage.complaint.complainedRecipients;
-            } else if (messageType === 'Bounce') {
+            } else if (notificationType === 'Bounce') {
                 badEmails = bouncedMessage.bounce.bouncedRecipients;
             } //   else some other notification type, e.g. changed settings
 
             if(badEmails) {
-                _.each(badEmails, function (badEmail) {
-                    badEmailAPI.createBadEmail(badEmail)
+                _.each(badEmails, function (badEmailObj) {
+                    const email = badEmailObj.emailAddress;
+                    badEmailAPI.createBadEmail(email)
                         .catch(function (err) {
                             console.log('bad email err', err);
                         });
