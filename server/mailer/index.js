@@ -65,7 +65,7 @@ function sendVerificationEmail(user) {
 
 function sendVerificationEmailIfUserGood(user) {
     const userEmail = user.email;
-    
+
     badEmailAPI
         .badEmailExists(userEmail)
         .then(function (emailExists) {
