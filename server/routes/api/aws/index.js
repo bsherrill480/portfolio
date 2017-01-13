@@ -18,6 +18,9 @@ var client = SNSClient(auth, function(err, message) {
     console.log('sns message', message);
 });
 
-router.post('/receive', client);
+router.post('/receive', function (req, res, next) {
+    console.log('req.body', req.body);
+    next();
+}, client);
 
 module.exports = router;
