@@ -11,7 +11,9 @@ const
         accessKeyId: config.AWS_ACCESS_KEY_ID,
         secretAccessKey: config.AWS_SECRET_KEY,
         region: config.AWS_DEFAULT_REGION
-    }));
+    })),
+    modlesAPI = require('../db/model/models'),
+    badEmailAPI = modlesAPI.badEmailAPI;
 
 function sendMail (mailOptions) {
     transporter.sendMail(mailOptions, function (err) {
@@ -61,10 +63,27 @@ function sendVerificationEmail(user) {
         });
 }
 
+function sendVerificationEmailIfUserGood(user) {
+    const userEmail = user.email;
+    
+    badEmailAPI
+        .badEmailExists(userEmail)
+        .then(function (emailExists) {
+            if(!emailExists){
+                sendVerificationEmail(user);
+            } else {
+                console.log('bad email found for', userEmail)
+            }
+        })
+        .catch(function (err) {
+            console.log('checking if email is bad error', err);
+        });
+}
+
 module.exports = {
     sendMail: sendMail,
 
-    sendVerificationEmail: sendVerificationEmail,
+    sendVerificationEmail: sendVerificationEmailIfUserGood,
 
     getSendVerificationEmailKey: getSendVerificationEmailKey
 };
