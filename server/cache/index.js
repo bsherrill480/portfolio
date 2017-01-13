@@ -45,5 +45,7 @@ module.exports = {
 
     expire: expire,
 
-    increment: increment
+    increment: increment,
+
+    client: client
 };

@@ -13,7 +13,9 @@ const express = require('express'),
     passport = require('passport'),
     auth = require('./auth'),
     envs = require('./config/envs'),
-    expressSession = require('express-session');
+    cache = require('./cache'),
+    expressSession = require('express-session'),
+    RedisStore = require('connect-redis')(expressSession);
 
 let calledBefore = false;
 
@@ -41,6 +43,9 @@ module.exports = function(passedEnv) {
         });
         app.use(express.static(path.join(__dirname, '..', 'build')));
         app.use(expressSession({
+            store: new RedisStore({
+                client: cache.client
+            }),
             secret: 'keyboard cat', // in prod this should be an ENV variable
             resave: false,
             saveUninitialized: false
