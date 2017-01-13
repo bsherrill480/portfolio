@@ -1,6 +1,6 @@
 'use strict';
 
-// https://github.com/mattrobenolt/node-snsclient
+// https://github.com/aws/aws-js-sns-message-validator
 var https = require('https'),
     express = require('express'),
     router = express.Router(),
@@ -10,19 +10,21 @@ var https = require('https'),
 
 router.post('/receive', function (req, res, next) {
     const message = req.body;
-    res;
-    console.log('sns req:', req);
     console.log('sns message', message);
     validator.validate(message, function (err, message) {
         if (err) {
             console.error('sns validate err', err);
             return;
         }
+        const messageType = message['Type'];
 
-        if (message['Type'] === 'SubscriptionConfirmation') {
-            https.get(message['SubscribeURL'], function () {
+        if (messageType === 'SubscriptionConfirmation') {
+            // we have already verified subsubscription
+            // https.get(message['SubscribeURL'], function () {
                 // You have confirmed your endpoint subscription
-            });
+            // });
+        } else if (messageType === 'Notification') {
+            console.log('got a notification', message);
         }
     });
 });
