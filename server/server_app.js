@@ -3,6 +3,7 @@
 const express = require('express'),
     path = require('path'),
 // favicon = require('serve-favicon'),
+    serverUtil = require('./server_util'),
     logger = require('morgan'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
@@ -26,6 +27,7 @@ module.exports = function(passedEnv) {
         // uncomment after placing your favicon in /public
         //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
         app.use(logger('dev'));
+        app.use(serverUtil.overrideAWSContentType);
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: true }));
         app.use(cookieParser());
