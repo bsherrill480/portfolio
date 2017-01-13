@@ -5,6 +5,9 @@ var https = require('https'),
     express = require('express'),
     router = express.Router(),
     MessageValidator = require('sns-validator'),
+    _ = require('lodash'),
+    modelsAPI = require('../../../db/model/models'),
+    badEmailAPI = modelsAPI.badEmailAPI,
     validator = new MessageValidator();
 
 
@@ -25,7 +28,24 @@ router.post('/receive', function (req, res, next) {
                 // You have confirmed your endpoint subscription
             // });
         } else if (messageType === 'Notification') {
-            console.log('got a notification', message);
+            const bouncedMessage = JSON.parse(message.Message),
+                notificationType = bouncedMessage.notificationType;
+            let badEmails = null; // array of objects w/ at least "emailAddress"
+
+            if(notificationType === 'Complaint') {
+                badEmails = bouncedMessage.complaint.complainedRecipients;
+            } else if (messageType === 'Bounce') {
+                badEmails = bouncedMessage.bounce.bouncedRecipients;
+            } //   else some other notification type, e.g. changed settings
+
+            if(badEmails) {
+                _.each(badEmails, function (badEmail) {
+                    badEmailAPI.createBadEmail(badEmail)
+                        .catch(function (err) {
+                            console.log('bad email err', err);
+                        });
+                });
+            }
         } else {
             console.log('unrecognized type', messageType)
         }
