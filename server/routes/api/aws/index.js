@@ -13,6 +13,7 @@ router.post('/receive', function (req, res, next) {
     console.log('sns message', message);
     validator.validate(message, function (err, message) {
         if (err) {
+            res.status(500).send();
             console.error('sns validate err', err);
             return;
         }
@@ -25,7 +26,10 @@ router.post('/receive', function (req, res, next) {
             // });
         } else if (messageType === 'Notification') {
             console.log('got a notification', message);
+        } else {
+            console.log('unrecognized type', messageType)
         }
+        res.send();
     });
 });
 
