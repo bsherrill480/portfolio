@@ -57,7 +57,6 @@
   },
   "dependencies": {
     "aws-sdk": "^2.7.21",
-    "aws-snsclient": "^0.2.0",
     "base64url": "^2.0.0",
     "bcrypt-nodejs": "0.0.3",
     "bcryptjs": "^2.4.0",
@@ -81,7 +80,8 @@
     "passport-local": "^1.0.0",
     "pug": "^2.0.0-beta6",
     "redis": "^2.6.3",
-    "serve-favicon": "^2.3.2"
+    "serve-favicon": "^2.3.2",
+    "sns-validator": "^0.2.2"
   },
   "devDependencies": {
     "angular": "^1.6.0",

@@ -1,26 +1,27 @@
 'use strict';
 
 // https://github.com/mattrobenolt/node-snsclient
-var express = require('express'),
-    router = express.Router(),
-    config = require('../../../config/get_config')(),
-    SNSClient = require('aws-snsclient');
+var https = require('https'),
+    MessageValidator = require('sns-validator'),
+    validator = new MessageValidator();
 
-var auth = {
-    // region: config.AWS_DEFAULT_REGION,
-    // topic: config.AWS_BOUNCED_EMAIL_SNS_ARN
-    verify: false
-};
-
-var client = SNSClient(auth, function(err, message) {
-    console.log(`region: ${config.AWS_DEFAULT_REGION}`);
-    console.log(`topic: ${config.AWS_BOUNCED_EMAIL_SNS_ARN}`);
-    console.log('sns message', message);
-});
 
 router.post('/receive', function (req, res, next) {
-    console.log('req.body', req.body);
-    next();
-}, client);
+    const message = req.body;
+    console.log('sns req:', req);
+    console.log('sns message', message);
+    validator.validate(message, function (err, message) {
+    if (err) {
+        console.error('sns validate err', err);
+        return;
+    }
+
+    if (message['Type'] === 'SubscriptionConfirmation') {
+        https.get(message['SubscribeURL'], function (res) {
+          // You have confirmed your endpoint subscription
+        });
+    }
+});
+});
 
 module.exports = router;
