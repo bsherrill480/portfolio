@@ -1,6 +1,6 @@
 'use strict';
 
-const BadEmail = require('./event_generator_model');
+const BadEmail = require('./bad_email_model');
 
 //all functions return promises
 module.exports = {

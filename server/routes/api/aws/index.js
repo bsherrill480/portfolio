@@ -1,7 +1,7 @@
 'use strict';
 
 // https://github.com/aws/aws-js-sns-message-validator
-var https = require('https'),
+var // https = require('https'), // for confirmation of subscription
     express = require('express'),
     router = express.Router(),
     MessageValidator = require('sns-validator'),

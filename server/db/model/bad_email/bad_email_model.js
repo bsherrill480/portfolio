@@ -1,8 +1,8 @@
 'use strict';
 
-const EventGeneratorSchema = require('./event_generator_schema'),
+const BadEmailSchema = require('./bad_email_schema'),
     mongoose = require('mongoose'),
-    EventGenerator = mongoose.model('EventGenerator', EventGeneratorSchema);
+    EventGenerator = mongoose.model('BadEmail', BadEmailSchema);
 
 //all functions return promises
 module.exports = EventGenerator;
