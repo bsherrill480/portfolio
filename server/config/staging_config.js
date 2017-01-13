@@ -12,6 +12,7 @@ const env = process.env,
         },
         AWS_DEFAULT_REGION: env.AWS_DEFAULT_REGION,
         AWS_ACCESS_KEY_ID: env.AWS_ACCESS_KEY_ID,
-        AWS_SECRET_KEY: env.AWS_SECRET_KEY
+        AWS_SECRET_KEY: env.AWS_SECRET_KEY,
+        AWS_BOUNCED_EMAIL_SNS_ARN: env.AWS_BOUNCED_EMAIL_SNS_ARN
     };
 module.exports = stagingConfig;

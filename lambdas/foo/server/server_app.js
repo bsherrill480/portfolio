@@ -86,8 +86,11 @@ module.exports = function(passedEnv) {
 
         // don't run db in test, it's already setup by prep_test_db
         if(env !== envs.TEST) {
-            dbInitialize(env);
+            dbInitialize(env)
+                .then(function () {
+                    console.log('DB READY!');
+                });
         }
     }
     return app;
-}
+};

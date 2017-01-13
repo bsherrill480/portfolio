@@ -1,17 +1,25 @@
 'use strict';
 
 const mongoose = require('mongoose'),
-  blueBird = require('bluebird'),
-  getConfig = require('../config/get_config');
-let initialized = false;
+    BlueBird = require('bluebird'),
+    Promise = BlueBird,
+    getConfig = require('../config/get_config');
 
-function initialize(env) {
-  if(!initialized) {
-    const config = getConfig(env);
-    initialized = true;
-    mongoose.connect(config.connectionString);
-    mongoose.Promise = blueBird;
-  }
+mongoose.connectAsync = Promise.promisify(mongoose.connect);
+
+let initialized = false,
+    mongoosePromise;
+
+function initialize(env, options) {
+    options = options || {};
+    if(!initialized) {
+        console.log('dbInit');
+        const config = getConfig(env);
+        initialized = true;
+        mongoosePromise = mongoose.connectAsync(config.connectionString, options);
+        mongoose.Promise = BlueBird;
+    }
+    return mongoosePromise;
 }
 
 module.exports = initialize;
