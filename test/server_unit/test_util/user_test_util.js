@@ -25,7 +25,8 @@ const models = require('../../../server/db/model/models'),
                     id: testUserStr,
                     accessToken: testUserStr,
                     refreshToken: testUserStr
-                }
+                },
+                allowEventEmails: true
             }
         }
     };
@@ -98,8 +99,8 @@ module.exports = {
                 id: 'a',
                 accessToken: 'a',
                 refreshToken: 'a'
-            }
-
+            },
+            allowEventEmails: true
         },
 
         getTestUser: function (testUser) {

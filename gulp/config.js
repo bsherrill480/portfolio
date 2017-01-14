@@ -75,7 +75,7 @@ export default {
     server: {
         path: 'server/',
         // tests: 'test/server_unit/**/*spec.js',
-        tests: 'test/server_unit/**/rate_limit_spec.js',
+        tests: 'test/server_unit/**/event_generator_util_spec.js',
         file: 'server/index.js', // from top directory
         files: 'server/**/*.js',
         testTemp: 'test_tmp/'

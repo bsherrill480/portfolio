@@ -13,7 +13,8 @@ const _ = require('lodash'),
             intervalYear: 1,
             intervalMonth: 0,
             intervalDay: 0,
-            generatorType: eventGeneratorConsts.HOMEOWNER
+            generatorType: eventGeneratorConsts.HOMEOWNER,
+            nextReminderDate: new Date(0)
         }
     },
     testEventGeneratorGen = {
