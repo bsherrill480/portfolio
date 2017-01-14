@@ -10,6 +10,7 @@ const express = require('express'),
     dbInitialize = require('./db/initialize'),
     routes = require('./routes'),
     app = express(),
+    myCronJobs = require('./cron'),
     passport = require('passport'),
     auth = require('./auth'),
     envs = require('./config/envs'),
@@ -93,6 +94,8 @@ module.exports = function(passedEnv) {
 
         // don't run db in test, it's already setup by prep_test_db
         if(env !== envs.TEST) {
+            myCronJobs.start();
+            
             dbInitialize(env)
                 .then(function () {
                     console.log('DB READY!');

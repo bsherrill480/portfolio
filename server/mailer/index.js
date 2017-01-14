@@ -86,10 +86,32 @@ function callIfUserEmailOkay(user, callback) {
         });
 }
 
+function sendEventReminderEmail(eventGenerator) {
+    const displayDate = moment(eventGenerator.date).format('MMMM do YYYY');
+    sendMail({
+        from: defaultFrom,
+        // list of receivers
+        to: eventGenerator._user.email,
+        subject: `Don\'t forget you need to ${eventGenerator.question}`, // Subject line
+        // plaintext body
+        text: `According to our records, on ${displayDate} you need to ${eventGenerator.question}.`,
+        // html body
+        html: `According to our records, on ${displayDate} you need to ${eventGenerator.question}.`
+    });
+}
+
+function sendEventReminderEmailIfUserGood(eventGenerator) {
+    callIfUserEmailOkay(eventGenerator._user, () => sendEventReminderEmail(eventGenerator));
+}
+
+
+
 module.exports = {
     sendMail: sendMail,
 
     sendVerificationEmail: sendVerificationEmailIfUserGood,
 
-    getSendVerificationEmailKey: getSendVerificationEmailKey
+    getSendVerificationEmailKey: getSendVerificationEmailKey,
+
+    sendEventReminderEmail: sendEventReminderEmailIfUserGood
 };
