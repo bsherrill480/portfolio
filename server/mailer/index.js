@@ -64,13 +64,19 @@ function sendVerificationEmail(user) {
 }
 
 function sendVerificationEmailIfUserGood(user) {
+    callIfUserEmailOkay(user, sendVerificationEmail);
+}
+
+
+function callIfUserEmailOkay(user, callback) {
     const userEmail = user.email;
 
+    // can be optimized with redis, storing good emails for short time (e.g. 24 hours)
     badEmailAPI
         .badEmailExists(userEmail)
         .then(function (emailExists) {
             if(!emailExists){
-                sendVerificationEmail(user);
+                callback(user);
             } else {
                 console.log('bad email found for', userEmail)
             }

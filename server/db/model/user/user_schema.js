@@ -19,7 +19,8 @@ const mongoose = require('mongoose'),
             accessToken: String,
             refreshToken: String,
             googleEmail: {type: String}
-        }
+        },
+        allowEventEmails: {type: Boolean, required: true}
     }, {
         timestamps: true
     });

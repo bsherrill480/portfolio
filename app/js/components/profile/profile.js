@@ -1,26 +1,23 @@
 function ProfileCtrl(UserAuthService, UserService, ResponseService, $state, GoogleService) {
     'ngInject';
-    const $ctrl = this,
-        EMAIL_REQUIRED_MSG = 'Valid email required.',
-        PASSWORD_REQUIRED_MSG = 'Password required.';
+    const $ctrl = this;
     $ctrl.user = {
         email: '',
         password: ''
     };
-    $ctrl.errors = {
-        email: '',
-        password: ''
-    };
-    
+
     $ctrl.emailStates = UserAuthService.getEmailStates();
-    
+
     $ctrl.verificationEmailResent = false;
+
+    $ctrl.isLoaded = false;
 
     UserAuthService.getUserId()
         .then(function (userId) {
             UserService.findUserById(userId)
                 .then(function (result) {
                     $ctrl.user = result;
+                    $ctrl.isLoaded = true;
                 })
                 .catch(function (err) {
                     console.log('ProfileCtrl UserAuthService.getUserId UserService.findUserById' +
@@ -31,20 +28,6 @@ function ProfileCtrl(UserAuthService, UserService, ResponseService, $state, Goog
             console.log('ProfileCtrl UserAuthService.getUserId err', err);
         });
 
-    function validInputs (user) {
-        const passwordValid = user.password,
-            emailValid = user.email.length >= 3 && user.email.indexOf('@') >= 1,
-            allValid = passwordValid && emailValid;
-
-        $ctrl.errors.password = passwordValid ? '' : PASSWORD_REQUIRED_MSG;
-        $ctrl.errors.email = emailValid ? '' : EMAIL_REQUIRED_MSG;
-        return allValid;
-    }
-
-    // $ctrl.onFacebookAuthenticate = function () {
-    //     window.location = '/api/auth/facebook/connect';
-    // };
-
     $ctrl.onGoogleAuthenticate = GoogleService.googleAuth;
 
     $ctrl.resendVerification = function () {
@@ -52,21 +35,16 @@ function ProfileCtrl(UserAuthService, UserService, ResponseService, $state, Goog
         UserAuthService.sendVerificationEmail();
     };
 
-    $ctrl.profile = function(userCred) {
-        if(validInputs(userCred)) {
-            const user = {
-                password: userCred.password,
-                email: userCred.email
-            };
-            UserAuthService
-                .profile(user)
-                .then(function () {
-                    $state.go('Home');
-                })
-                .catch(function (err) {
-                    ResponseService.alertResponseError('Error logging in.', err);
-                });
-        }
+    $ctrl.save = function(user) {
+        const updatedUser = {
+            allowEventEmails: user.allowEventEmails
+        };
+
+        UserService
+            .updateUser(user._id, updatedUser)
+            .catch(function (err) {
+                ResponseService.alertResponseError('Error logging in.', err);
+            });
     };
 }
 

@@ -38,6 +38,21 @@
                         events.
                     </small>
                 </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="$ctrl.user.allowEventEmails">
+                        Allow ezPlan to send me event reminder emails.
+                    </label>
+                </div>
+                <div class="row top-spacing">
+                    <div class="col-sm-offset-2 col-sm-8">
+                        <button class="btn btn-lg btn-primary full-width"
+                                ng-disabled="!$ctrl.isLoaded"
+                                ng-click="$ctrl.save($ctrl.user)">
+                            Save
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
