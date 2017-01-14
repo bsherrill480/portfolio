@@ -48,7 +48,9 @@ function UserAuthService($http, $q) {
                 password: password,
                 allowEventEmails: true
             }
-        }).then(getUserIdAndReturnData);
+        })
+            .then(getUserIdAndReturnData)
+            .then(sendVerificationEmail);
     }
 
     function login (user) {
