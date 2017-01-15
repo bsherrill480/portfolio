@@ -8,7 +8,7 @@ module.exports = {
     createEventGenerator(userId, sentEventGenerator) {
         const eventGenerator = new EventGenerator(sentEventGenerator);
         eventGenerator._user = userId;
-        eventGeneratorUtil.addNextReminderDateToEventGenerator(eventGenerator);
+        eventGeneratorUtil.addNextEventDateToEventGenerator(eventGenerator);
         return eventGenerator.save();
     },
 
@@ -16,11 +16,11 @@ module.exports = {
         return EventGenerator.find({_user: userId})
     },
 
-    // returns [lower, upper) 
-    findEventGeneratorsByNextReminderDate(lowerBound, upperBound) {
+    // returns [lower, upper)
+    findEventGeneratorsByNextEventDate(lowerBound, upperBound) {
         const query = EventGenerator
             .find({
-                nextReminderDate: {
+                nextEventDate: {
                     $gte: lowerBound,
                     $lt: upperBound
                 }
@@ -34,7 +34,7 @@ module.exports = {
     },
 
     updateEventGenerator(eventGeneratorId, eventGenerator) {
-        eventGeneratorUtil.addNextReminderDateToEventGenerator(eventGenerator);
+        eventGeneratorUtil.addNextEventDateToEventGenerator(eventGenerator);
         return EventGenerator.findByIdAndUpdate(eventGeneratorId, eventGenerator, {new: true}).exec();
     },
 

@@ -54,6 +54,17 @@ function getEventGeneratorsForTestUser(testUser) {
     });
 }
 
+
+function generateMockEventDate(intervalYear, intervalMonth, intervalDay, date, isReoccurring) {
+    return {
+        intervalYear: intervalYear,
+        intervalMonth: intervalMonth,
+        intervalDay: intervalDay,
+        date: date,
+        isReoccurring: isReoccurring
+    };
+}
+
 module.exports = {
 
     testEventGenerators: testEventGenerators,
@@ -80,7 +91,8 @@ module.exports = {
     
     generateEventGenerator: generateEventGenerator,
     
-    getEventGeneratorsForTestUser: getEventGeneratorsForTestUser
+    getEventGeneratorsForTestUser: getEventGeneratorsForTestUser,
     
+    generateMockEventDate: generateMockEventDate
 };
 

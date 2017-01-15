@@ -11,6 +11,6 @@ module.exports = {
     },
 
     badEmailExists(email) {
-        return BadEmail.find({email: email})
+        return BadEmail.find({email: email}).exec()
     }
 };

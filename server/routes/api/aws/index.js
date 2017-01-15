@@ -41,7 +41,7 @@ router.post('/receive', function (req, res, next) {
             if(badEmails) {
                 _.each(badEmails, function (badEmailObj) {
                     const email = badEmailObj.emailAddress;
-                    badEmailAPI.createBadEmail(email)
+                    badEmailAPI.createReminderEmail(email)
                         .catch(function (err) {
                             console.log('bad email err', err);
                         });

@@ -73,7 +73,7 @@ function callIfUserEmailOkay(user, callback) {
 
     // can be optimized with redis, storing good emails for short time (e.g. 24 hours)
     badEmailAPI
-        .badEmailExists(userEmail)
+        .findReminderByDate(userEmail)
         .then(function (emailExists) {
             if(!emailExists){
                 callback(user);

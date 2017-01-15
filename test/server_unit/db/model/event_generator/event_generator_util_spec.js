@@ -1,16 +1,8 @@
-const eventGeneratorUtil
+const eventGeneratorTestUtil = require('../../../test_util/event_generator_test_util'),
+    eventGeneratorUtil
     = require('../../../../../server/db/model/event_generator/event_generator_util'),
-    moment = require('moment');
-
-function generateMockEventDate(intervalYear, intervalMonth, intervalDay, date, isReoccurring) {
-    return {
-        intervalYear: intervalYear,
-        intervalMonth: intervalMonth,
-        intervalDay: intervalDay,
-        date: date,
-        isReoccurring: isReoccurring
-    };
-}
+    moment = require('moment'),
+    generateMockEventDate = eventGeneratorTestUtil.generateMockEventDate;
 
 describe('shouldSetNextEventDate', function () {
     it('should require both interval and isReoccurring', function () {
@@ -36,17 +28,7 @@ describe('shouldSetNextEventDate', function () {
          expect(eventGeneratorUtil._shouldSetNextEventDate(
             generateMockEventDate(0, 0, 1, moment().add(1, 'day'), true)
         )).toBeFalsy();
-               
-    });
-});
 
-describe('eventDateToReminder', function () {
-    it('should subtract over appropriately', function () {
-        const initDate = moment('2017-01-03'),
-            timeToSubtract = 24, // hours
-            reminderDate = eventGeneratorUtil._eventDateToReminderDate(initDate, timeToSubtract),
-            expectedDate = moment('2017-01-02');
-        expect(expectedDate.isSame(reminderDate)).toBeTruthy();
     });
 });
 
@@ -108,51 +90,44 @@ describe('getApproxNumIntervalsToDate', function () {
     });
 });
 
-describe('addNextReminderDateToEventGenerator', function () {
+describe('addNextEventDateToEventGenerator', function () {
     it('if same day, should correctly', function () {
         const now = moment(),
-            newEventDate = moment().add(1, 'day').add(1, 'month').add(1, 'year'),
-            reminderDate = eventGeneratorUtil._eventDateToReminderDate(
-                newEventDate,
-                eventGeneratorUtil._SEND_REMINDER_DIFF
-            ),
+            newEventDate = moment(now).add(1, 'day').add(1, 'month').add(1, 'year'),
             eventGenerator = generateMockEventDate(1, 1, 1, now, true);
-        eventGeneratorUtil.addNextReminderDateToEventGenerator(eventGenerator);
-        const dateIsRight = moment(eventGenerator.nextReminderDate).isSame(reminderDate);
+        eventGeneratorUtil.addNextEventDateToEventGenerator(eventGenerator);
+        const dateIsRight = moment(eventGenerator.nextEventDate).isSame(newEventDate);
         expect(dateIsRight).toBeTruthy();
     });
 
     it('if yesterday, should set correctly', function () {
         const yesterday = moment().subtract(1, 'day'),
             // don't add 1 day because we start at yesterday
-            newEventDate = moment().add(1, 'month').add(1, 'year'),
-            reminderDate = eventGeneratorUtil._eventDateToReminderDate(
-                newEventDate,
-                eventGeneratorUtil._SEND_REMINDER_DIFF
-            ),
+            newEventDate = moment(yesterday).add(1, 'month').add(1, 'year').add(1, 'day'),
             eventGenerator = generateMockEventDate(1, 1, 1, yesterday, true);
-        eventGeneratorUtil.addNextReminderDateToEventGenerator(eventGenerator);
-        const dateIsRight = moment(eventGenerator.nextReminderDate).isSame(reminderDate);
+        eventGeneratorUtil.addNextEventDateToEventGenerator(eventGenerator);
+        const dateIsRight = moment(eventGenerator.nextEventDate).isSame(newEventDate);
         expect(dateIsRight).toBeTruthy();
     });
 
-    it('if tomorrow, should set reminder to today', function () {
+    it('if tomorrow, should set correctly', function () {
         const tomorrow = moment().add(1, 'day'),
+            nextEventDate = moment(tomorrow),
             // don't add 1 day because we start at yesterday
-            reminderDate = moment(),
             eventGenerator = generateMockEventDate(1, 1, 1, tomorrow, true);
-        eventGeneratorUtil.addNextReminderDateToEventGenerator(eventGenerator);
-        const dateIsRight = moment(eventGenerator.nextReminderDate).isSame(reminderDate);
+        eventGeneratorUtil.addNextEventDateToEventGenerator(eventGenerator);
+        const dateIsRight = moment(eventGenerator.nextEventDate).isSame(nextEventDate);
         expect(dateIsRight).toBeTruthy();
     });
 
     it('even if numIntervals is underestimated, it should still get the date correct', function () {
-        const nineYearsAgo = moment().subtract(9, 'years').add(1, 'day'),
-            reminderDate = moment(),
+        const now = moment(),
+            nineYearsAgo = moment(now).subtract(9, 'years').add(1, 'day'),
+            nextEvent = moment(now).add(1, 'day'),
             eventGenerator = generateMockEventDate(1, 6, 0, nineYearsAgo, true);
 
-        eventGeneratorUtil.addNextReminderDateToEventGenerator(eventGenerator);
-        const dateIsRight = moment(eventGenerator.nextReminderDate).isSame(reminderDate);
+        eventGeneratorUtil.addNextEventDateToEventGenerator(eventGenerator);
+        const dateIsRight = moment(eventGenerator.nextEventDate).isSame(nextEvent);
         expect(dateIsRight).toBeTruthy();
     });
 });

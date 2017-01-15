@@ -12,7 +12,7 @@ const mongoose = require('mongoose'),
         intervalDay: {type: Number, required: true},
         isReoccurring: {type: Boolean, default: false},
         generatorType: {type:String, enum: eventGeneratorConsts.EVENT_GENERATOR_TYPES},
-        nextReminderDate: {type: Date, required: true, index: true}
+        nextEventDate: {type: Date, required: true, index: true}
     }, {
         timestamps: true
     });

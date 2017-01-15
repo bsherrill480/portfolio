@@ -12,8 +12,10 @@ import _ from 'lodash';
 import userTestUtil from '../../test/server_unit/test_util/user_test_util';
 import eventGeneratorTestUtil from '../../test/server_unit/test_util/event_generator_test_util';
 import mongoose from 'mongoose';
+import BadEmail from '../../server/db/model/bad_email/bad_email_model'
+import Reminder from '../../server/db/model/reminder/reminder_model'
 
-const models = [User, EventGenerator];
+const models = [User, EventGenerator, BadEmail, Reminder];
 
 // This tasks cleans out all data in the test database and initialized mongoose test db connection
 gulp.task('prep_test_db', function(cb) {
@@ -52,6 +54,12 @@ gulp.task('prep_test_db', function(cb) {
 
                             delete mongoose.models['EventGenerator'];
                             delete mongoose.modelSchemas['EventGenerator'];
+                            
+                            delete mongoose.models['BadEmail'];
+                            delete mongoose.modelSchemas['BadEmail'];
+                            
+                            delete mongoose.models['Reminder'];
+                            delete mongoose.modelSchemas['Reminder'];
                             cb();                       
                         });
                 });
