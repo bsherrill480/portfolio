@@ -28,5 +28,9 @@ module.exports = {
                 }
             });
         });
+    },
+    
+    isValidPasswordSync(password, passwordHash) {
+        return bcrypt.compareSync(password, passwordHash);
     }
 };

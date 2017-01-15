@@ -1,5 +1,6 @@
 const models = require('../../../server/db/model/models'),
     userConsts = require('../../../server/db/model/user/user_consts'),
+    userUtil = require('../../../server/db/model/user/user_util'),
     userAPI = models.userAPI,
     _ = require('lodash'),
     Promise = require('bluebird'),
@@ -115,8 +116,8 @@ module.exports = {
             ignoreGoogle = _.get(options, 'ignoreGoogle');
         expect(user).toBeTruthy();
         expect(user.email).toBe(target.email);
-        expect(user.isValidPassword(target.password)).toBeTruthy();
-        expect(user.isValidPassword('foobar')).toBeFalsy();
+        expect(userUtil.isValidPasswordSync(target.password, user.password)).toBeTruthy();
+        expect(userUtil.isValidPasswordSync('foobar', user.password)).toBeFalsy();
         expect(user.updatedAt).toBeDefined();
         expect(user.createdAt).toBeDefined();
         expect(user._id).toBeDefined();

@@ -138,7 +138,8 @@ describe('auth route register', function () {
             .send({
                 username: generatedUser.email,
                 email: generatedUser.email,
-                password: generatedUser.password
+                password: generatedUser.password,
+                allowEventEmails: generatedUser.allowEventEmails
             })
             .expect(function (res) {
                 apiTestUtil.expectedUserResponse(res.body, generatedUser);

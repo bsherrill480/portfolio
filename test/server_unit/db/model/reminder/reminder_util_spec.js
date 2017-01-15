@@ -116,7 +116,6 @@ describe('shouldSetNextEventDate', function () {
                                                     )
                                                     .add(1, 'month');
 
-                                        console.log('reminder', reminder);
                                         expect(
                                             reminder._user.toString()
                                         ).toBe(testUser._id.toString());

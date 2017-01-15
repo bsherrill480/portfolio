@@ -20,10 +20,8 @@ function generateReminderAttributesFromEventGenerator(eventGenerator) {
 }
 
 function generateAndSaveRemindersFromEventGenerator(eventGenerator) {
-    console.log('generateAndSaveRemindersFromEventGenerator', eventGenerator);
     const reminderPromises = [];
     _.each(generateReminderAttributesFromEventGenerator(eventGenerator), function (reminderAttrs) {
-        console.log('saving reminder', reminderAttrs);
         reminderPromises.push(reminderAPI.createReminder(reminderAttrs));
     });
     return Promise.all(reminderPromises);
