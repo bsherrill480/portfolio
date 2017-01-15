@@ -13,11 +13,9 @@ module.exports = {
         const user = new User(newUser),
             plaintextPassword = newUser.password,
             passwordHashPromise = userUtil.hashPassword(plaintextPassword);
-        console.log('create user function');
         return new Promise(function (resolve, reject) {
             passwordHashPromise
                 .then(function (hash) {
-                    console.log('hashed password', hash);
                     user.password = hash;
                     user.save()
                         .then(resolve)

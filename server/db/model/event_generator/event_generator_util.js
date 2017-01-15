@@ -4,10 +4,6 @@ const moment = require('moment');
 // under certain conditions
 function shouldRunAlgoForNextEventDate(eventGenerator) {
     const now = moment();
-    console.log('should run algo:', eventGenerator.question, eventGenerator.isReoccurring, (
-        eventGenerator.intervalYear ||
-        eventGenerator.intervalMonth ||
-        eventGenerator.intervalDay), moment(eventGenerator.date).isSameOrBefore(now));
     // if eventGeneratorDate is after now, then we can just wait until then to start the algo.
     // i.e. afterNow => return false
     return eventGenerator.isReoccurring && (
@@ -40,7 +36,6 @@ function getGEQIntervalInDays(eventGenerator) {
 // This will undershoot because getGEQIntervalInDays provides the max
 function getLEQNumIntervalsToDate(eventGenerator, date) {
     const eventGenDate = moment(eventGenerator.date);
-    console.log(`Math.floor(${date.diff(eventGenDate, 'days')} / ${getGEQIntervalInDays(eventGenerator)}`)
     return Math.floor(date.diff(eventGenDate, 'days') / getGEQIntervalInDays(eventGenerator));
 }
 

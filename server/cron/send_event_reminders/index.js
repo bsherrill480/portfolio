@@ -1,12 +1,12 @@
 'use strict';
 
-const cron = require('cron'),
-    moment = require('moment'),
-    modelsAPI = require('../../db/model/models'),
-    _ = require('lodash'),
-    eventGeneratorsAPI = modelsAPI.eventGeneratorAPI,
-    Promise = require('bluebird'),
-    mailer = require('../../mailer');
+const cron = require('cron');
+    // moment = require('moment'),
+    // modelsAPI = require('../../db/model/models');
+    // _ = require('lodash'),
+    // eventGeneratorsAPI = modelsAPI.eventGeneratorAPI,
+    // Promise = require('bluebird'),
+    // mailer = require('../../mailer');
 
 function getEventGeneratorsAndSetNextEventDates() {
     // const now = moment(),

@@ -2,10 +2,12 @@
 
 const mongoose = require('mongoose'),
     Schema = mongoose.Schema,
+    reminderConsts = require('./reminder_consts'),
     reminderSchema = new Schema({
         _user: {type: Schema.Types.ObjectId, ref: 'User'},
+        date: {type: Date, required: true, index: true},
         _eventGenerator: {type: Schema.Types.ObjectId, ref: 'EventGenerator'},
-        email: {type: String, required: true, index: true}
+        type: {type: String, required: true, enum: reminderConsts.ALL_REMINDER_TYPES}
     }, {
         timestamps: true
     });

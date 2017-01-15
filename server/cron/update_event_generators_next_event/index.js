@@ -5,6 +5,7 @@ const cron = require('cron'),
     modelsAPI = require('../../db/model/models'),
     _ = require('lodash'),
     eventGeneratorsAPI = modelsAPI.eventGeneratorAPI,
+    reminderUtil = require('../../db/model/reminder/reminder_util'),
     Promise = require('bluebird');
 
 function getEventGeneratorsAndSetNextEventDates() {
@@ -14,18 +15,21 @@ function getEventGeneratorsAndSetNextEventDates() {
         hourAgo = moment().subtract(1, 'hour');
 
     return new Promise(function (resolve, reject) {
-        const savedEventGeneratorsAll = [];
+        const promisesAll = [];
         
         eventGeneratorsAPI.findEventGeneratorsByNextEventDate(hourAgo, now)
             .then(function (eventGenerators) {
                 // just resave them all, and the API should notice nextEventDate is expired and 
                 // update it
                 _.each(eventGenerators, function (eventGenerator) {
-                    savedEventGeneratorsAll.push(
+                    promisesAll.push(
                         eventGeneratorsAPI.updateEventGenerator(eventGenerator._id, eventGenerator)
                     );
+                    promisesAll.push(
+                        reminderUtil.generateAndSaveRemindersFromEventGenerator(eventGenerator)
+                    )
                 });
-                Promise.all(savedEventGeneratorsAll)
+                Promise.all(promisesAll)
                     .then(resolve)
                     .catch(reject);
             })

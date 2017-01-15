@@ -6,8 +6,7 @@ const models = require('../../../../server/db/model/models'),
     cronUpdateEventGenerators
         = require('../../../../server/cron/update_event_generators_next_event'),
     userTestUtil = require('../../test_util/user_test_util'),
-    moment = require('moment'),
-    Promise = require('bluebird');
+    moment = require('moment');
 
 describe('update event generators next event spec', function () {
     it('should get recently expired eventGenerators and update eventdate', function (done) {
