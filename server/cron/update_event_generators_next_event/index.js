@@ -38,8 +38,6 @@ function getEventGeneratorsAndSetNextEventDates() {
                 reject(err);
             });
     });
-    
-
 }
 
 function getJob() {
@@ -55,5 +53,5 @@ function getJob() {
 module.exports = {
     getJob: getJob,
 
-    _getEventGeneratorsAndSetNextEventDates: getEventGeneratorsAndSetNextEventDates
+    _sendRemindersJob: getEventGeneratorsAndSetNextEventDates
 };

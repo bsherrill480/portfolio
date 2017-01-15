@@ -12,8 +12,17 @@ function createReminder(options) {
     return reminder.save();
 }
 
-function findReminderByDate(date) {
-    return Reminder.find({date: date}).exec()
+function findRemindersByDate(lowerBound, upperBound) {
+    const query = Reminder
+        .find({
+            date: {
+                $gte: lowerBound,
+                $lt: upperBound
+            }
+        })
+        .populate('_eventGenerator')
+        .populate('_user');
+    return query.exec();
 }
 
 function findRemindersByEventGenerator(eventGeneratorId) {
@@ -24,14 +33,20 @@ function deleteRemindersForEventGenerator(eventGeneratorId) {
     return Reminder.remove({_eventGenerator: eventGeneratorId}).exec();
 }
 
+function deleteReminder(reminderId) {
+    return Reminder.remove({_id: reminderId}).exec();
+}
+
 //all functions return promises
 module.exports = {
 
     createReminder: createReminder,
 
-    findReminderByDate: findReminderByDate,
+    findRemindersByDate: findRemindersByDate,
 
     findReminderByEventGenerator: findRemindersByEventGenerator,
 
-    deleteRemindersForEventGenerator: deleteRemindersForEventGenerator
+    deleteRemindersForEventGenerator: deleteRemindersForEventGenerator,
+    
+    deleteReminder: deleteReminder
 };

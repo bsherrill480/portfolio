@@ -34,7 +34,7 @@ describe('update event generators next event spec', function () {
                     createEventGeneratorExpiresInSecond
                         .then(function (eventGenerator) {
                             const expectedNextEventDate = moment(futureSecond).add(1, 'day');
-                            cronUpdateEventGenerators._getEventGeneratorsAndSetNextEventDates()
+                            cronUpdateEventGenerators._sendRemindersJob()
                                 .then(function (savedEventGenerators) {
                                     const updatedEventGenerator = savedEventGenerators[0];
                                     expect(updatedEventGenerator._id.toString())

@@ -44,8 +44,7 @@ module.exports = {
                     $gte: lowerBound,
                     $lt: upperBound
                 }
-            })
-            .populate('_user');
+            });
         return query.exec();
     },
 
