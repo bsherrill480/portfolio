@@ -97,7 +97,7 @@ function callIfUserEmailOkay(user, callback) {
 }
 
 function sendEventReminderEmail(reminder) {
-    const displayDate = moment(reminder.date).format('MMMM do YYYY'),
+    const displayDate = moment(reminder.date).format('MMMM Do YYYY'),
         question = reminder._eventGenerator.question;
     console.log('sendEventRemidnerEmail');
     sendMail({

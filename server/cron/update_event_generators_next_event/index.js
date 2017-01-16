@@ -44,7 +44,8 @@ function getJob() {
     return new cron.CronJob({
         cronTime: '0 * * * *',
         onTick: function () {
-            console.log('sending event reminder emails')
+            console.log('updating event generators');
+            getEventGeneratorsAndSetNextEventDates();
         },
         start: false
     })

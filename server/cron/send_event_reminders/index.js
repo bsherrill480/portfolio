@@ -41,9 +41,9 @@ function sendRemindersJob() {
 
 function getJob() {
     return new cron.CronJob({
-        cronTime: '19 * * * *',
+        cronTime: '0 * * * *',
         onTick: function () {
-            console.log('sending event reminder emails')
+            console.log('sending event reminder emails');
             sendRemindersJob();
         },
         start: false
