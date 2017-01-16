@@ -21,6 +21,7 @@ function sendRemindersJob() {
             .then(function (reminders) {
                 // just resave them all, and the API should notice nextEventDate is expired and
                 // update it
+                console.log('found reminders', reminders);
                 _.each(reminders, function (reminder) {
                     promisesAll.push(
                         remindersAPI.deleteReminder(reminder._id)
@@ -40,9 +41,10 @@ function sendRemindersJob() {
 
 function getJob() {
     return new cron.CronJob({
-        cronTime: '0 * * * *',
+        cronTime: '19 * * * *',
         onTick: function () {
             console.log('sending event reminder emails')
+            sendRemindersJob();
         },
         start: false
     })

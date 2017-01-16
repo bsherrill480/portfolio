@@ -54,11 +54,14 @@ localStrategy = new PassportLocalStategy(
                         } else {
                             done(null, false);
                         }
+                        return null;
                     })
                     .catch(function (err) {
                         done(err);
                     });
             }
+            
+            return null;
         })
         .catch(function (err) {
             console.log('passport local error', err);

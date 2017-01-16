@@ -24,9 +24,11 @@ module.exports = {
                 .then(function (eventGeneratorSaved) {
                     reminderUtil.generateAndSaveRemindersFromEventGenerator(eventGeneratorSaved)
                         .then(function () {
-                            resolve(eventGeneratorSaved)
+                            resolve(eventGeneratorSaved);
+                            return null;
                         })
                         .catch(reject);
+                    return null;
                 })
                 .catch(reject);
         });
@@ -68,10 +70,13 @@ module.exports = {
                                 .generateAndSaveRemindersFromEventGenerator(eventGeneratorUpdated)
                                 .then(function () {
                                     resolve(eventGeneratorUpdated);
+                                    return null;
                                 })
                                 .catch(reject);
+                            return null;
                         })
                         .catch(reject);
+                    return null;
                 })
                 .catch(reject);
         });

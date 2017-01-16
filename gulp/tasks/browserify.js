@@ -20,61 +20,68 @@ import config       from '../config';
 // Based on: http://blog.avisi.nl/2014/04/25/how-to-keep-a-fast-build-with-browserify-and-reactjs/
 function buildScript(file) {
 
-  const shouldCreateSourcemap = !global.isProd || config.browserify.prodSourcemap;
+    const shouldCreateSourcemap = !global.isProd || config.browserify.prodSourcemap;
 
-  let bundler = browserify({
-    entries: [config.sourceDir + 'js/' + file],
-    debug: shouldCreateSourcemap,
-    cache: {},
-    packageCache: {},
-    fullPaths: !global.isProd
-  });
+    let bundler = browserify({
+        entries: [config.sourceDir + 'js/' + file],
+        debug: shouldCreateSourcemap,
+        cache: {},
+        packageCache: {},
+        fullPaths: !global.isProd
+    });
 
-  if ( !global.isProd ) {
-    bundler = watchify(bundler);
+    if ( !global.isProd ) {
+        console.log('bundler', {
+        entries: [config.sourceDir + 'js/' + file],
+        debug: shouldCreateSourcemap,
+        cache: {},
+        packageCache: {},
+        fullPaths: !global.isProd
+    });
+        bundler = watchify(bundler);
 
-    bundler.on('update', rebundle);
-  }
+        bundler.on('update', rebundle);
+    }
 
-  const transforms = [
-    { name: babelify, options: {} },
-    { name: debowerify, options: {} },
-    { name: ngAnnotate, options: {} },
-    { name: 'brfs', options: {} },
-    { name: bulkify, options: {} },
-    { name: envify, options: {} }
-  ];
+    const transforms = [
+        { name: babelify, options: {} },
+        { name: debowerify, options: {} },
+        { name: ngAnnotate, options: {} },
+        { name: 'brfs', options: {} },
+        { name: bulkify, options: {} },
+        { name: envify, options: {} }
+    ];
 
-  transforms.forEach(function(transform) {
-    bundler.transform(transform.name, transform.options);
-  });
+    transforms.forEach(function(transform) {
+        bundler.transform(transform.name, transform.options);
+    });
 
-  function rebundle() {
-    bundleLogger.start();
+    function rebundle() {
+        bundleLogger.start();
 
-    const stream = bundler.bundle();
-    const sourceMapLocation = global.isProd ? './' : '';
+        const stream = bundler.bundle();
+        const sourceMapLocation = global.isProd ? './' : '';
 
-    return stream
-      .on('error', handleErrors)
-      .on('end', bundleLogger.end)
-      .pipe(source(file))
-      .pipe(gulpif(shouldCreateSourcemap, buffer()))
-      .pipe(gulpif(shouldCreateSourcemap, sourcemaps.init({ loadMaps: true })))
-      .pipe(gulpif(global.isProd, streamify(uglify({
-        compress: { drop_console: true } // eslint-disable-line camelcase
-      }))))
-      .pipe(gulpif(shouldCreateSourcemap, sourcemaps.write(sourceMapLocation)))
-      .pipe(gulp.dest(config.scripts.dest))
-      .pipe(browserSync.stream());
-  }
+        return stream
+            .on('error', handleErrors)
+            .on('end', bundleLogger.end)
+            .pipe(source(file))
+            .pipe(gulpif(shouldCreateSourcemap, buffer()))
+            .pipe(gulpif(shouldCreateSourcemap, sourcemaps.init({ loadMaps: true })))
+            .pipe(gulpif(global.isProd, streamify(uglify({
+                compress: { drop_console: true } // eslint-disable-line camelcase
+            }))))
+            .pipe(gulpif(shouldCreateSourcemap, sourcemaps.write(sourceMapLocation)))
+            .pipe(gulp.dest(config.scripts.dest))
+            .pipe(browserSync.stream());
+    }
 
-  return rebundle();
+    return rebundle();
 
 }
 
 gulp.task('browserify', ['eslint'], function() {
 
-  return buildScript('main.js');
+    return buildScript('main.js');
 
 });
